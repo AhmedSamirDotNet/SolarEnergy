@@ -27,7 +27,7 @@ export function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/images/logo.jpeg"
+            src="/images/logo.png"
             alt="AFKAR CO. Logo"
             width={180}
             height={70}
@@ -48,30 +48,37 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-4 md:flex">
+        <div className="flex items-center gap-2">
+          {/* Language Switcher - Always Visible on Top */}
           <Button
             variant="ghost"
             size="sm"
             onClick={toggleLanguage}
-            className="flex items-center gap-2"
+            className="flex items-center gap-1 px-2 md:gap-2"
           >
             <Globe className="h-4 w-4" />
-            {language === "en" ? "العربية" : "English"}
+            <span className="text-xs font-semibold md:text-sm">
+              {language === "en" ? "AR" : "EN"}
+            </span>
           </Button>
-          <Button asChild className="bg-solar text-solar-foreground hover:bg-solar/90">
-            <Link href="/contact">{t("hero.secondary")}</Link>
+
+          {/* Desktop Auth/CTA - Hidden on Mobile */}
+          <div className="hidden items-center gap-4 md:flex">
+            <Button asChild className="bg-solar text-solar-foreground hover:bg-solar/90">
+              <Link href="/contact">{t("hero.secondary")}</Link>
+            </Button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
-
-        {/* Mobile Menu Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </Button>
       </div>
 
       {/* Mobile Navigation */}
@@ -88,15 +95,6 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleLanguage}
-              className="flex w-fit items-center gap-2"
-            >
-              <Globe className="h-4 w-4" />
-              {language === "en" ? "العربية" : "English"}
-            </Button>
             <Button asChild className="w-fit bg-solar text-solar-foreground hover:bg-solar/90">
               <Link href="/contact">{t("hero.secondary")}</Link>
             </Button>

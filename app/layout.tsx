@@ -16,16 +16,16 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/images/logo.jpeg',
-        type: 'image/jpeg',
+        url: '/images/logo.png',
+        type: 'image/png',
       }
     ],
-    apple: '/images/logo.jpeg',
+    apple: '/images/logo.png',
   },
   openGraph: {
     title: 'AFKAR Solar | Renewable Energy Excellence',
     description: 'Leading the way in sustainable energy across Saudi Arabia with premium solar solutions.',
-    images: ['/images/logo.jpeg'],
+    images: ['/images/logo.png'],
   }
 }
 
