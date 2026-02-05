@@ -1,0 +1,149 @@
+{
+  "company": {
+    "name": {
+      "en": "AFKAR Solar",
+      "ar": "أفكار سولار"
+    },
+    "tagline": {
+      "en": "Powering Tomorrow with Solar Energy",
+      "ar": "نمد الغد بالطاقة الشمسية"
+    }
+  },
+  "contact": {
+    "sales": {
+      "email": "sales@afkar-co.com",
+      "phone": "+966568729639"
+    },
+    "support": {
+      "phone": "+966542010146"
+    }
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/profile.php?id=61565472987313",
+    "instagram": "https://www.instagram.com/afkarsolar/",
+    "linkedin": "https://www.linkedin.com/company/afkarsolar/",
+    "twitter": "https://x.com/afkarsolar",
+    "tiktok": "https://www.tiktok.com/@afkar.co..renewab?_t=8rIkQUfoB0c&_r=1"
+  },
+  "whatsapp": "+966568729639",
+  "services": [
+    {
+      "title": {
+        "en": "Solar Panel Installation",
+        "ar": "تركيب الألواح الشمسية"
+      },
+      "description": {
+        "en": "Professional installation of high-efficiency solar panels for residential and commercial properties.",
+        "ar": "تركيب احترافي لألواح شمسية عالية الكفاءة للعقارات السكنية والتجارية."
+      },
+      "icon": "sun"
+    },
+    {
+      "title": {
+        "en": "Energy Storage Solutions",
+        "ar": "حلول تخزين الطاقة"
+      },
+      "description": {
+        "en": "Advanced battery systems to store solar energy for use during peak hours or power outages.",
+        "ar": "أنظمة بطاريات متقدمة لتخزين الطاقة الشمسية للاستخدام خلال ساعات الذروة أو انقطاع التيار."
+      },
+      "icon": "battery"
+    },
+    {
+      "title": {
+        "en": "Maintenance & Support",
+        "ar": "الصيانة والدعم"
+      },
+      "description": {
+        "en": "Comprehensive maintenance services to ensure optimal performance of your solar system.",
+        "ar": "خدمات صيانة شاملة لضمان الأداء الأمثل لنظامك الشمسي."
+      },
+      "icon": "wrench"
+    },
+    {
+      "title": {
+        "en": "Consultation Services",
+        "ar": "خدمات الاستشارات"
+      },
+      "description": {
+        "en": "Expert consultation to help you choose the right solar solution for your needs.",
+        "ar": "استشارات خبراء لمساعدتك في اختيار الحل الشمسي المناسب لاحتياجاتك."
+      },
+      "icon": "lightbulb"
+    }
+  ],
+  "stats": [
+    {
+      "value": "500+",
+      "label": {
+        "en": "Projects Completed",
+        "ar": "مشاريع مكتملة"
+      }
+    },
+    {
+      "value": "50MW+",
+      "label": {
+        "en": "Total Capacity Installed",
+        "ar": "إجمالي السعة المركبة"
+      }
+    },
+    {
+      "value": "1000+",
+      "label": {
+        "en": "Happy Customers",
+        "ar": "عملاء سعداء"
+      }
+    },
+    {
+      "value": "10+",
+      "label": {
+        "en": "Years Experience",
+        "ar": "سنوات خبرة"
+      }
+    }
+  ],
+  "testimonials": [
+    {
+      "name": {
+        "en": "Ahmed Al-Rashid",
+        "ar": "أحمد الراشد"
+      },
+      "role": {
+        "en": "Business Owner",
+        "ar": "صاحب عمل"
+      },
+      "text": {
+        "en": "AFKAR Solar transformed our energy costs. The installation was professional and the support team is always available.",
+        "ar": "أفكار سولار حولت تكاليف الطاقة لدينا. كان التركيب احترافيًا وفريق الدعم متاح دائمًا."
+      }
+    },
+    {
+      "name": {
+        "en": "Fatima Al-Saud",
+        "ar": "فاطمة آل سعود"
+      },
+      "role": {
+        "en": "Homeowner",
+        "ar": "صاحبة منزل"
+      },
+      "text": {
+        "en": "Excellent service from start to finish. Our electricity bills have dropped significantly since switching to solar.",
+        "ar": "خدمة ممتازة من البداية إلى النهاية. انخفضت فواتير الكهرباء لدينا بشكل ملحوظ منذ التحول إلى الطاقة الشمسية."
+      }
+    },
+    {
+      "name": {
+        "en": "Mohammed Al-Faisal",
+        "ar": "محمد الفيصل"
+      },
+      "role": {
+        "en": "Factory Manager",
+        "ar": "مدير مصنع"
+      },
+      "text": {
+        "en": "The team at AFKAR Solar understood our industrial needs perfectly. Highly recommended for commercial projects.",
+        "ar": "فريق أفكار سولار فهم احتياجاتنا الصناعية بشكل مثالي. موصى به بشدة للمشاريع التجارية."
+      }
+    }
+  ]
+}

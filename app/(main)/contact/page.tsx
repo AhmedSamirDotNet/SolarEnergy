@@ -1,0 +1,187 @@
+"use client"
+
+import React from "react"
+
+import { useState } from "react"
+import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { useI18n } from "@/lib/i18n-context"
+import staticContent from "@/data/static-content.json"
+
+export default function ContactPage() {
+  const { t, language, dir } = useI18n()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    setIsSubmitting(false)
+    setSubmitted(true)
+  }
+
+  return (
+    <div dir={dir}>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-background via-background to-secondary py-16">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center">
+            <h1 className="text-4xl font-bold text-foreground md:text-5xl text-balance">
+              {t("contact.title")}
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground text-pretty">
+              {t("contact.subtitle")}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="bg-background py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-8 lg:grid-cols-3">
+            {/* Contact Info Cards */}
+            <div className="space-y-4 lg:col-span-1">
+              <Card className="border-border bg-card">
+                <CardHeader className="pb-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-solar/10 text-solar">
+                    <Mail className="h-6 w-6" />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <CardTitle className="text-lg text-card-foreground">{t("contact.sales")}</CardTitle>
+                  <CardDescription className="mt-2 space-y-1">
+                    <a href={`mailto:${staticContent.contact.sales.email}`} className="block text-solar hover:underline">
+                      {staticContent.contact.sales.email}
+                    </a>
+                    <a href={`tel:${staticContent.contact.sales.phone}`} className="block text-muted-foreground hover:text-foreground">
+                      {staticContent.contact.sales.phone}
+                    </a>
+                  </CardDescription>
+                </CardContent>
+              </Card>
+
+              <Card className="border-border bg-card">
+                <CardHeader className="pb-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-solar/10 text-solar">
+                    <Phone className="h-6 w-6" />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <CardTitle className="text-lg text-card-foreground">{t("contact.support")}</CardTitle>
+                  <CardDescription className="mt-2">
+                    <a href={`tel:${staticContent.contact.support.phone}`} className="text-muted-foreground hover:text-foreground">
+                      {staticContent.contact.support.phone}
+                    </a>
+                  </CardDescription>
+                </CardContent>
+              </Card>
+
+              <Card className="border-border bg-card">
+                <CardHeader className="pb-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-solar/10 text-solar">
+                    <MapPin className="h-6 w-6" />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <CardTitle className="text-lg text-card-foreground">
+                    {language === "en" ? "Location" : "الموقع"}
+                  </CardTitle>
+                  <CardDescription className="mt-2">
+                    {language === "en" ? "Saudi Arabia" : "المملكة العربية السعودية"}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Contact Form */}
+            <Card className="border-border bg-card lg:col-span-2">
+              <CardHeader>
+                <CardTitle className="text-2xl text-card-foreground">
+                  {language === "en" ? "Send us a Message" : "أرسل لنا رسالة"}
+                </CardTitle>
+                <CardDescription>
+                  {language === "en" 
+                    ? "Fill out the form below and we'll get back to you as soon as possible."
+                    : "املأ النموذج أدناه وسنرد عليك في أقرب وقت ممكن."}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {submitted ? (
+                  <div className="flex flex-col items-center justify-center py-8 text-center">
+                    <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-solar/10 text-solar">
+                      <Send className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-card-foreground">
+                      {language === "en" ? "Message Sent!" : "تم إرسال الرسالة!"}
+                    </h3>
+                    <p className="mt-2 text-muted-foreground">
+                      {language === "en" 
+                        ? "Thank you for contacting us. We'll get back to you soon."
+                        : "شكراً لتواصلك معنا. سنرد عليك قريباً."}
+                    </p>
+                    <Button 
+                      onClick={() => setSubmitted(false)} 
+                      className="mt-4 bg-solar text-solar-foreground hover:bg-solar/90"
+                    >
+                      {language === "en" ? "Send Another Message" : "إرسال رسالة أخرى"}
+                    </Button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="name">{t("contact.name")}</Label>
+                        <Input id="name" required placeholder={t("contact.name")} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email">{t("contact.email")}</Label>
+                        <Input id="email" type="email" required placeholder={t("contact.email")} />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">{t("contact.phone")}</Label>
+                      <Input id="phone" type="tel" placeholder={t("contact.phone")} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="message">{t("contact.message")}</Label>
+                      <Textarea 
+                        id="message" 
+                        required 
+                        rows={5} 
+                        placeholder={t("contact.message")} 
+                      />
+                    </div>
+                    <Button 
+                      type="submit" 
+                      disabled={isSubmitting}
+                      className="w-full bg-solar text-solar-foreground hover:bg-solar/90 sm:w-auto"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin ltr:mr-2 rtl:ml-2" />
+                          {language === "en" ? "Sending..." : "جارٍ الإرسال..."}
+                        </>
+                      ) : (
+                        <>
+                          <Send className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
+                          {t("contact.send")}
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
