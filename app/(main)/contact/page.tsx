@@ -53,13 +53,13 @@ export default function ContactPage() {
   return (
     <div dir={dir}>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-background via-background to-secondary py-16">
+      <section className="bg-muted/10 py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-bold text-foreground md:text-5xl text-balance">
+            <h1 className="text-4xl font-extrabold text-foreground md:text-5xl lg:text-6xl text-balance tracking-tight">
               {t("contact.title")}
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground text-pretty">
+            <p className="mt-4 text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
               {t("contact.subtitle")}
             </p>
           </div>
@@ -67,57 +67,57 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="bg-background py-16">
+      <section className="bg-background py-20">
         <div className="container mx-auto px-4">
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Contact Info Cards */}
-            <div className="space-y-4 lg:col-span-1">
-              <Card className="border-border bg-card">
-                <CardHeader className="pb-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-solar/10 text-solar">
-                    <Mail className="h-6 w-6" />
+            <div className="space-y-6 lg:col-span-1">
+              <Card className="border-border/50 bg-card/40 backdrop-blur-sm transition-all hover:border-solar/30 hover:shadow-2xl hover:shadow-solar/5">
+                <CardHeader className="pb-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-solar/10 text-solar shadow-inner">
+                    <Mail className="h-7 w-7" />
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <CardTitle className="text-lg text-card-foreground">{t("contact.sales")}</CardTitle>
-                  <CardDescription className="mt-2 space-y-1">
-                    <a href={`mailto:${staticContent.contact.sales.email}`} className="block text-solar hover:underline">
+                  <CardTitle className="text-xl font-bold text-foreground">{t("contact.sales")}</CardTitle>
+                  <CardDescription className="mt-3 space-y-2">
+                    <a href={`mailto:${staticContent.contact.sales.email}`} className="block text-lg font-medium text-solar hover:underline decoration-2 underline-offset-4">
                       {staticContent.contact.sales.email}
                     </a>
-                    <a href={`tel:${staticContent.contact.sales.phone}`} className="block text-muted-foreground hover:text-foreground">
+                    <a href={`tel:${staticContent.contact.sales.phone}`} className="block text-muted-foreground hover:text-foreground transition-colors font-mono">
                       {staticContent.contact.sales.phone}
                     </a>
                   </CardDescription>
                 </CardContent>
               </Card>
 
-              <Card className="border-border bg-card">
-                <CardHeader className="pb-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-solar/10 text-solar">
-                    <Phone className="h-6 w-6" />
+              <Card className="border-border/50 bg-card/40 backdrop-blur-sm transition-all hover:border-solar/30">
+                <CardHeader className="pb-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-solar/10 text-solar shadow-inner">
+                    <Phone className="h-7 w-7" />
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <CardTitle className="text-lg text-card-foreground">{t("contact.support")}</CardTitle>
-                  <CardDescription className="mt-2">
-                    <a href={`tel:${staticContent.contact.support.phone}`} className="text-muted-foreground hover:text-foreground">
+                  <CardTitle className="text-xl font-bold text-foreground">{t("contact.support")}</CardTitle>
+                  <CardDescription className="mt-3">
+                    <a href={`tel:${staticContent.contact.support.phone}`} className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors font-mono">
                       {staticContent.contact.support.phone}
                     </a>
                   </CardDescription>
                 </CardContent>
               </Card>
 
-              <Card className="border-border bg-card">
-                <CardHeader className="pb-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-solar/10 text-solar">
-                    <MapPin className="h-6 w-6" />
+              <Card className="border-border/50 bg-card/40 backdrop-blur-sm transition-all hover:border-solar/30">
+                <CardHeader className="pb-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-solar/10 text-solar shadow-inner">
+                    <MapPin className="h-7 w-7" />
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <CardTitle className="text-lg text-card-foreground">
+                  <CardTitle className="text-xl font-bold text-foreground">
                     {language === "en" ? "Location" : "الموقع"}
                   </CardTitle>
-                  <CardDescription className="mt-2">
+                  <CardDescription className="mt-3 text-lg font-medium text-muted-foreground">
                     {language === "en" ? "Saudi Arabia" : "المملكة العربية السعودية"}
                   </CardDescription>
                 </CardContent>
@@ -125,18 +125,18 @@ export default function ContactPage() {
             </div>
 
             {/* Contact Form */}
-            <Card className="border-border bg-card lg:col-span-2">
-              <CardHeader>
-                <CardTitle className="text-2xl text-card-foreground">
+            <Card className="border-border/50 bg-card lg:col-span-2 shadow-2xl overflow-hidden">
+              <CardHeader className="bg-muted/30 pb-8 border-b border-border/50">
+                <CardTitle className="text-3xl font-black text-foreground">
                   {language === "en" ? "Send us a Message" : "أرسل لنا رسالة"}
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-lg">
                   {language === "en"
                     ? "Fill out the form below and we'll get back to you as soon as possible."
                     : "املأ النموذج أدناه وسنرد عليك في أقرب وقت ممكن."}
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-8">
                 {submitted ? (
                   <div className="flex flex-col items-center justify-center py-8 text-center">
                     <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-solar/10 text-solar">

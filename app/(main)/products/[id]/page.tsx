@@ -69,13 +69,13 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <div dir={dir} className="bg-gradient-to-b from-[#0a0a0a] via-[#111] to-background min-h-screen py-8">
+    <div dir={dir} className="bg-background min-h-screen py-12">
       <div className="container mx-auto px-4">
         {/* Back Button */}
-        <Button asChild variant="ghost" className="mb-6 text-gray-300 hover:text-white hover:bg-gray-800">
+        <Button asChild variant="ghost" className="mb-8 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
           <Link href="/products" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4 rtl:rotate-180" />
-            {language === "en" ? "Back to Products" : "العودة إلى المنتجات"}
+            <span className="font-medium">{language === "en" ? "Back to Products" : "العودة إلى المنتجات"}</span>
           </Link>
         </Button>
 
@@ -136,8 +136,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     key={image.id}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border-2 transition-all hover:scale-105 ${index === currentImageIndex
-                        ? "border-solar shadow-lg shadow-solar/30 ring-2 ring-solar/20"
-                        : "border-gray-800 hover:border-gray-600"
+                      ? "border-solar shadow-lg shadow-solar/30 ring-2 ring-solar/20"
+                      : "border-gray-800 hover:border-gray-600"
                       }`}
                   >
                     <Image
@@ -162,20 +162,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             )}
 
             {/* Product Title */}
-            <h1 className="text-4xl font-bold text-white md:text-5xl text-balance leading-tight">
+            <h1 className="text-4xl font-extrabold text-foreground md:text-5xl lg:text-6xl text-balance leading-[1.1] tracking-tight">
               {product.name}
             </h1>
 
             {/* Price */}
-            <div className="flex items-baseline gap-2">
-              <span className="text-5xl font-bold text-solar">
+            <div className="flex items-baseline gap-3 pt-2">
+              <span className="text-6xl font-black text-solar drop-shadow-[0_0_30px_rgba(112,255,160,0.2)]">
                 {product.price.toLocaleString()}
               </span>
-              <span className="text-xl text-gray-400">{t("products.sar")}</span>
+              <span className="text-xl font-bold text-muted-foreground uppercase tracking-widest opacity-60 font-mono ltr:ml-2 rtl:mr-2">{t("products.sar")}</span>
             </div>
 
             {/* Divider */}
-            <div className="h-px bg-gradient-to-r from-solar/50 via-solar/20 to-transparent" />
+            <div className="h-px w-full bg-border/50" />
 
             {/* Main Description */}
             {product.mainDesc && (
@@ -204,15 +204,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             )}
 
             {/* Call to Action */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button asChild size="lg" className="flex-1 bg-solar text-white hover:bg-solar/90 shadow-lg shadow-solar/20 transition-all hover:shadow-xl hover:shadow-solar/30 hover:scale-105">
-                <Link href="/contact" className="flex items-center justify-center gap-2">
+            <div className="flex flex-col sm:flex-row gap-5 pt-6">
+              <Button asChild size="lg" className="flex-[2] bg-solar text-solar-foreground hover:bg-solar/90 shadow-2xl shadow-solar/20 h-16 px-10 text-xl font-black rounded-2xl transition-all hover:scale-105 active:scale-95">
+                <Link href="/contact" className="flex items-center justify-center gap-3">
                   <span>{t("hero.secondary")}</span>
-                  <ChevronRight className="h-5 w-5 rtl:rotate-180" />
+                  <ChevronRight className="h-6 w-6 rtl:rotate-180" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white bg-transparent">
-                <Link href="/products">
+              <Button asChild variant="outline" size="lg" className="flex-1 border-border text-foreground hover:bg-muted/50 h-16 px-8 text-lg font-bold rounded-2xl transition-all">
+                <Link href="/products" className="flex items-center justify-center gap-2">
                   {language === "en" ? "Browse More" : "تصفح المزيد"}
                 </Link>
               </Button>

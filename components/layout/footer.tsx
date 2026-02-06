@@ -65,28 +65,28 @@ export function Footer() {
   ]
 
   return (
-    <footer className="border-t border-border bg-muted/30" dir={dir}>
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+    <footer className="border-t border-border bg-background pt-16 pb-12" dir={dir}>
+      <div className="container mx-auto px-4">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Company Info */}
-          <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2">
+          <div className="space-y-6">
+            <Link href="/" className="flex items-center gap-2 group">
               <Image
                 src="/images/logo.png"
                 alt="AFKAR CO. Logo"
                 width={150}
                 height={60}
-                className="h-12 w-auto object-contain"
+                className="h-14 w-auto object-contain transition-all duration-300 brightness-110 group-hover:scale-105"
               />
             </Link>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
               {staticContent.company.tagline[language]}
             </p>
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">{t("footer.quickLinks")}</h3>
+          <div className="space-y-6">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/50">{t("footer.quickLinks")}</h3>
             <nav className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <Link
