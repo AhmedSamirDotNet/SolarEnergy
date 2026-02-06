@@ -43,25 +43,40 @@ async function apiRequest<T>(
   const response = await fetch(`${PROXY_URL}${endpoint}`, config);
 
   if (!response.ok) {
-    if (response.status === 403) {
-      const tokenStart = token ? `${token.substring(0, 10)}...` : "NONE";
-      const tokenEnd = token ? `...${token.slice(-10)}` : "NONE";
-      console.error(`[API] 403 Forbidden: ${method} ${endpoint}`);
-      console.error(`[API] Token (${token?.length || 0} chars): ${tokenStart}${tokenEnd}`);
-      console.error(`[API] Full Proxy URL used: ${PROXY_URL}${endpoint}`);
-    }
+    let errorMessage = `API Error: ${response.status}`;
+    try {
+      const errorText = await response.text();
+      // Debug logs for 403
+      if (response.status === 403) {
+        console.error(`[API Debug] 403 Forbidden: ${method} ${PROXY_URL}${endpoint}`);
+        console.error(`[API Debug] Token used: ${token ? `${token.substring(0, 10)}...` : "NONE"}`);
+        console.error(`[API Debug] Raw error body: ${errorText}`);
+      }
 
-    const errorData = await response.json().catch(() => ({}));
-    const message = errorData.error || errorData.message || (errorData.errors ? JSON.stringify(errorData.errors) : `API Error: ${response.status}`);
-    throw new Error(message);
+      try {
+        const errorData = JSON.parse(errorText);
+        errorMessage = errorData.error || errorData.message || (errorData.errors ? JSON.stringify(errorData.errors) : errorMessage);
+      } catch {
+        errorMessage = errorText || errorMessage;
+      }
+    } catch {
+      // Failed to read text
+    }
+    throw new Error(errorMessage);
   }
 
-  // Handle both JSON and plain string responses
+  // Handle successful responses (JSON, text, or empty)
   const contentType = response.headers.get("Content-Type") || "";
-  if (contentType.includes("application/json")) {
-    return await response.json() as T;
+  const text = await response.text();
+
+  if (contentType.includes("application/json") || text.trim().startsWith("{") || text.trim().startsWith("[")) {
+    if (!text) return {} as T;
+    try {
+      return JSON.parse(text) as T;
+    } catch (e) {
+      return text as unknown as T;
+    }
   } else {
-    const text = await response.text();
     try {
       return JSON.parse(text) as T;
     } catch {

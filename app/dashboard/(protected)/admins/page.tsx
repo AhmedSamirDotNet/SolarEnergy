@@ -77,10 +77,11 @@ export default function AdminsPage() {
         if (!token) return
         setLoading(true)
         try {
+            console.log("[v0] Fetching admins with token:", token?.substring(0, 10) + "...");
             const data = await getAdmins(token)
             setAdmins(data || [])
-        } catch (error) {
-            console.log("[v0] Error fetching admins:", error)
+        } catch (error: any) {
+            console.error("[v0] Error fetching admins:", error.message || error);
             setAdmins([])
         } finally {
             setLoading(false)
@@ -121,8 +122,9 @@ export default function AdminsPage() {
             await fetchAdmins()
             setIsDeleteDialogOpen(false)
             setDeletingAdmin(null)
-        } catch (error) {
-            console.log("[v0] Error deleting admin:", error)
+        } catch (error: any) {
+            console.error("[v0] Error deleting admin:", error.message || error);
+            alert(language === "en" ? `Failed to delete: ${error.message}` : `فشل الحذف: ${error.message}`);
         } finally {
             setSaving(false)
         }

@@ -135,8 +135,9 @@ export default function SectionsPage() {
       await fetchSections()
       setIsDeleteDialogOpen(false)
       setDeletingSection(null)
-    } catch (error) {
-      console.log("[v0] Error deleting section:", error)
+    } catch (error: any) {
+      console.error("[v0] Error deleting section:", error.message || error)
+      alert(language === "en" ? `Failed to delete section: ${error.message}` : `فشل حذف القسم: ${error.message}`)
     } finally {
       setSaving(false)
     }

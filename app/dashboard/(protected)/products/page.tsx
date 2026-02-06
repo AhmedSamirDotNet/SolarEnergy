@@ -192,8 +192,9 @@ export default function ProductsPage() {
       await fetchData()
       setIsDeleteDialogOpen(false)
       setDeletingProduct(null)
-    } catch (error) {
+    } catch (error: any) {
       console.error("[Products] Delete error:", error)
+      alert(language === "en" ? `Failed to delete product: ${error.message}` : `فشل حذف المنتج: ${error.message}`)
     } finally {
       setSaving(false)
     }
