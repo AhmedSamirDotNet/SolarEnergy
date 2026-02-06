@@ -10,7 +10,7 @@ export function HeroSection() {
   const { t, dir } = useI18n()
 
   return (
-    <section className="relative overflow-hidden bg-background pt-16" dir={dir}>
+    <section className="relative bg-[#0a0a0a]/70 py-24 border-b border-white/5" dir={dir}>
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-solar/10 blur-3xl opacity-50" />
@@ -25,11 +25,11 @@ export function HeroSection() {
               <span>{dir === "rtl" ? "حلول الطاقة المتجددة" : "Renewable Energy Solutions"}</span>
             </div>
 
-            <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight text-foreground md:text-5xl lg:text-7xl text-balance">
+            <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight text-[#f9fafb] md:text-5xl lg:text-7xl text-balance">
               {t("hero.title")}
             </h1>
 
-            <p className="text-lg leading-relaxed text-muted-foreground md:text-xl text-pretty max-w-xl">
+            <p className="text-lg leading-relaxed text-[#cbd5e0] md:text-xl text-pretty max-w-xl">
               {t("hero.subtitle")}
             </p>
 

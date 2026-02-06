@@ -4,55 +4,53 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Modern Dark Obsidian Theme */
-  --background: oklch(0.12 0.01 250);
-  --foreground: oklch(0.98 0.01 250);
+  /* Deep Obsidian Theme */
+  --background: #0a0a0a;
+  --foreground: #f9fafb;
 
-  --card: oklch(0.14 0.015 250);
-  --card-foreground: oklch(0.98 0.01 250);
+  --card: #111827;
+  --card-foreground: #f9fafb;
 
-  --popover: oklch(0.12 0.01 250);
-  --popover-foreground: oklch(0.98 0.01 250);
+  --popover: #0a0a0a;
+  --popover-foreground: #f9fafb;
 
-  --primary: oklch(0.7 0.2 160);
-  /* Vibrant Solar Emerald */
-  --primary-foreground: oklch(0.12 0.01 250);
+  --primary: #10b981;
+  --primary-foreground: #0a0a0a;
 
-  --secondary: oklch(0.2 0.02 250);
-  --secondary-foreground: oklch(0.98 0.01 250);
+  --secondary: #1f2937;
+  --secondary-foreground: #f9fafb;
 
-  --muted: oklch(0.18 0.02 250);
-  --muted-foreground: oklch(0.65 0.02 250);
+  --muted: #111827;
+  --muted-foreground: #cbd5e0;
 
-  --accent: oklch(0.25 0.03 160);
-  --accent-foreground: oklch(0.7 0.2 160);
+  --accent: #10b981;
+  --accent-foreground: #0a0a0a;
 
-  --destructive: oklch(0.5 0.2 25);
-  --destructive-foreground: oklch(0.98 0.01 250);
+  --destructive: #ef4444;
+  --destructive-foreground: #f9fafb;
 
-  --border: oklch(0.2 0.02 250);
-  --input: oklch(0.2 0.02 250);
-  --ring: oklch(0.7 0.2 160);
-
-  --chart-1: oklch(0.6 0.2 160);
-  --chart-2: oklch(0.4 0.2 250);
-  --chart-3: oklch(0.5 0.2 120);
-  --chart-4: oklch(0.7 0.15 30);
-  --chart-5: oklch(0.8 0.1 200);
+  --border: #1f2937;
+  --input: #1f2937;
+  --ring: #10b981;
 
   --radius: 0.85rem;
 
-  --solar: oklch(0.7 0.2 160);
-  --solar-foreground: oklch(0.12 0.01 250);
+  --solar: #10b981;
+  --solar-foreground: #0a0a0a;
 
-  --sidebar: oklch(0.1 0.01 250);
-  --sidebar-foreground: oklch(0.9 0.01 250);
-  --sidebar-primary: oklch(0.7 0.2 160);
-  --sidebar-primary-foreground: oklch(0.12 0.01 250);
-  --sidebar-accent: oklch(0.18 0.02 250);
-  --sidebar-accent-foreground: oklch(0.7 0.2 160);
-  --sidebar-border: oklch(0.18 0.02 250);
-  --sidebar-ring: oklch(0.7 0.2 160);
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #f9fafb;
+  --sidebar-primary: #10b981;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #111827;
+  --sidebar-accent-foreground: #10b981;
+  --sidebar-border: #1f2937;
+  --sidebar-ring: #10b981;
+
+  /* Gradients */
+  --gradient-deep: linear-gradient(to bottom, #0a0a0a, #111827);
+  --gradient-slate: linear-gradient(135deg, #0a0a0a 0%, #1f2937 100%);
+  --gradient-emerald: linear-gradient(to bottom right, #064e3b, #0a0a0a);
 }
 
 /* Ensure .dark class mirrors the root for compatibility */
@@ -111,7 +109,7 @@
   }
 
   body {
-    @apply bg-background text-foreground transition-colors duration-500;
+    @apply bg-background text-foreground transition-colors duration-500 overflow-x-hidden;
   }
 
   /* Consistent Section Width */

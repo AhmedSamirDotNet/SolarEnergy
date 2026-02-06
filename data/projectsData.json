@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1",
+        "title": "Sahara Solar Park",
+        "location": "Aswan, Egypt",
+        "capacity": "50 MW",
+        "imagePath": "/images/projects/First.jpeg"
+    },
+    {
+        "id": "2",
+        "title": "Red Sea Industrial Hub",
+        "location": "Hurghada, Egypt",
+        "capacity": "20 MW",
+        "imagePath": "/images/projects/Second.jpeg"
+    },
+    {
+        "id": "3",
+        "title": "Cairo Smart City Grid",
+        "location": "New Cairo, Egypt",
+        "capacity": "15 MW",
+        "imagePath": "/images/projects/Third.jpeg"
+    },
+    {
+        "id": "4",
+        "title": "Alexandria Port PV System",
+        "location": "Alexandria, Egypt",
+        "capacity": "10 MW",
+        "imagePath": "/images/projects/Fourth.jpeg"
+    }
+]

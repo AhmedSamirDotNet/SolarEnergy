@@ -18,13 +18,13 @@ export function ServicesSection() {
   const { language, dir } = useI18n()
 
   return (
-    <section className="bg-background py-20" dir={dir}>
+    <section className="bg-[#0a0a0a]/85 backdrop-blur-md py-20 border-t border-white/5" dir={dir}>
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold text-foreground md:text-4xl text-balance">
+          <h2 className="text-3xl font-bold text-[#f9fafb] md:text-4xl text-balance">
             {language === "en" ? "Our Services" : "خدماتنا"}
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground text-pretty">
+          <p className="mt-4 text-lg text-[#cbd5e0] text-pretty">
             {language === "en"
               ? "Comprehensive solar solutions tailored to your needs"
               : "حلول شمسية شاملة مصممة لتلبية احتياجاتك"}

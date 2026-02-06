@@ -29,7 +29,7 @@ export default function AboutPage() {
     {
       icon: Users,
       title: language === "en" ? "Expert Team" : "فريق خبراء",
-      description: language === "en" 
+      description: language === "en"
         ? "Our team consists of certified solar energy professionals with years of experience."
         : "يتكون فريقنا من متخصصين معتمدين في الطاقة الشمسية ذوي خبرة سنوات.",
     },
@@ -52,16 +52,16 @@ export default function AboutPage() {
   return (
     <div dir={dir}>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-background via-background to-secondary py-20">
+      <section className="bg-[var(--gradient-deep)] py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-bold text-foreground md:text-5xl text-balance">
+            <h1 className="text-4xl font-bold text-[#f9fafb] md:text-5xl text-balance">
               {t("about.title")}
             </h1>
             <p className="mt-4 text-xl text-solar font-medium">
               {t("about.subtitle")}
             </p>
-            <p className="mt-6 text-lg leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-6 text-lg leading-relaxed text-[#cbd5e0] text-pretty">
               {t("about.description")}
             </p>
           </div>
@@ -69,19 +69,19 @@ export default function AboutPage() {
       </section>
 
       {/* Mission, Vision, Values */}
-      <section className="bg-background py-20">
+      <section className="bg-[var(--gradient-slate)] py-20">
         <div className="container mx-auto px-4">
           <div className="grid gap-8 md:grid-cols-3">
             {values.map((item, index) => (
-              <Card key={index} className="border-border bg-card text-center">
+              <Card key={index} className="group border-[#1f2937] bg-[#111827] text-center transition-all hover:border-solar/30">
                 <CardHeader>
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-solar/10 text-solar">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-solar/10 text-solar group-hover:bg-solar group-hover:text-solar-foreground transition-all">
                     <item.icon className="h-8 w-8" />
                   </div>
-                  <CardTitle className="text-xl text-card-foreground">{item.title}</CardTitle>
+                  <CardTitle className="text-xl text-[#f9fafb]">{item.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+                  <p className="text-[#cbd5e0] leading-relaxed">{item.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -90,10 +90,10 @@ export default function AboutPage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="bg-muted/30 py-20">
+      <section className="bg-[var(--gradient-slate)] py-20 border-t border-[#1f2937]">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold text-foreground md:text-4xl text-balance">
+            <h2 className="text-3xl font-bold text-[#f9fafb] md:text-4xl text-balance">
               {language === "en" ? "Why Choose AFKAR Solar?" : "لماذا تختار أفكار سولار؟"}
             </h2>
           </div>
@@ -103,8 +103,8 @@ export default function AboutPage() {
                 <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-solar text-solar-foreground">
                   <feature.icon className="h-7 w-7" />
                 </div>
-                <h3 className="mb-2 text-xl font-semibold text-foreground">{feature.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                <h3 className="mb-2 text-xl font-semibold text-[#f9fafb]">{feature.title}</h3>
+                <p className="text-[#cbd5e0] leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -112,13 +112,13 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-solar py-16">
+      <section className="bg-[var(--gradient-emerald)] py-16">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-solar-foreground md:text-4xl text-balance">
+          <h2 className="text-3xl font-bold text-[#f9fafb] md:text-4xl text-balance">
             {language === "en" ? "Ready to Go Solar?" : "هل أنت مستعد للتحول إلى الطاقة الشمسية؟"}
           </h2>
-          <p className="mt-4 text-lg text-solar-foreground/80 text-pretty">
-            {language === "en" 
+          <p className="mt-4 text-lg text-[#cbd5e0] text-pretty">
+            {language === "en"
               ? "Contact us today for a free consultation and quote."
               : "تواصل معنا اليوم للحصول على استشارة مجانية وعرض سعر."}
           </p>

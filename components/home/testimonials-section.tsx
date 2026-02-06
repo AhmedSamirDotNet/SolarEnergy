@@ -9,19 +9,19 @@ export function TestimonialsSection() {
   const { language, dir } = useI18n()
 
   return (
-    <section className="bg-muted/30 py-20" dir={dir}>
+    <section className="bg-[#111111]/80 backdrop-blur-lg py-24 border-y border-white/10" dir={dir}>
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold text-foreground md:text-4xl text-balance">
+          <h2 className="text-3xl font-bold text-[#f9fafb] md:text-4xl text-balance">
             {language === "en" ? "What Our Customers Say" : "ماذا يقول عملاؤنا"}
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground text-pretty">
-            {language === "en" 
-              ? "Trusted by hundreds of satisfied customers" 
+          <p className="mt-4 text-lg text-[#cbd5e0] text-pretty">
+            {language === "en"
+              ? "Trusted by hundreds of satisfied customers"
               : "موثوق به من قبل مئات العملاء الراضين"}
           </p>
         </div>
-        
+
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {staticContent.testimonials.map((testimonial, index) => (
             <Card key={index} className="border-border bg-card">
