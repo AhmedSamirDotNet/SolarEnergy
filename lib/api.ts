@@ -52,13 +52,29 @@ async function apiRequest<T>(
 
 // Auth
 export async function login(username: string, password: string) {
+  // Use strictly what Swagger requires: lowercase username/password
   const data = await apiRequest<any>("/api/Account/login", {
     method: "POST",
-    body: { username, password, Username: username, Password: password },
+    body: { username, password },
   });
-  return {
-    token: data.token || data.Token || data.accessToken || data.AccessToken
-  };
+
+  // Handle various token response shapes robustly
+  let token = "";
+  if (typeof data === "string") {
+    token = data;
+  } else if (data) {
+    // Check all possible common token property names, including wrapped 'data' property
+    token = data.token ||
+      data.Token ||
+      data.accessToken ||
+      data.AccessToken ||
+      data.data?.token ||
+      data.data?.Token ||
+      data.jwt ||
+      data.JWT;
+  }
+
+  return { token };
 }
 
 // Sections
@@ -234,9 +250,7 @@ export async function registerAdmin(data: CreateAdminDto, token: string) {
     method: "POST",
     body: {
       username: data.username,
-      password: data.password,
-      Username: data.username,
-      Password: data.password
+      password: data.password
     },
     token,
   });
@@ -247,9 +261,7 @@ export async function updateAdminRole(data: UpdateAdminRoleDto, token: string) {
     method: "PUT",
     body: {
       id: data.id,
-      role: data.role,
-      Id: data.id,
-      Role: data.role
+      role: data.role
     },
     token,
   });
