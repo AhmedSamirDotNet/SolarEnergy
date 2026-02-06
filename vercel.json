@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+        {
+            "source": "/api-backend/:path*",
+            "destination": "http://afkar.runasp.net/:path*"
+        }
+    ]
+}
