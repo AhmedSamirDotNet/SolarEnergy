@@ -22,6 +22,8 @@ async function apiRequest<T>(
 
   if (token && token !== "undefined" && token !== "null") {
     headers["Authorization"] = `Bearer ${token}`;
+  } else if (endpoint.includes("/api/Admin") || method !== "GET") {
+    console.warn(`[v0] No token provided for protected endpoint: ${endpoint}`);
   }
 
   if (!isFormData && body) {
@@ -41,6 +43,9 @@ async function apiRequest<T>(
   const response = await fetch(`${PROXY_URL}${endpoint}`, config);
 
   if (!response.ok) {
+    if (response.status === 403) {
+      console.error(`[v0] 403 Forbidden at ${endpoint}. Token length: ${token?.length || 0}`);
+    }
     const errorData = await response.json().catch(() => ({}));
     const message = errorData.error || errorData.message || (errorData.errors ? JSON.stringify(errorData.errors) : `API Error: ${response.status}`);
     throw new Error(message);
