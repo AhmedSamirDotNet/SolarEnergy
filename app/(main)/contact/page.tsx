@@ -16,14 +16,38 @@ export default function ContactPage() {
   const { t, language, dir } = useI18n()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: ""
+  })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    setIsSubmitting(false)
-    setSubmitted(true)
+
+    try {
+      const whatsappNumber = "966568729639"
+      const message = `مرحباً، وصلتك رسالة جديدة من الموقع:
+
+الاسم: ${formData.name}
+البريد الإلكتروني: ${formData.email}
+رقم الهاتف: ${formData.phone}
+الرسالة: ${formData.message}`
+
+      const encodedMessage = encodeURIComponent(message)
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`
+
+      // Redirect to WhatsApp
+      window.open(whatsappUrl, "_blank")
+
+      setSubmitted(true)
+    } catch (error) {
+      console.error("Error sending message:", error)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -107,7 +131,7 @@ export default function ContactPage() {
                   {language === "en" ? "Send us a Message" : "أرسل لنا رسالة"}
                 </CardTitle>
                 <CardDescription>
-                  {language === "en" 
+                  {language === "en"
                     ? "Fill out the form below and we'll get back to you as soon as possible."
                     : "املأ النموذج أدناه وسنرد عليك في أقرب وقت ممكن."}
                 </CardDescription>
@@ -122,12 +146,12 @@ export default function ContactPage() {
                       {language === "en" ? "Message Sent!" : "تم إرسال الرسالة!"}
                     </h3>
                     <p className="mt-2 text-muted-foreground">
-                      {language === "en" 
+                      {language === "en"
                         ? "Thank you for contacting us. We'll get back to you soon."
                         : "شكراً لتواصلك معنا. سنرد عليك قريباً."}
                     </p>
-                    <Button 
-                      onClick={() => setSubmitted(false)} 
+                    <Button
+                      onClick={() => setSubmitted(false)}
                       className="mt-4 bg-solar text-solar-foreground hover:bg-solar/90"
                     >
                       {language === "en" ? "Send Another Message" : "إرسال رسالة أخرى"}
@@ -138,28 +162,49 @@ export default function ContactPage() {
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="name">{t("contact.name")}</Label>
-                        <Input id="name" required placeholder={t("contact.name")} />
+                        <Input
+                          id="name"
+                          required
+                          placeholder={t("contact.name")}
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="email">{t("contact.email")}</Label>
-                        <Input id="email" type="email" required placeholder={t("contact.email")} />
+                        <Input
+                          id="email"
+                          type="email"
+                          required
+                          placeholder={t("contact.email")}
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        />
                       </div>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="phone">{t("contact.phone")}</Label>
-                      <Input id="phone" type="tel" placeholder={t("contact.phone")} />
+                      <Input
+                        id="phone"
+                        type="tel"
+                        placeholder={t("contact.phone")}
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="message">{t("contact.message")}</Label>
-                      <Textarea 
-                        id="message" 
-                        required 
-                        rows={5} 
-                        placeholder={t("contact.message")} 
+                      <Textarea
+                        id="message"
+                        required
+                        rows={5}
+                        placeholder={t("contact.message")}
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       />
                     </div>
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       disabled={isSubmitting}
                       className="w-full bg-solar text-solar-foreground hover:bg-solar/90 sm:w-auto"
                     >
