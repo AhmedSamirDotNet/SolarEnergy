@@ -42,7 +42,8 @@ async function apiRequest<T>(
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.error || `API Error: ${response.status}`);
+    const message = errorData.error || errorData.message || (errorData.errors ? JSON.stringify(errorData.errors) : `API Error: ${response.status}`);
+    throw new Error(message);
   }
 
   const data = await response.json().catch(() => ({}));
@@ -51,10 +52,13 @@ async function apiRequest<T>(
 
 // Auth
 export async function login(username: string, password: string) {
-  return apiRequest<{ token: string }>("/api/Account/login", {
+  const data = await apiRequest<any>("/api/Account/login", {
     method: "POST",
-    body: { username, password },
+    body: { username, password, Username: username, Password: password },
   });
+  return {
+    token: data.token || data.Token || data.accessToken || data.AccessToken
+  };
 }
 
 // Sections
@@ -228,7 +232,12 @@ export async function getAdmins(token: string) {
 export async function registerAdmin(data: CreateAdminDto, token: string) {
   return apiRequest<Admin>("/api/Admin/Register", {
     method: "POST",
-    body: data,
+    body: {
+      username: data.username,
+      password: data.password,
+      Username: data.username,
+      Password: data.password
+    },
     token,
   });
 }
@@ -236,7 +245,12 @@ export async function registerAdmin(data: CreateAdminDto, token: string) {
 export async function updateAdminRole(data: UpdateAdminRoleDto, token: string) {
   return apiRequest<void>("/api/Admin/UpdateRole", {
     method: "PUT",
-    body: data,
+    body: {
+      id: data.id,
+      role: data.role,
+      Id: data.id,
+      Role: data.role
+    },
     token,
   });
 }
