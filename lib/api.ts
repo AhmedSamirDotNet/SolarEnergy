@@ -78,6 +78,10 @@ export async function login(username: string, password: string) {
       data.jwt ||
       data.JWT;
   }
+  // Sanitize token: remove "Bearer " prefix if present and trim
+  if (token && typeof token === "string") {
+    token = token.replace(/^Bearer\s+/i, "").trim();
+  }
 
   return { token };
 }
