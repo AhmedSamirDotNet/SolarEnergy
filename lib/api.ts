@@ -20,7 +20,7 @@ async function apiRequest<T>(
     "ngrok-skip-browser-warning": "true",
   };
 
-  if (token) {
+  if (token && token !== "undefined" && token !== "null") {
     headers["Authorization"] = `Bearer ${token}`;
   }
 

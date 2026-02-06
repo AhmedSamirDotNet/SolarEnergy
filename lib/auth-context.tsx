@@ -17,8 +17,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const savedToken = localStorage.getItem("auth_token")
-    if (savedToken) {
+    if (savedToken && savedToken !== "undefined" && savedToken !== "null") {
       setToken(savedToken)
+    } else {
+      localStorage.removeItem("auth_token")
     }
     setIsLoading(false)
   }, [])
