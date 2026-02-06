@@ -15,7 +15,10 @@ async function apiRequest<T>(
 ): Promise<T> {
   const { method = "GET", body, token, isFormData = false } = options;
 
-  const headers: Record<string, string> = {};
+  const headers: Record<string, string> = {
+    "Accept": "application/json",
+    "ngrok-skip-browser-warning": "true",
+  };
 
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
