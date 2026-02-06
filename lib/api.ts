@@ -44,15 +44,30 @@ async function apiRequest<T>(
 
   if (!response.ok) {
     if (response.status === 403) {
-      console.error(`[v0] 403 Forbidden at ${endpoint}. Token length: ${token?.length || 0}`);
+      const tokenStart = token ? `${token.substring(0, 10)}...` : "NONE";
+      const tokenEnd = token ? `...${token.slice(-10)}` : "NONE";
+      console.error(`[API] 403 Forbidden: ${method} ${endpoint}`);
+      console.error(`[API] Token (${token?.length || 0} chars): ${tokenStart}${tokenEnd}`);
+      console.error(`[API] Full Proxy URL used: ${PROXY_URL}${endpoint}`);
     }
+
     const errorData = await response.json().catch(() => ({}));
     const message = errorData.error || errorData.message || (errorData.errors ? JSON.stringify(errorData.errors) : `API Error: ${response.status}`);
     throw new Error(message);
   }
 
-  const data = await response.json().catch(() => ({}));
-  return data as T;
+  // Handle both JSON and plain string responses
+  const contentType = response.headers.get("Content-Type") || "";
+  if (contentType.includes("application/json")) {
+    return await response.json() as T;
+  } else {
+    const text = await response.text();
+    try {
+      return JSON.parse(text) as T;
+    } catch {
+      return text as unknown as T;
+    }
+  }
 }
 
 // Auth
@@ -76,11 +91,19 @@ export async function login(username: string, password: string) {
       data.data?.token ||
       data.data?.Token ||
       data.jwt ||
-      data.JWT;
+      data.JWT ||
+      (typeof data.data === "string" ? data.data : "");
   }
+
   // Sanitize token: remove "Bearer " prefix if present and trim
   if (token && typeof token === "string") {
     token = token.replace(/^Bearer\s+/i, "").trim();
+  }
+
+  if (token) {
+    console.log(`[API] Login successful. Captured token length: ${token.length}`);
+  } else {
+    console.warn(`[API] Login response parsed but no token found in keys. Content keys:`, Object.keys(data || {}));
   }
 
   return { token };
