@@ -18,9 +18,20 @@ export function HeroSection() {
           loop
           muted
           playsInline
+          preload="auto"
+          poster="/images/hero-poster.jpg"
           className="absolute inset-0 w-full h-full object-cover"
+          aria-label={dir === "rtl" ? "فيديو خلفية الطاقة الشمسية" : "Solar energy background video"}
+          itemProp="video"
         >
+          {/* WebM format for better compression and modern browsers */}
+          <source src="/images/Home-Background-first-section.webm" type="video/webm" />
+          {/* MP4 format for Safari and older browsers */}
           <source src="/images/Home-Background-first-section.mp4" type="video/mp4" />
+          {/* Fallback text for browsers that don't support video */}
+          {dir === "rtl"
+            ? "متصفحك لا يدعم تشغيل الفيديو. يرجى تحديث المتصفح."
+            : "Your browser does not support the video tag. Please upgrade your browser."}
         </video>
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-black/60" />

@@ -1,0 +1,22 @@
+# User-agent: *
+Allow: /
+
+# Disallow admin and dashboard areas from search engines
+User-agent: *
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /admin/
+
+# Allow all search engines
+User-agent: Googlebot
+Allow: /
+User-agent: Bingbot
+Allow: /
+User-agent: Slurp
+Allow: /
+
+# Crawl-delay (optional, adjust if needed)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://afkarsolar.com/sitemap.xml
