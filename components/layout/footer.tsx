@@ -65,8 +65,18 @@ export function Footer() {
   ]
 
   return (
-    <footer className="border-t border-border bg-background pt-16 pb-12" dir={dir}>
-      <div className="container mx-auto px-4">
+    <footer className="relative border-t border-border bg-background pt-16 pb-12 overflow-hidden" dir={dir}>
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/images/Footer-image.jpg')",
+        }}
+      />
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-black/70" />
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Company Info */}
           <div className="space-y-6">

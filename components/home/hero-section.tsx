@@ -10,58 +10,73 @@ export function HeroSection() {
   const { t, dir } = useI18n()
 
   return (
-    <section className="relative bg-[#0a0a0a]/70 py-24 border-b border-white/5" dir={dir}>
-      {/* Background decorative elements */}
+    <section className="relative h-screen overflow-hidden border-b border-white/5" dir={dir}>
+      {/* Video Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-solar/10 blur-3xl opacity-50" />
-        <div className="absolute top-1/2 -left-20 h-60 w-60 rounded-full bg-solar/5 blur-2xl" />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/images/Home-Background-first-section.mp4" type="video/mp4" />
+        </video>
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      <div className="container relative mx-auto px-4 py-20 lg:py-32">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 rounded-full bg-solar/10 px-4 py-2 text-sm font-medium text-solar">
-              <Sun className="h-4 w-4" />
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-solar/10 blur-3xl opacity-30" />
+        <div className="absolute top-1/2 -left-20 h-60 w-60 rounded-full bg-solar/5 blur-2xl opacity-30" />
+      </div>
+
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center py-16 sm:py-20 lg:pt-12">
+        <div className="grid items-center gap-8 sm:gap-10 lg:gap-12 lg:grid-cols-2 w-full">
+          <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+            <div className="inline-flex items-center gap-2 rounded-full bg-solar/10 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-solar">
+              <Sun className="h-3 w-3 sm:h-4 sm:w-4" />
               <span>{dir === "rtl" ? "حلول الطاقة المتجددة" : "Renewable Energy Solutions"}</span>
             </div>
 
-            <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight text-[#f9fafb] md:text-5xl lg:text-7xl text-balance">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.1] tracking-tight text-[#f9fafb] text-balance">
               {t("hero.title")}
             </h1>
 
-            <p className="text-lg leading-relaxed text-[#cbd5e0] md:text-xl text-pretty max-w-xl">
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed text-[#cbd5e0] text-pretty max-w-xl">
               {t("hero.subtitle")}
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-2">
-              <Button asChild size="lg" className="bg-solar text-solar-foreground hover:bg-solar/90 shadow-xl shadow-solar/20 h-14 px-8 text-lg font-bold rounded-xl transition-all hover:scale-105 active:scale-95">
-                <Link href="/products" className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-2">
+              <Button asChild size="lg" className="bg-solar text-solar-foreground hover:bg-solar/90 shadow-xl shadow-solar/20 h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-bold rounded-xl transition-all hover:scale-105 active:scale-95 w-full sm:w-auto">
+                <Link href="/products" className="flex items-center justify-center gap-2">
                   {t("hero.cta")}
-                  <ArrowRight className="h-5 w-5 rtl:rotate-180" />
+                  <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 rtl:rotate-180" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-border text-foreground hover:bg-muted/50 h-14 px-8 text-lg font-medium rounded-xl transition-all">
+              <Button asChild variant="outline" size="lg" className="border-border text-foreground hover:bg-muted/50 h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-medium rounded-xl transition-all w-full sm:w-auto">
                 <Link href="/contact">{t("hero.secondary")}</Link>
               </Button>
             </div>
 
             {/* Feature badges */}
-            <div className="flex flex-wrap gap-x-8 gap-y-4 pt-6">
-              <div className="flex items-center gap-3 text-sm font-medium text-muted-foreground">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-solar/10 text-solar shadow-inner">
-                  <Zap className="h-5 w-5" />
+            <div className="flex flex-wrap gap-x-4 sm:gap-x-8 gap-y-3 sm:gap-y-4 pt-4 sm:pt-6">
+              <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-medium text-muted-foreground">
+                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-solar/10 text-solar shadow-inner">
+                  <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
                 <span>{dir === "rtl" ? "كفاءة عالية" : "High Efficiency"}</span>
               </div>
-              <div className="flex items-center gap-3 text-sm font-medium text-muted-foreground">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-solar/10 text-solar shadow-inner">
-                  <Shield className="h-5 w-5" />
+              <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-medium text-muted-foreground">
+                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-solar/10 text-solar shadow-inner">
+                  <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
                 <span>{dir === "rtl" ? "ضمان 25 سنة" : "25 Year Warranty"}</span>
               </div>
-              <div className="flex items-center gap-3 text-sm font-medium text-muted-foreground">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-solar/10 text-solar shadow-inner">
-                  <Leaf className="h-5 w-5" />
+              <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-medium text-muted-foreground">
+                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-solar/10 text-solar shadow-inner">
+                  <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
                 <span>{dir === "rtl" ? "صديق للبيئة" : "Eco Friendly"}</span>
               </div>
@@ -69,7 +84,7 @@ export function HeroSection() {
           </div>
 
           {/* Hero Image/Illustration */}
-          <div className="relative animate-in fade-in zoom-in duration-1000 delay-300">
+          <div className="relative animate-in fade-in zoom-in duration-1000 delay-300 hidden lg:block">
             <div className="relative mx-auto aspect-square max-w-lg lg:max-w-xl">
               {/* Decorative rings */}
               <div className="absolute inset-0 rounded-full border border-solar/10 animate-pulse" />

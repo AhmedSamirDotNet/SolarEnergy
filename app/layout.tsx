@@ -13,6 +13,11 @@ export const metadata: Metadata = {
   description: 'AFKAR Solar (أفكار سولار) provides premium renewable energy solutions including high-efficiency solar panels, energy storage, and professional installation for residential and commercial projects across Saudi Arabia.',
   generator: 'AFKAR Solar',
   keywords: ['AFKAR Solar', 'أفكار سولار', 'solar energy KSA', 'solar panels Saudi Arabia', 'renewable energy Riyadh', 'energy storage solutions', 'solar installation'],
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
   icons: {
     icon: [
       {

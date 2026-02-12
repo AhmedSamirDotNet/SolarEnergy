@@ -53,8 +53,18 @@ export default function ContactPage() {
   return (
     <div dir={dir}>
       {/* Hero Section */}
-      <section className="bg-[var(--gradient-deep)] py-20">
-        <div className="container mx-auto px-4">
+      <section className="relative bg-[var(--gradient-deep)] py-20 overflow-hidden">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: "url('/images/Contact-us.webp')",
+          }}
+        />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/60" />
+
+        <div className="container mx-auto px-4 relative z-10">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-extrabold text-[#f9fafb] md:text-5xl lg:text-6xl text-balance tracking-tight">
               {t("contact.title")}

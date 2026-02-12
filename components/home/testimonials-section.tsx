@@ -9,34 +9,34 @@ export function TestimonialsSection() {
   const { language, dir } = useI18n()
 
   return (
-    <section className="bg-[#111111]/80 backdrop-blur-lg py-24 border-y border-white/10" dir={dir}>
-      <div className="container mx-auto px-4">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold text-[#f9fafb] md:text-4xl text-balance">
+    <section className="bg-[#111111]/80 backdrop-blur-lg py-12 sm:py-16 md:py-20 lg:py-24 border-y border-white/10" dir={dir}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 sm:mb-10 md:mb-12 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#f9fafb] md:text-4xl text-balance">
             {language === "en" ? "What Our Customers Say" : "ماذا يقول عملاؤنا"}
           </h2>
-          <p className="mt-4 text-lg text-[#cbd5e0] text-pretty">
+          <p className="mt-3 sm:mt-4 text-base sm:text-lg text-[#cbd5e0] text-pretty px-4">
             {language === "en"
               ? "Trusted by hundreds of satisfied customers"
               : "موثوق به من قبل مئات العملاء الراضين"}
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-5 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {staticContent.testimonials.map((testimonial, index) => (
             <Card key={index} className="border-border bg-card">
-              <CardContent className="pt-6">
-                <Quote className="mb-4 h-8 w-8 text-solar/40" />
-                <p className="mb-6 text-muted-foreground leading-relaxed">
+              <CardContent className="pt-4 sm:pt-6">
+                <Quote className="mb-3 sm:mb-4 h-6 w-6 sm:h-8 sm:w-8 text-solar/40" />
+                <p className="mb-4 sm:mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">
                   {testimonial.text[language]}
                 </p>
-                <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-solar/10 text-solar font-semibold">
+                <div className="flex items-center gap-2.5 sm:gap-3">
+                  <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-solar/10 text-solar font-semibold text-sm sm:text-base">
                     {testimonial.name[language].charAt(0)}
                   </div>
                   <div>
-                    <div className="font-semibold text-card-foreground">{testimonial.name[language]}</div>
-                    <div className="text-sm text-muted-foreground">{testimonial.role[language]}</div>
+                    <div className="font-semibold text-card-foreground text-sm sm:text-base">{testimonial.name[language]}</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">{testimonial.role[language]}</div>
                   </div>
                 </div>
               </CardContent>
