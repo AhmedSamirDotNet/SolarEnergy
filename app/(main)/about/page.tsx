@@ -50,9 +50,9 @@ export default function AboutPage() {
   ]
 
   return (
-    <div dir={dir}>
+    <div dir={dir} className="relative overflow-hidden">
       {/* Hero Section */}
-      <section className="relative bg-[var(--gradient-deep)] py-20 overflow-hidden">
+      <section className="relative isolate overflow-hidden bg-[var(--gradient-deep)] py-20">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -60,18 +60,30 @@ export default function AboutPage() {
             backgroundImage: "url('/images/About.jpg')",
           }}
         />
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/60" />
+        {/* Soft layered overlays for readability and depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(34,197,94,0.16),transparent_45%),radial-gradient(circle_at_82%_22%,rgba(255,255,255,0.12),transparent_38%)]" />
+        <div className="absolute -left-16 top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl sm:h-56 sm:w-56" />
+        <div className="absolute -right-20 bottom-8 h-48 w-48 rounded-full bg-solar/10 blur-3xl sm:h-64 sm:w-64" />
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.85) 1px, transparent 1.6px)",
+            backgroundSize: "48px 48px",
+            maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.2))",
+            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.2))",
+          }}
+        />
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-bold text-[#f9fafb] md:text-5xl text-balance">
+            <h1 className="text-4xl font-bold text-foreground md:text-5xl text-balance">
               {t("about.title")}
             </h1>
             <p className="mt-4 text-xl text-solar font-medium">
               {t("about.subtitle")}
             </p>
-            <p className="mt-6 text-lg leading-relaxed text-[#cbd5e0] text-pretty">
+            <p className="mt-6 text-lg leading-relaxed text-muted-foreground text-pretty">
               {t("about.description")}
             </p>
           </div>
@@ -83,15 +95,15 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="grid gap-8 md:grid-cols-3">
             {values.map((item, index) => (
-              <Card key={index} className="group border-[#1f2937] bg-[#111827] text-center transition-all hover:border-solar/30">
+              <Card key={index} className="group border-border bg-card text-center transition-all hover:border-solar/30">
                 <CardHeader>
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-solar/10 text-solar group-hover:bg-solar group-hover:text-solar-foreground transition-all">
                     <item.icon className="h-8 w-8" />
                   </div>
-                  <CardTitle className="text-xl text-[#f9fafb]">{item.title}</CardTitle>
+                  <CardTitle className="text-xl text-card-foreground">{item.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-[#cbd5e0] leading-relaxed">{item.description}</p>
+                  <p className="text-muted-foreground leading-relaxed">{item.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -100,10 +112,10 @@ export default function AboutPage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="bg-[var(--gradient-slate)] py-20 border-t border-[#1f2937]">
+      <section className="bg-[var(--gradient-slate)] py-20 border-t border-border">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold text-[#f9fafb] md:text-4xl text-balance">
+            <h2 className="text-3xl font-bold text-foreground md:text-4xl text-balance">
               {language === "en" ? "Why Choose AFKAR Solar?" : "لماذا تختار أفكار سولار؟"}
             </h2>
           </div>
@@ -113,8 +125,8 @@ export default function AboutPage() {
                 <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-solar text-solar-foreground">
                   <feature.icon className="h-7 w-7" />
                 </div>
-                <h3 className="mb-2 text-xl font-semibold text-[#f9fafb]">{feature.title}</h3>
-                <p className="text-[#cbd5e0] leading-relaxed">{feature.description}</p>
+                <h3 className="mb-2 text-xl font-semibold text-foreground">{feature.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -124,10 +136,10 @@ export default function AboutPage() {
       {/* CTA Section */}
       <section className="bg-[var(--gradient-emerald)] py-16">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-[#f9fafb] md:text-4xl text-balance">
+          <h2 className="text-3xl font-bold text-foreground md:text-4xl text-balance">
             {language === "en" ? "Ready to Go Solar?" : "هل أنت مستعد للتحول إلى الطاقة الشمسية؟"}
           </h2>
-          <p className="mt-4 text-lg text-[#cbd5e0] text-pretty">
+          <p className="mt-4 text-lg text-muted-foreground text-pretty">
             {language === "en"
               ? "Contact us today for a free consultation and quote."
               : "تواصل معنا اليوم للحصول على استشارة مجانية وعرض سعر."}

@@ -66,10 +66,10 @@ export default function ContactPage() {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-extrabold text-[#f9fafb] md:text-5xl lg:text-6xl text-balance tracking-tight">
+            <h1 className="text-4xl font-extrabold text-foreground md:text-5xl lg:text-6xl text-balance tracking-tight">
               {t("contact.title")}
             </h1>
-            <p className="mt-4 text-lg text-[#cbd5e0] text-pretty max-w-2xl mx-auto">
+            <p className="mt-4 text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
               {t("contact.subtitle")}
             </p>
           </div>
@@ -82,52 +82,52 @@ export default function ContactPage() {
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Contact Info Cards */}
             <div className="space-y-6 lg:col-span-1">
-              <Card className="border-[#1f2937] bg-[#111827] backdrop-blur-sm transition-all hover:border-solar/30 hover:shadow-2xl hover:shadow-solar/5">
+              <Card className="border-border bg-card backdrop-blur-sm transition-all hover:border-solar/30 hover:shadow-2xl hover:shadow-solar/5">
                 <CardHeader className="pb-4">
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-solar/10 text-solar shadow-inner">
                     <Mail className="h-7 w-7" />
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <CardTitle className="text-xl font-bold text-[#f9fafb]">{t("contact.sales")}</CardTitle>
+                  <CardTitle className="text-xl font-bold text-card-foreground">{t("contact.sales")}</CardTitle>
                   <CardDescription className="mt-3 space-y-2">
                     <a href={`mailto:${staticContent.contact.sales.email}`} className="block text-lg font-medium text-solar hover:underline decoration-2 underline-offset-4">
                       {staticContent.contact.sales.email}
                     </a>
-                    <a href={`tel:${staticContent.contact.sales.phone}`} className="block text-[#cbd5e0] hover:text-[#f9fafb] transition-colors font-mono">
+                    <a href={`tel:${staticContent.contact.sales.phone}`} className="block text-muted-foreground hover:text-foreground transition-colors font-mono">
                       {staticContent.contact.sales.phone}
                     </a>
                   </CardDescription>
                 </CardContent>
               </Card>
 
-              <Card className="border-[#1f2937] bg-[#111827] backdrop-blur-sm transition-all hover:border-solar/30">
+              <Card className="border-border bg-card backdrop-blur-sm transition-all hover:border-solar/30">
                 <CardHeader className="pb-4">
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-solar/10 text-solar shadow-inner">
                     <Phone className="h-7 w-7" />
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <CardTitle className="text-xl font-bold text-[#f9fafb]">{t("contact.support")}</CardTitle>
+                  <CardTitle className="text-xl font-bold text-card-foreground">{t("contact.support")}</CardTitle>
                   <CardDescription className="mt-3">
-                    <a href={`tel:${staticContent.contact.support.phone}`} className="text-lg font-medium text-[#cbd5e0] hover:text-[#f9fafb] transition-colors font-mono">
+                    <a href={`tel:${staticContent.contact.support.phone}`} className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors font-mono">
                       {staticContent.contact.support.phone}
                     </a>
                   </CardDescription>
                 </CardContent>
               </Card>
 
-              <Card className="border-[#1f2937] bg-[#111827] backdrop-blur-sm transition-all hover:border-solar/30">
+              <Card className="border-border bg-card backdrop-blur-sm transition-all hover:border-solar/30">
                 <CardHeader className="pb-4">
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-solar/10 text-solar shadow-inner">
                     <MapPin className="h-7 w-7" />
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <CardTitle className="text-xl font-bold text-[#f9fafb]">
+                  <CardTitle className="text-xl font-bold text-card-foreground">
                     {language === "en" ? "Location" : "الموقع"}
                   </CardTitle>
-                  <CardDescription className="mt-3 text-lg font-medium text-[#cbd5e0]">
+                  <CardDescription className="mt-3 text-lg font-medium text-muted-foreground">
                     {language === "en" ? "Saudi Arabia" : "المملكة العربية السعودية"}
                   </CardDescription>
                 </CardContent>
@@ -135,12 +135,12 @@ export default function ContactPage() {
             </div>
 
             {/* Contact Form */}
-            <Card className="border-[#1f2937] bg-[#111827] lg:col-span-2 shadow-2xl overflow-hidden">
-              <CardHeader className="bg-[#1f2937]/30 pb-8 border-b border-[#1f2937]">
-                <CardTitle className="text-3xl font-black text-[#f9fafb]">
+            <Card className="border-border bg-card lg:col-span-2 shadow-2xl overflow-hidden">
+              <CardHeader className="bg-muted/30 pb-8 border-b border-border">
+                <CardTitle className="text-3xl font-black text-card-foreground">
                   {language === "en" ? "Send us a Message" : "أرسل لنا رسالة"}
                 </CardTitle>
-                <CardDescription className="text-lg text-[#cbd5e0]">
+                <CardDescription className="text-lg text-muted-foreground">
                   {language === "en"
                     ? "Fill out the form below and we'll get back to you as soon as possible."
                     : "املأ النموذج أدناه وسنرد عليك في أقرب وقت ممكن."}

@@ -65,29 +65,31 @@ export function Footer() {
   ]
 
   return (
-    <footer className="relative border-t border-border bg-background pt-16 pb-12 overflow-hidden" dir={dir}>
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/images/Footer-image.jpg')",
-        }}
-      />
-      {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-black/70" />
+    <footer className="relative overflow-hidden bg-gradient-to-b from-[#02060d] via-[#04131c] to-[#02070f] pt-16 pb-12" dir={dir}>
+      {/* Seamless blend with section above */}
+      <div className="pointer-events-none absolute -top-24 left-0 right-0 h-32 sm:h-36 bg-gradient-to-b from-transparent via-emerald-500/8 to-[#04131c]/85 blur-sm" />
+
+      {/* Soft descending light behind content */}
+      <div className="pointer-events-none absolute -top-16 left-1/2 h-32 sm:h-40 w-[95%] max-w-6xl -translate-x-1/2 rounded-[999px] bg-emerald-500/12 blur-3xl" />
+      <div className="pointer-events-none absolute top-0 left-1/2 h-24 sm:h-28 w-[75%] max-w-4xl -translate-x-1/2 rounded-[999px] bg-teal-300/8 blur-[90px]" />
+
+      {/* Subtle atmospheric depth for readability */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,rgba(16,185,129,0.12),transparent_45%),linear-gradient(to_bottom,rgba(2,6,23,0.2),rgba(2,6,23,0.65))]" />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Company Info */}
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-2 group">
-              <Image
-                src="/images/logo.png"
-                alt="AFKAR CO. Logo"
-                width={150}
-                height={60}
-                className="h-14 w-auto object-contain transition-all duration-300 brightness-110 group-hover:scale-105"
-              />
+              <div className="bg-white rounded-full p-3 flex items-center justify-center w-fit">
+                <Image
+                  src="/images/logo.png"
+                  alt="AFKAR CO. Logo"
+                  width={150}
+                  height={60}
+                  className="h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105"
+                />
+              </div>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
               {staticContent.company.tagline[language]}

@@ -23,63 +23,62 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-[#f9fafb]/95 backdrop-blur supports-[backdrop-filter]:bg-[#f9fafb]/80" dir={dir}>
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 group">
-          <Image
-            src="/images/logo.png"
-            alt="AFKAR CO. Logo"
-            width={180}
-            height={70}
-            className="h-14 w-auto object-contain md:h-16 transition-all duration-300 group-hover:scale-105 brightness-110 group-hover:brightness-125"
-          />
-        </Link>
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white" dir={dir}>      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+      <Link href="/" className="flex items-center gap-2 group">
+        <Image
+          src="/images/logo.png"
+          alt="AFKAR CO. Logo"
+          width={180}
+          height={70}
+          className="h-14 w-auto object-contain md:h-16 transition-all duration-300 group-hover:scale-105"
+        />
+      </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-semibold text-[#1f2937] transition-colors hover:text-solar"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          {/* Language Switcher - Always Visible on Top */}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleLanguage}
-            className="flex items-center gap-1 px-2 md:gap-2 text-[#1f2937] hover:bg-[#1f2937]/5"
+      {/* Desktop Navigation */}
+      <nav className="hidden items-center gap-7 md:flex">
+        {navLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="text-base font-bold tracking-[0.02em] text-slate-900 transition-colors duration-300 hover:text-green-700"
           >
-            <Globe className="h-4 w-4" />
-            <span className="text-xs font-semibold md:text-sm">
-              {language === "en" ? "AR" : "EN"}
-            </span>
-          </Button>
+            {link.label}
+          </Link>
+        ))}
+      </nav>
 
-          {/* Desktop Auth/CTA - Hidden on Mobile */}
-          <div className="hidden items-center gap-4 md:flex">
-            <Button asChild className="bg-solar text-solar-foreground hover:bg-solar/90">
-              <Link href="/contact">{t("hero.secondary")}</Link>
-            </Button>
-          </div>
+      <div className="flex items-center gap-2">
+        {/* Language Switcher - Always Visible on Top */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={toggleLanguage}
+          className="flex items-center gap-1 px-2 md:gap-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+        >
+          <Globe className="h-4 w-4" />
+          <span className="text-xs font-semibold md:text-sm">
+            {language === "en" ? "AR" : "EN"}
+          </span>
+        </Button>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden text-[#1f2937]"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        {/* Desktop Auth/CTA - Hidden on Mobile */}
+        <div className="hidden items-center gap-4 md:flex">
+          <Button asChild className="bg-green-600 text-white hover:bg-green-700">
+            <Link href="/contact">{t("hero.secondary")}</Link>
           </Button>
         </div>
+
+        {/* Mobile Menu Button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden text-muted-foreground"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </Button>
       </div>
+    </div>
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
@@ -89,7 +88,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className="text-base font-bold tracking-[0.015em] text-white transition-colors duration-300 hover:text-solar"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}

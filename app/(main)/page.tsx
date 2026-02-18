@@ -11,7 +11,7 @@ export default function HomePage() {
   const { dir } = useI18n()
 
   return (
-    <div dir={dir} className="relative min-h-screen bg-[#0a0a0a] overflow-x-hidden">
+    <div dir={dir} className="relative min-h-screen bg-transparent overflow-x-hidden">
       {/* Background Image Layer */}
       <div
         className="fixed inset-0 z-0 opacity-20 pointer-events-none"

@@ -33,8 +33,8 @@ export function HeroSection() {
             ? "متصفحك لا يدعم تشغيل الفيديو. يرجى تحديث المتصفح."
             : "Your browser does not support the video tag. Please upgrade your browser."}
         </video>
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/60" />
+        {/* Dark gradient overlay for text readability and theme consistency */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/70 via-[#020617]/50 to-[#020617]" />
       </div>
 
       {/* Background decorative elements */}
@@ -51,11 +51,11 @@ export function HeroSection() {
               <span>{dir === "rtl" ? "حلول الطاقة المتجددة" : "Renewable Energy Solutions"}</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.1] tracking-tight text-[#f9fafb] text-balance">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.1] tracking-tight text-foreground text-balance">
               {t("hero.title")}
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl leading-relaxed text-[#cbd5e0] text-pretty max-w-xl">
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed text-muted-foreground text-pretty max-w-xl">
               {t("hero.subtitle")}
             </p>
 
@@ -66,7 +66,7 @@ export function HeroSection() {
                   <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 rtl:rotate-180" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-border text-foreground hover:bg-muted/50 h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-medium rounded-xl transition-all w-full sm:w-auto">
+              <Button asChild variant="outline" size="lg" className="border-border text-foreground hover:border-accent hover:text-accent hover:bg-accent/5 h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-medium rounded-xl transition-all w-full sm:w-auto">
                 <Link href="/contact">{t("hero.secondary")}</Link>
               </Button>
             </div>
@@ -80,7 +80,7 @@ export function HeroSection() {
                 <span>{dir === "rtl" ? "كفاءة عالية" : "High Efficiency"}</span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-medium text-muted-foreground">
-                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-solar/10 text-solar shadow-inner">
+                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-accent/10 text-accent shadow-inner">
                   <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
                 <span>{dir === "rtl" ? "ضمان 25 سنة" : "25 Year Warranty"}</span>
