@@ -36,9 +36,9 @@ export function TopNotificationBanner() {
     return (
         <div
             className={[
-                "relative isolate z-40 w-full overflow-hidden border-b border-emerald-200/40 text-white",
-                "bg-gradient-to-r from-emerald-600 via-green-500 to-teal-600",
-                "shadow-[0_10px_28px_rgba(0,0,0,0.25)]",
+                "relative isolate z-40 w-full overflow-hidden border-b border-emerald-200/25 text-white",
+                "bg-gradient-to-r from-emerald-500/85 via-emerald-400/75 to-teal-500/80",
+                "shadow-[0_8px_20px_rgba(16,185,129,0.18)]",
                 "transition-all duration-300 ease-out",
                 isVisible ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
             ].join(" ")}
@@ -46,9 +46,9 @@ export function TopNotificationBanner() {
             aria-live="polite"
         >
             {/* Soft moving visual layers */}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.3),transparent_40%),radial-gradient(circle_at_80%_100%,rgba(255,255,255,0.22),transparent_45%)]" />
-            <div className="pointer-events-none absolute -left-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-white/15 blur-3xl animate-pulse" />
-            <div className="pointer-events-none absolute -right-12 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-emerald-200/30 blur-2xl animate-pulse" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(220,252,231,0.22),transparent_42%),radial-gradient(circle_at_80%_100%,rgba(236,253,245,0.16),transparent_48%)]" />
+            <div className="pointer-events-none absolute -left-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-emerald-50/10 blur-3xl animate-pulse" />
+            <div className="pointer-events-none absolute -right-12 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-emerald-200/20 blur-2xl animate-pulse" />
 
             <div className="container relative z-10 mx-auto flex min-h-12 items-center justify-between gap-3 px-4 py-2">
                 <p className="text-center text-sm font-semibold tracking-wide sm:text-left sm:text-base">

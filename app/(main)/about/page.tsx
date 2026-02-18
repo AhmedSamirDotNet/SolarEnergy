@@ -91,13 +91,13 @@ export default function AboutPage() {
       </section>
 
       {/* Mission, Vision, Values */}
-      <section className="bg-[var(--gradient-slate)] py-20">
+      <section className="bg-gradient-to-b from-background via-solar/5 to-background py-20">
         <div className="container mx-auto px-4">
           <div className="grid gap-8 md:grid-cols-3">
             {values.map((item, index) => (
-              <Card key={index} className="group border-border bg-card text-center transition-all hover:border-solar/30">
+              <Card key={index} className="group border-white/20 bg-gradient-to-br from-white/10 via-solar/10 to-white/5 backdrop-blur-xl text-center transition-all duration-300 hover:-translate-y-1 hover:border-solar/55 hover:shadow-xl hover:shadow-solar/20">
                 <CardHeader>
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-solar/10 text-solar group-hover:bg-solar group-hover:text-solar-foreground transition-all">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-white/25 bg-gradient-to-br from-white/20 via-solar/30 to-white/10 text-solar group-hover:from-solar group-hover:to-emerald-300 group-hover:text-solar-foreground transition-all">
                     <item.icon className="h-8 w-8" />
                   </div>
                   <CardTitle className="text-xl text-card-foreground">{item.title}</CardTitle>
@@ -112,7 +112,7 @@ export default function AboutPage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="bg-[var(--gradient-slate)] py-20 border-t border-border">
+      <section className="bg-gradient-to-b from-background via-solar/5 to-background py-20 border-t border-white/10">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold text-foreground md:text-4xl text-balance">
@@ -121,8 +121,8 @@ export default function AboutPage() {
           </div>
           <div className="grid gap-8 md:grid-cols-3">
             {features.map((feature, index) => (
-              <div key={index} className="flex flex-col items-center text-center">
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-solar text-solar-foreground">
+              <div key={index} className="group flex flex-col items-center text-center rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 via-solar/10 to-white/5 p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-solar/55 hover:shadow-xl hover:shadow-solar/20">
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl border border-white/25 bg-gradient-to-br from-white/20 via-solar/30 to-white/10 text-solar shadow-inner shadow-white/10">
                   <feature.icon className="h-7 w-7" />
                 </div>
                 <h3 className="mb-2 text-xl font-semibold text-foreground">{feature.title}</h3>
@@ -134,7 +134,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-[var(--gradient-emerald)] py-16">
+      <section className="bg-gradient-to-r from-background via-solar/10 to-background py-16 border-t border-white/10">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-foreground md:text-4xl text-balance">
             {language === "en" ? "Ready to Go Solar?" : "هل أنت مستعد للتحول إلى الطاقة الشمسية؟"}

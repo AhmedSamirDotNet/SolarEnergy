@@ -114,12 +114,12 @@ export function HeroSection() {
 
               {/* Orbiting elements */}
               <div className="absolute inset-0 animate-spin" style={{ animationDuration: "25s" }}>
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-12 w-12 rounded-2xl bg-card shadow-2xl flex items-center justify-center border border-border rotate-45">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-12 w-12 rounded-2xl bg-gradient-to-br from-white/25 via-solar/20 to-white/10 backdrop-blur-md shadow-2xl flex items-center justify-center border border-white/25 rotate-45">
                   <Zap className="h-6 w-6 text-solar -rotate-45" />
                 </div>
               </div>
               <div className="absolute inset-0 animate-spin" style={{ animationDuration: "35s", animationDirection: "reverse" }}>
-                <div className="absolute bottom-12 right-0 h-14 w-14 rounded-full bg-card shadow-2xl flex items-center justify-center border border-border">
+                <div className="absolute bottom-12 right-0 h-14 w-14 rounded-full bg-gradient-to-br from-white/25 via-solar/20 to-white/10 backdrop-blur-md shadow-2xl flex items-center justify-center border border-white/25">
                   <Shield className="h-7 w-7 text-solar" />
                 </div>
               </div>

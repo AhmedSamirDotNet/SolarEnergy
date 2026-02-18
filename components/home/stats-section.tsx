@@ -15,8 +15,8 @@ export function StatsSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid gap-6 sm:gap-8 grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
           {staticContent.stats.map((stat, index) => (
-            <div key={index} className="text-center group hover:bg-white/5 p-4 rounded-2xl transition-all duration-300">
-              <div className="text-3xl sm:text-4xl font-bold text-foreground md:text-5xl group-hover:scale-110 transition-transform duration-300 text-transparent bg-clip-text bg-gradient-to-r from-solar to-emerald-400">
+            <div key={index} className="text-center group p-4 rounded-3xl border border-white/20 bg-gradient-to-br from-white/15 via-solar/10 to-white/5 backdrop-blur-xl hover:-translate-y-1 hover:border-solar/60 hover:shadow-xl hover:shadow-solar/15 transition-all duration-300">
+              <div className="text-3xl sm:text-4xl font-bold text-foreground md:text-5xl group-hover:scale-110 transition-transform duration-300 text-transparent bg-clip-text bg-gradient-to-r from-white via-solar to-accent">
                 {stat.value}
               </div>
               <div className="mt-1.5 sm:mt-2 text-sm sm:text-base md:text-lg text-muted-foreground group-hover:text-foreground transition-colors">

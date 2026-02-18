@@ -46,6 +46,14 @@ function TikTokIcon({ className }: { className?: string }) {
   )
 }
 
+function SnapchatIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 2.2c2.76 0 5 2.24 5 5v2.08c0 .63.2 1.24.57 1.74.25.33.54.63.86.89.58.48 1.05.86 1.05 1.35 0 .7-.86 1.16-2.08 1.35-.3.05-.49.35-.39.64l.55 1.67c.1.3-.07.62-.37.71l-1.72.52c-.28.08-.58-.03-.72-.28l-.66-1.16a.55.55 0 0 0-.52-.27c-.44.04-.88.06-1.32.06-.44 0-.88-.02-1.32-.06a.55.55 0 0 0-.52.27l-.66 1.16c-.14.25-.44.36-.72.28l-1.72-.52a.53.53 0 0 1-.37-.71l.55-1.67c.1-.29-.09-.59-.39-.64C5.86 14.06 5 13.6 5 12.9c0-.49.47-.87 1.05-1.35.32-.26.61-.56.86-.89.37-.5.57-1.1.57-1.74V7.2c0-2.76 2.24-5 5-5Z" />
+    </svg>
+  )
+}
+
 export function Footer() {
   const { language, t, dir } = useI18n()
 
@@ -55,6 +63,7 @@ export function Footer() {
     { href: staticContent.social.linkedin, icon: LinkedInIcon, label: "LinkedIn" },
     { href: staticContent.social.twitter, icon: XIcon, label: "X (Twitter)" },
     { href: staticContent.social.tiktok, icon: TikTokIcon, label: "TikTok" },
+    { href: staticContent.social.snapchat, icon: SnapchatIcon, label: "Snapchat" },
   ]
 
   const navLinks = [
