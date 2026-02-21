@@ -9,27 +9,11 @@ export function HeroSection() {
   const { t, dir } = useI18n()
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-background via-background to-solar/5 border-b border-solar/20" dir={dir}>
-      {/* Video Background */}
-      <div className="absolute inset-0 overflow-hidden opacity-40">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover"
-          aria-label={dir === "rtl" ? "فيديو خلفية الطاقة الشمسية" : "Solar energy background video"}
-        >
-          <source src="/images/Home-Background-first-section.webm" type="video/webm" />
-          <source src="/images/Home-Background-first-section.mp4" type="video/mp4" />
-        </video>
-      </div>
-
+    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-background via-white to-solar/3 border-b border-solar/15" dir={dir}>
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-10 w-72 h-72 bg-solar/15 rounded-full blur-3xl opacity-40" />
-        <div className="absolute bottom-20 left-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl opacity-30" />
+        <div className="absolute top-20 right-10 w-72 h-72 bg-solar/8 rounded-full blur-3xl opacity-50" />
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-accent/6 rounded-full blur-3xl opacity-40" />
       </div>
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center py-16 sm:py-20">
@@ -90,19 +74,19 @@ export function HeroSection() {
           <div className="relative hidden lg:block animate-in fade-in zoom-in duration-1000 delay-300">
             <div className="relative mx-auto aspect-square">
               {/* Main circle with gradient */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-solar/30 to-solar/10 backdrop-blur-sm border border-solar/40" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-solar/15 to-solar/5 border border-solar/30" />
               
               {/* Center sun */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="relative flex items-center justify-center">
-                  <div className="absolute h-40 w-40 rounded-full bg-gradient-to-br from-solar to-emerald-400 shadow-[0_0_60px_rgba(34,197,94,0.4)]" />
-                  <Sun className="h-24 w-24 text-solar-foreground relative z-10 drop-shadow-lg" />
+                  <div className="absolute h-40 w-40 rounded-full bg-gradient-to-br from-solar to-emerald-400 shadow-[0_0_50px_rgba(34,197,94,0.3)]" />
+                  <Sun className="h-24 w-24 text-white relative z-10 drop-shadow-lg" />
                 </div>
               </div>
 
               {/* Decorative rings */}
-              <div className="absolute inset-0 rounded-full border border-solar/20" />
-              <div className="absolute inset-8 rounded-full border border-solar/10" />
+              <div className="absolute inset-0 rounded-full border border-solar/15" />
+              <div className="absolute inset-8 rounded-full border border-solar/8" />
             </div>
           </div>
         </div>

@@ -18,11 +18,11 @@ export function ServicesSection() {
   const { language, dir } = useI18n()
 
   return (
-    <section className="relative py-16 sm:py-20 md:py-28 bg-gradient-to-b from-background to-solar/5 border-t border-solar/20" dir={dir}>
+    <section className="relative py-16 sm:py-20 md:py-28 bg-gradient-to-b from-background to-white border-t border-solar/15" dir={dir}>
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 right-1/4 w-80 h-80 bg-solar/10 rounded-full blur-3xl opacity-40" />
-        <div className="absolute -bottom-32 left-1/4 w-80 h-80 bg-accent/8 rounded-full blur-3xl opacity-30" />
+        <div className="absolute -top-32 right-1/4 w-80 h-80 bg-solar/6 rounded-full blur-3xl opacity-50" />
+        <div className="absolute -bottom-32 left-1/4 w-80 h-80 bg-accent/5 rounded-full blur-3xl opacity-40" />
       </div>
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 z-10">
@@ -42,9 +42,9 @@ export function ServicesSection() {
           {staticContent.services.map((service, index) => {
             const Icon = iconMap[service.icon] || Sun
             return (
-              <Card key={index} className="group relative overflow-hidden rounded-2xl border border-solar/20 bg-gradient-to-br from-white/5 to-solar/5 backdrop-blur-sm hover:border-solar/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-solar/20 flex flex-col">
+              <Card key={index} className="group relative overflow-hidden rounded-2xl border border-solar/15 bg-white shadow-sm hover:border-solar/40 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-solar/15 flex flex-col">
                 <CardHeader className="pb-4">
-                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-solar/30 to-solar/10 text-solar border border-solar/40 group-hover:bg-solar group-hover:text-solar-foreground transition-all duration-500 group-hover:scale-110">
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-solar/15 text-solar border border-solar/25 group-hover:bg-solar group-hover:text-white transition-all duration-500 group-hover:scale-110">
                     <Icon className="h-6 w-6" />
                   </div>
                   <CardTitle className="text-xl font-bold text-foreground leading-tight">{service.title[language]}</CardTitle>

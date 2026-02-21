@@ -4,44 +4,44 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Professional Solar Company Theme - Based on AFKAR CO Green Identity */
-  /* Primary Background - Deep Navy for premium feel */
-  --background: #0a0e27;
+  /* Professional Solar Company Theme - Light Modern Design */
+  /* Primary Background - Clean light color */
+  --background: #f8f9fc;
   
-  /* Foreground - Clean white for excellent contrast */
-  --foreground: #f5f7fa;
+  /* Foreground - Deep charcoal for excellent contrast */
+  --foreground: #1a1a1a;
 
-  /* Card styling - Subtle depth */
-  --card: #0f1535;
-  --card-foreground: #f5f7fa;
+  /* Card styling - Clean white */
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
 
-  /* Popover - Same as background for consistency */
-  --popover: #0a0e27;
-  --popover-foreground: #f5f7fa;
+  /* Popover - Same as card for consistency */
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
 
   /* Primary Brand Color - Vibrant Green from AFKAR logo */
   --primary: #22c55e;
-  --primary-foreground: #0a0e27;
+  --primary-foreground: #ffffff;
 
-  /* Secondary - Complementary dark tone */
-  --secondary: #1a1f3a;
-  --secondary-foreground: #f5f7fa;
+  /* Secondary - Light gray tone */
+  --secondary: #e5e7eb;
+  --secondary-foreground: #1a1a1a;
 
   /* Muted states */
-  --muted: #1a1f3a;
-  --muted-foreground: #8b92a7;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
 
   /* Accent - Warm amber/orange for energy emphasis */
   --accent: #f59e0b;
-  --accent-foreground: #0a0e27;
+  --accent-foreground: #ffffff;
 
   /* Destructive states */
   --destructive: #ef4444;
-  --destructive-foreground: #f5f7fa;
+  --destructive-foreground: #ffffff;
 
   /* Borders and inputs */
-  --border: #1a1f3a;
-  --input: #1a1f3a;
+  --border: #e5e7eb;
+  --input: #f3f4f6;
   --ring: #22c55e;
 
   /* Border radius - Modern rounded corners */
@@ -49,37 +49,37 @@
 
   /* Solar brand customization */
   --solar: #22c55e;
-  --solar-foreground: #0a0e27;
+  --solar-foreground: #ffffff;
   --solar-accent: #10b981;
-  --solar-light: #86efac;
+  --solar-light: #dcfce7;
 
   /* Sidebar customization */
-  --sidebar: #0a0e27;
-  --sidebar-foreground: #f5f7fa;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1a1a;
   --sidebar-primary: #22c55e;
-  --sidebar-primary-foreground: #0a0e27;
-  --sidebar-accent: #1a1f3a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f4f6;
   --sidebar-accent-foreground: #22c55e;
-  --sidebar-border: #1a1f3a;
+  --sidebar-border: #e5e7eb;
   --sidebar-ring: #22c55e;
 
   /* Modern Gradients */
-  --gradient-deep: radial-gradient(circle at top left, #1a1f3a 0%, #0a0e27 100%);
+  --gradient-deep: radial-gradient(circle at top left, #e5e7eb 0%, #f8f9fc 100%);
   --gradient-solar: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
   --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  --gradient-body: linear-gradient(to bottom, #0a0e27 0%, #0f1535 50%, #0a0e27 100%);
+  --gradient-body: linear-gradient(to bottom, #f8f9fc 0%, #ffffff 50%, #f8f9fc 100%);
 }
 
-/* Ensure .dark class uses the same theme */
+/* Ensure .dark class uses light theme as well */
 .dark {
-  --background: #0a0e27;
-  --foreground: #f5f7fa;
-  --card: #0f1535;
-  --card-foreground: #f5f7fa;
-  --border: #1a1f3a;
+  --background: #f8f9fc;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --border: #e5e7eb;
   --primary: #22c55e;
   --accent: #f59e0b;
-  --muted-foreground: #8b92a7;
+  --muted-foreground: #6b7280;
 }
 
 @theme inline {
@@ -154,20 +154,20 @@
 
   /* Glassmorphism for modern cards - Enhanced premium feel */
   .glass-card {
-    @apply bg-card/40 backdrop-blur-xl border border-solar/20 shadow-2xl rounded-2xl transition-all duration-500;
+    @apply bg-card backdrop-blur-xl border border-solar/15 shadow-lg rounded-2xl transition-all duration-500;
   }
 
   .glass-card:hover {
-    @apply border-solar/50 shadow-2xl shadow-solar/20 -translate-y-1;
+    @apply border-solar/40 shadow-xl shadow-solar/15 -translate-y-1;
   }
 
   /* Premium card styling */
   .premium-card {
-    @apply rounded-2xl border border-solar/25 bg-gradient-to-br from-white/8 via-solar/8 to-white/3 backdrop-blur-md transition-all duration-500;
+    @apply rounded-2xl border border-solar/20 bg-gradient-to-br from-solar/5 to-accent/5 backdrop-blur-md transition-all duration-500;
   }
 
   .premium-card:hover {
-    @apply border-solar/50 shadow-2xl shadow-solar/25 -translate-y-2;
+    @apply border-solar/40 shadow-xl shadow-solar/15 -translate-y-2;
   }
 
   /* Professional heading styling */

@@ -27,11 +27,11 @@ export function FeaturedProjects() {
     }, [language])
 
     return (
-        <section id="projects" className="relative py-16 sm:py-20 md:py-28 bg-gradient-to-b from-background to-solar/5 border-t border-solar/20 overflow-hidden">
+        <section id="projects" className="relative py-16 sm:py-20 md:py-28 bg-gradient-to-b from-background to-white border-t border-solar/15 overflow-hidden">
             {/* Decorative elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/4 right-1/3 w-96 h-96 bg-solar/12 rounded-full blur-3xl opacity-40" />
-                <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-accent/10 rounded-full blur-3xl opacity-30" />
+                <div className="absolute top-1/4 right-1/3 w-96 h-96 bg-solar/6 rounded-full blur-3xl opacity-50" />
+                <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-accent/5 rounded-full blur-3xl opacity-40" />
             </div>
 
             <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 z-10">
@@ -55,16 +55,16 @@ export function FeaturedProjects() {
                         {projects.map((project) => (
                             <div
                                 key={project.id}
-                                className="group relative overflow-hidden rounded-2xl border border-solar/20 bg-gradient-to-br from-white/5 to-solar/5 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-solar/50 hover:shadow-2xl hover:shadow-solar/25 flex flex-col"
+                                className="group relative overflow-hidden rounded-2xl border border-solar/15 bg-white shadow-sm transition-all duration-500 hover:-translate-y-2 hover:border-solar/40 hover:shadow-lg hover:shadow-solar/15 flex flex-col"
                             >
-                                <div className="relative aspect-[4/3] overflow-hidden bg-muted/30">
+                                <div className="relative aspect-[4/3] overflow-hidden bg-muted/20">
                                     <Image
                                         src={project.imageRelativePath ? `${BACKEND_URL}${project.imageRelativePath}` : "/placeholder-image.jpg"}
                                         alt={project.title}
                                         fill
                                         className="object-cover transition-transform duration-500 group-hover:scale-110"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-solar/5 to-transparent"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent"></div>
                                 </div>
 
                                 <div className="p-5 sm:p-6 flex-grow flex flex-col">

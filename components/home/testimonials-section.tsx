@@ -9,11 +9,11 @@ export function TestimonialsSection() {
   const { language, dir } = useI18n()
 
   return (
-    <section className="relative py-16 sm:py-20 md:py-28 bg-gradient-to-b from-background to-solar/5 border-y border-solar/20 overflow-hidden" dir={dir}>
+    <section className="relative py-16 sm:py-20 md:py-28 bg-gradient-to-b from-background to-white border-y border-solar/15 overflow-hidden" dir={dir}>
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 left-1/3 w-80 h-80 bg-solar/12 rounded-full blur-3xl opacity-40" />
-        <div className="absolute -bottom-32 right-1/3 w-96 h-96 bg-accent/10 rounded-full blur-3xl opacity-30" />
+        <div className="absolute -top-32 left-1/3 w-80 h-80 bg-solar/6 rounded-full blur-3xl opacity-50" />
+        <div className="absolute -bottom-32 right-1/3 w-96 h-96 bg-accent/5 rounded-full blur-3xl opacity-40" />
       </div>
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 z-10">
@@ -31,14 +31,14 @@ export function TestimonialsSection() {
 
         <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {staticContent.testimonials.map((testimonial, index) => (
-            <Card key={index} className="group relative overflow-hidden rounded-2xl border border-solar/20 bg-gradient-to-br from-white/5 to-solar/5 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-solar/50 hover:shadow-2xl hover:shadow-solar/20 flex flex-col">
+            <Card key={index} className="group relative overflow-hidden rounded-2xl border border-solar/15 bg-white shadow-sm transition-all duration-500 hover:-translate-y-2 hover:border-solar/40 hover:shadow-lg hover:shadow-solar/15 flex flex-col">
               <CardContent className="pt-6 flex flex-col h-full">
-                <Quote className="mb-4 h-6 w-6 text-solar/60" />
+                <Quote className="mb-4 h-6 w-6 text-solar/50" />
                 <p className="mb-6 text-base leading-relaxed text-muted-foreground flex-grow group-hover:text-foreground transition-colors duration-300">
                   {testimonial.text[language]}
                 </p>
                 <div className="flex items-center gap-3 pt-4 border-t border-solar/10">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-solar/30 to-solar/10 text-solar font-semibold border border-solar/30 text-sm group-hover:bg-solar group-hover:text-solar-foreground transition-all duration-300">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-solar/15 text-solar font-semibold border border-solar/25 text-sm group-hover:bg-solar group-hover:text-white transition-all duration-300">
                     {testimonial.name[language].charAt(0)}
                   </div>
                   <div>
