@@ -4,71 +4,82 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Solar Navy Theme */
-  --background: #020617;
-  /* Solar Navy */
-  --foreground: #f8fafc;
+  /* Professional Solar Company Theme - Based on AFKAR CO Green Identity */
+  /* Primary Background - Deep Navy for premium feel */
+  --background: #0a0e27;
+  
+  /* Foreground - Clean white for excellent contrast */
+  --foreground: #f5f7fa;
 
-  --card: #0f172a;
-  --card-foreground: #f8fafc;
+  /* Card styling - Subtle depth */
+  --card: #0f1535;
+  --card-foreground: #f5f7fa;
 
-  --popover: #020617;
-  --popover-foreground: #f8fafc;
+  /* Popover - Same as background for consistency */
+  --popover: #0a0e27;
+  --popover-foreground: #f5f7fa;
 
+  /* Primary Brand Color - Vibrant Green from AFKAR logo */
   --primary: #22c55e;
-  /* Energy Green */
-  --primary-foreground: #020617;
+  --primary-foreground: #0a0e27;
 
-  --secondary: #1e293b;
-  --secondary-foreground: #f8fafc;
+  /* Secondary - Complementary dark tone */
+  --secondary: #1a1f3a;
+  --secondary-foreground: #f5f7fa;
 
-  --muted: #0f172a;
-  --muted-foreground: #94a3b8;
+  /* Muted states */
+  --muted: #1a1f3a;
+  --muted-foreground: #8b92a7;
 
+  /* Accent - Warm amber/orange for energy emphasis */
   --accent: #f59e0b;
-  /* Solar Amber */
-  --accent-foreground: #020617;
+  --accent-foreground: #0a0e27;
 
+  /* Destructive states */
   --destructive: #ef4444;
-  --destructive-foreground: #f8fafc;
+  --destructive-foreground: #f5f7fa;
 
-  --border: #1e293b;
-  --input: #1e293b;
+  /* Borders and inputs */
+  --border: #1a1f3a;
+  --input: #1a1f3a;
   --ring: #22c55e;
 
-  --radius: 0.85rem;
+  /* Border radius - Modern rounded corners */
+  --radius: 0.75rem;
 
+  /* Solar brand customization */
   --solar: #22c55e;
-  /* Default Solar Brand Color */
-  --solar-foreground: #020617;
-  --solar-amber: #f59e0b;
-  /* New Amber Accent */
+  --solar-foreground: #0a0e27;
+  --solar-accent: #10b981;
+  --solar-light: #86efac;
 
-  --sidebar: #020617;
-  --sidebar-foreground: #f8fafc;
+  /* Sidebar customization */
+  --sidebar: #0a0e27;
+  --sidebar-foreground: #f5f7fa;
   --sidebar-primary: #22c55e;
-  --sidebar-primary-foreground: #020617;
-  --sidebar-accent: #0f172a;
+  --sidebar-primary-foreground: #0a0e27;
+  --sidebar-accent: #1a1f3a;
   --sidebar-accent-foreground: #22c55e;
-  --sidebar-border: #1e293b;
+  --sidebar-border: #1a1f3a;
   --sidebar-ring: #22c55e;
 
   /* Modern Gradients */
-  --gradient-deep: radial-gradient(circle at top, #0f172a 0%, #020617 100%);
-  --gradient-solar: linear-gradient(135deg, #22c55e 0%, #059669 100%);
-  --gradient-amber: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  --gradient-body: linear-gradient(to bottom, #020617 0%, #062e20 50%, #020617 100%);
+  --gradient-deep: radial-gradient(circle at top left, #1a1f3a 0%, #0a0e27 100%);
+  --gradient-solar: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --gradient-body: linear-gradient(to bottom, #0a0e27 0%, #0f1535 50%, #0a0e27 100%);
 }
 
 /* Ensure .dark class uses the same theme */
 .dark {
-  --background: #020617;
-  --foreground: #f8fafc;
-  --card: #0f172a;
-  --card-foreground: #f8fafc;
-  --border: #1e293b;
+  --background: #0a0e27;
+  --foreground: #f5f7fa;
+  --card: #0f1535;
+  --card-foreground: #f5f7fa;
+  --border: #1a1f3a;
   --primary: #22c55e;
   --accent: #f59e0b;
+  --muted-foreground: #8b92a7;
 }
 
 @theme inline {
@@ -134,16 +145,48 @@
 
   /* Unified Product Image Container */
   .product-image-container {
-    @apply relative aspect-square w-full overflow-hidden rounded-xl bg-muted/30 shadow-inner transition-all duration-300;
+    @apply relative aspect-square w-full overflow-hidden rounded-2xl bg-muted/20 shadow-inner transition-all duration-300 border border-border;
   }
 
   .product-image-container img {
     @apply object-cover transition-transform duration-500 hover:scale-110;
   }
 
-  /* Glassmorphism for modern cards */
+  /* Glassmorphism for modern cards - Enhanced premium feel */
   .glass-card {
-    @apply bg-card/60 backdrop-blur-md border border-white/5 shadow-2xl;
+    @apply bg-card/40 backdrop-blur-xl border border-solar/20 shadow-2xl rounded-2xl transition-all duration-500;
+  }
+
+  .glass-card:hover {
+    @apply border-solar/50 shadow-2xl shadow-solar/20 -translate-y-1;
+  }
+
+  /* Premium card styling */
+  .premium-card {
+    @apply rounded-2xl border border-solar/25 bg-gradient-to-br from-white/8 via-solar/8 to-white/3 backdrop-blur-md transition-all duration-500;
+  }
+
+  .premium-card:hover {
+    @apply border-solar/50 shadow-2xl shadow-solar/25 -translate-y-2;
+  }
+
+  /* Professional heading styling */
+  .section-heading {
+    @apply text-3xl sm:text-4xl md:text-5xl font-bold text-foreground text-balance;
+  }
+
+  /* Gradient text utility */
+  .text-gradient-solar {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-solar to-emerald-400;
+  }
+
+  /* Professional button styles */
+  .btn-primary {
+    @apply bg-solar hover:bg-solar/90 text-solar-foreground font-semibold rounded-full transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-solar/30;
+  }
+
+  .btn-secondary {
+    @apply border-2 border-foreground/20 text-foreground hover:border-solar hover:bg-solar/5 font-semibold rounded-full transition-all duration-300;
   }
 }
 
@@ -155,5 +198,13 @@
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  /* Smooth transitions for all interactive elements */
+  @apply transition-all duration-300;
+
+  /* Enhanced focus states for accessibility */
+  .focus-solar {
+    @apply focus:outline-none focus:ring-2 focus:ring-solar/50 focus:ring-offset-2 focus:ring-offset-background;
   }
 }

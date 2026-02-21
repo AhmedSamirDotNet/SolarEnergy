@@ -9,40 +9,48 @@ export function TestimonialsSection() {
   const { language, dir } = useI18n()
 
   return (
-    <section className="bg-gradient-to-b from-background via-emerald-950/10 to-background backdrop-blur-lg py-12 sm:py-16 md:py-20 lg:py-24 border-y border-white/10" dir={dir}>      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="mb-8 sm:mb-10 md:mb-12 text-center">
-        <h2 className="text-2xl sm:text-3xl font-bold text-foreground md:text-4xl text-balance">
-          {language === "en" ? "What Our Customers Say" : "ماذا يقول عملاؤنا"}
-        </h2>
-        <p className="mt-3 sm:mt-4 text-base sm:text-lg text-muted-foreground text-pretty px-4">
-          {language === "en"
-            ? "Trusted by hundreds of satisfied customers"
-            : "موثوق به من قبل مئات العملاء الراضين"}
-        </p>
+    <section className="relative py-16 sm:py-20 md:py-28 bg-gradient-to-b from-background to-solar/5 border-y border-solar/20 overflow-hidden" dir={dir}>
+      {/* Decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-32 left-1/3 w-80 h-80 bg-solar/12 rounded-full blur-3xl opacity-40" />
+        <div className="absolute -bottom-32 right-1/3 w-96 h-96 bg-accent/10 rounded-full blur-3xl opacity-30" />
       </div>
 
-      <div className="grid gap-4 sm:gap-5 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {staticContent.testimonials.map((testimonial, index) => (
-          <Card key={index} className="group relative overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 via-solar/10 to-white/5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-solar/60 hover:shadow-xl hover:shadow-solar/20">
-            <CardContent className="pt-4 sm:pt-6">
-              <Quote className="mb-3 sm:mb-4 h-6 w-6 sm:h-8 sm:w-8 text-solar/55" />
-              <p className="mb-4 sm:mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed group-hover:text-foreground/90 transition-colors duration-300">
-                {testimonial.text[language]}
-              </p>
-              <div className="flex items-center gap-2.5 sm:gap-3">
-                <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/25 bg-gradient-to-br from-white/25 via-solar/25 to-accent/20 text-solar font-semibold text-sm sm:text-base shadow-inner shadow-white/10">
-                  {testimonial.name[language].charAt(0)}
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 z-10">
+        <div className="mb-12 sm:mb-16 md:mb-20 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground text-balance mb-4">
+            {language === "en" ? "What Our Customers Say" : "ماذا يقول عملاؤنا"}
+          </h2>
+          <div className="h-1.5 w-16 bg-gradient-to-r from-solar to-accent rounded-full mx-auto mb-6" />
+          <p className="text-lg sm:text-xl text-muted-foreground text-pretty max-w-2xl mx-auto">
+            {language === "en"
+              ? "Trusted by hundreds of satisfied customers"
+              : "موثوق به من قبل مئات العملاء الراضين"}
+          </p>
+        </div>
+
+        <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {staticContent.testimonials.map((testimonial, index) => (
+            <Card key={index} className="group relative overflow-hidden rounded-2xl border border-solar/20 bg-gradient-to-br from-white/5 to-solar/5 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-solar/50 hover:shadow-2xl hover:shadow-solar/20 flex flex-col">
+              <CardContent className="pt-6 flex flex-col h-full">
+                <Quote className="mb-4 h-6 w-6 text-solar/60" />
+                <p className="mb-6 text-base leading-relaxed text-muted-foreground flex-grow group-hover:text-foreground transition-colors duration-300">
+                  {testimonial.text[language]}
+                </p>
+                <div className="flex items-center gap-3 pt-4 border-t border-solar/10">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-solar/30 to-solar/10 text-solar font-semibold border border-solar/30 text-sm group-hover:bg-solar group-hover:text-solar-foreground transition-all duration-300">
+                    {testimonial.name[language].charAt(0)}
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">{testimonial.name[language]}</div>
+                    <div className="text-xs text-muted-foreground">{testimonial.role[language]}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="font-semibold text-foreground text-sm sm:text-base">{testimonial.name[language]}</div>
-                  <div className="text-xs sm:text-sm text-muted-foreground">{testimonial.role[language]}</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
-    </div>
     </section>
   )
 }
