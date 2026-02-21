@@ -6,23 +6,27 @@ import { Layers, Package, ArrowRight, Loader2 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useI18n } from "@/lib/i18n-context"
-import { getSections, getProducts, type Section, type Product } from "@/lib/api"
+import { getSections, getProducts, getProjectCards, type Section, type Product, type ProjectCard } from "@/lib/api"
+import { Sun } from "lucide-react"
 
 export default function DashboardPage() {
   const { t, language, dir } = useI18n()
   const [sections, setSections] = useState<Section[]>([])
   const [products, setProducts] = useState<Product[]>([])
+  const [projects, setProjects] = useState<ProjectCard[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [sectionsData, productsData] = await Promise.all([
+        const [sectionsData, productsData, projectsData] = await Promise.all([
           getSections(language),
-          getProducts({ lang: language, pageSize: 100 })
+          getProducts({ lang: language, pageSize: 100 }),
+          getProjectCards(language)
         ])
         setSections(sectionsData || [])
         setProducts(productsData?.items || [])
+        setProjects(projectsData || [])
       } catch (error) {
         console.log("[v0] Error fetching dashboard data:", error)
       } finally {
@@ -47,6 +51,13 @@ export default function DashboardPage() {
       href: "/dashboard/products",
       color: "bg-solar/10 text-solar",
     },
+    {
+      title: t("dashboard.projects"),
+      value: projects.length,
+      icon: Sun,
+      href: "/dashboard/projects",
+      color: "bg-orange-500/10 text-orange-600",
+    },
   ]
 
   return (
@@ -54,7 +65,7 @@ export default function DashboardPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground">{t("dashboard.title")}</h1>
         <p className="mt-2 text-muted-foreground">
-          {language === "en" 
+          {language === "en"
             ? "Welcome to the AFKAR Solar admin dashboard"
             : "مرحباً بك في لوحة تحكم أفكار سولار"}
         </p>
@@ -96,14 +107,14 @@ export default function DashboardPage() {
             <h2 className="mb-4 text-xl font-semibold text-foreground">
               {language === "en" ? "Quick Actions" : "إجراءات سريعة"}
             </h2>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <Card className="border-border bg-card">
                 <CardHeader>
                   <CardTitle className="text-lg text-card-foreground">
                     {language === "en" ? "Add New Section" : "إضافة قسم جديد"}
                   </CardTitle>
                   <CardDescription>
-                    {language === "en" 
+                    {language === "en"
                       ? "Create a new product section to organize your products"
                       : "إنشاء قسم منتجات جديد لتنظيم منتجاتك"}
                   </CardDescription>
@@ -121,7 +132,7 @@ export default function DashboardPage() {
                     {language === "en" ? "Add New Product" : "إضافة منتج جديد"}
                   </CardTitle>
                   <CardDescription>
-                    {language === "en" 
+                    {language === "en"
                       ? "Add a new solar product to your catalog"
                       : "أضف منتج طاقة شمسية جديد إلى الكتالوج"}
                   </CardDescription>
@@ -129,6 +140,24 @@ export default function DashboardPage() {
                 <CardContent>
                   <Button asChild className="bg-solar text-solar-foreground hover:bg-solar/90">
                     <Link href="/dashboard/products">{t("dashboard.add")}</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="border-border bg-card">
+                <CardHeader>
+                  <CardTitle className="text-lg text-card-foreground">
+                    {language === "en" ? "Add New Project" : "إضافة مشروع جديد"}
+                  </CardTitle>
+                  <CardDescription>
+                    {language === "en"
+                      ? "Add a featured project card to the home page"
+                      : "أضف بطاقة مشروع مميزة إلى الصفحة الرئيسية"}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild className="bg-solar text-solar-foreground hover:bg-solar/90">
+                    <Link href="/dashboard/projects">{t("dashboard.add")}</Link>
                   </Button>
                 </CardContent>
               </Card>

@@ -99,6 +99,12 @@ const translations: Record<Language, Record<string, string>> = {
     "dashboard.registerAdmin": "Register Admin",
     "dashboard.updateRole": "Update Role",
     "dashboard.password": "Password",
+    "dashboard.projects": "Projects",
+    "dashboard.titleAr": "Title (Arabic)",
+    "dashboard.titleEn": "Title (English)",
+    "dashboard.locationAr": "Location (Arabic)",
+    "dashboard.locationEn": "Location (English)",
+    "dashboard.location": "Location",
 
     // Login
     "login.title": "Admin Login",
@@ -192,6 +198,12 @@ const translations: Record<Language, Record<string, string>> = {
     "dashboard.registerAdmin": "تسجيل مسؤول",
     "dashboard.updateRole": "تحديث الدور",
     "dashboard.password": "كلمة المرور",
+    "dashboard.projects": "المشاريع",
+    "dashboard.titleAr": "العنوان (عربي)",
+    "dashboard.titleEn": "العنوان (إنجليزي)",
+    "dashboard.locationAr": "الموقع (عربي)",
+    "dashboard.locationEn": "الموقع (إنجليزي)",
+    "dashboard.location": "الموقع",
 
     // Login
     "login.title": "تسجيل دخول المسؤول",

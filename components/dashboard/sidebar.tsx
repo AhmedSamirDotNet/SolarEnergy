@@ -18,6 +18,7 @@ export function DashboardSidebar() {
     { href: "/dashboard", icon: LayoutDashboard, label: t("dashboard.title") },
     { href: "/dashboard/sections", icon: Layers, label: t("dashboard.sections") },
     { href: "/dashboard/products", icon: Package, label: t("dashboard.products") },
+    { href: "/dashboard/projects", icon: Sun, label: t("dashboard.projects") },
     { href: "/dashboard/admins", icon: UserCog, label: t("dashboard.admins") },
   ]
 
@@ -52,8 +53,8 @@ export function DashboardSidebar() {
               href={item.href}
               onClick={() => setIsMobileMenuOpen(false)}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${isActive
-                  ? "bg-solar text-solar-foreground"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                ? "bg-solar text-solar-foreground"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 }`}
             >
               <item.icon className="h-5 w-5" />
@@ -119,8 +120,8 @@ export function DashboardSidebar() {
       {/* Mobile Sidebar */}
       <aside
         className={`fixed top-0 z-50 h-full w-64 transform border-r border-border bg-background transition-transform duration-200 lg:hidden ${isMobileMenuOpen
-            ? (dir === "rtl" ? "right-0 translate-x-0" : "left-0 translate-x-0")
-            : (dir === "rtl" ? "right-0 translate-x-full" : "left-0 -translate-x-full")
+          ? (dir === "rtl" ? "right-0 translate-x-0" : "left-0 translate-x-0")
+          : (dir === "rtl" ? "right-0 translate-x-full" : "left-0 -translate-x-full")
           }`}
         dir={dir}
       >

@@ -115,10 +115,11 @@ export async function login(username: string, password: string) {
     token = token.replace(/^Bearer\s+/i, "").trim();
   }
 
-  if (token) {
+  if (token && token !== "undefined" && token !== "null") {
     console.log(`[API] Login successful. Captured token length: ${token.length}`);
   } else {
     console.warn(`[API] Login response parsed but no token found in keys. Content keys:`, Object.keys(data || {}));
+    token = "";
   }
 
   return { token };
@@ -321,6 +322,46 @@ export async function deleteAdmin(id: number, token: string) {
   });
 }
 
+// ProjectCards
+export async function getProjectCards(lang: string = "en") {
+  return apiRequest<ProjectCard[]>(`/api/ProjectCards?lang=${lang}`);
+}
+
+export async function getProjectCardById(id: number, lang: string = "en") {
+  return apiRequest<ProjectCard>(`/api/ProjectCards/${id}?lang=${lang}`);
+}
+
+export async function createProjectCard(formData: FormData, token: string) {
+  return apiRequest<ProjectCard>("/api/ProjectCards", {
+    method: "POST",
+    body: formData,
+    token,
+    isFormData: true,
+  });
+}
+
+export async function updateProjectCard(formData: FormData, token: string) {
+  return apiRequest<ProjectCard>("/api/ProjectCards", {
+    method: "PUT",
+    body: formData,
+    token,
+    isFormData: true,
+  });
+}
+
+export async function deleteProjectCard(id: number, token: string) {
+  return apiRequest<void>(`/api/ProjectCards/${id}`, {
+    method: "DELETE",
+    token,
+  });
+}
+
+export async function getProjectCardFull(id: number, token?: string) {
+  return apiRequest<ProjectCardFull>(`/api/ProjectCards/full/${id}`, {
+    token,
+  });
+}
+
 // Types
 export interface Section {
   id: number;
@@ -403,7 +444,26 @@ export interface CreateAdminDto {
 
 export interface UpdateAdminRoleDto {
   id: number;
-  role: string;
+  role: "MasterAdmin" | "CreateDeleteAdmin" | "ViewAdmin";
+}
+
+export interface ProjectCard {
+  id: number;
+  imageRelativePath: string;
+  title: string; // The translated title
+  location: string; // The translated location
+}
+
+export interface ProjectCardFull {
+  id: number;
+  imageRelativePath: string;
+  translations: ProjectCardTranslation[];
+}
+
+export interface ProjectCardTranslation {
+  languageCode: string;
+  title: string;
+  location: string;
 }
 
 export interface ProductTranslationDto {

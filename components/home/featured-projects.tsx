@@ -1,14 +1,33 @@
 "use client"
 
 import Image from "next/image"
-import projectsData from "@/data/projectsData.json"
+import { useEffect, useState } from "react"
 import { useI18n } from "@/lib/i18n-context"
+import { getProjectCards, type ProjectCard } from "@/lib/api"
+import { BACKEND_URL } from "@/lib/constants"
+import { Loader2 } from "lucide-react"
 
 export function FeaturedProjects() {
-    const { t } = useI18n()
+    const { t, language } = useI18n()
+    const [projects, setProjects] = useState<ProjectCard[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const data = await getProjectCards(language)
+                setProjects(data || [])
+            } catch (error) {
+                console.error("Error fetching projects:", error)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchProjects()
+    }, [language])
 
     return (
-        <section className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-background/90 via-emerald-950/10 to-background/90 backdrop-blur-xl border-t border-white/5">
+        <section id="projects" className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-background/90 via-emerald-950/10 to-background/90 backdrop-blur-xl border-t border-white/5">
             {/* Subtle ambient layers */}
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_18%,rgba(255,255,255,0.08),transparent_30%),radial-gradient(circle_at_85%_72%,rgba(34,197,94,0.08),transparent_34%)]" />
             <div
@@ -27,38 +46,48 @@ export function FeaturedProjects() {
                     <div className="h-1.5 w-16 sm:w-20 bg-solar mx-auto rounded-full"></div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-                    {projectsData.map((project) => (
-                        <div
-                            key={project.id}
-                            className="group relative overflow-hidden rounded-xl sm:rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 via-solar/10 to-white/5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-solar/60 hover:shadow-[0_0_28px_rgba(34,197,94,0.32)]"
-                        >
-                            <div className="relative aspect-[4/3] overflow-hidden">
-                                <Image
-                                    src={project.imagePath || "/placeholder-image.jpg"}
-                                    alt={project.title}
-                                    fill
-                                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-solar/10 to-transparent opacity-90"></div>
-                            </div>
+                {loading ? (
+                    <div className="flex justify-center items-center py-20">
+                        <Loader2 className="h-10 w-10 animate-spin text-solar" />
+                    </div>
+                ) : projects.length === 0 ? (
+                    <div className="text-center py-20 text-muted-foreground">
+                        {language === "en" ? "No projects found." : "لا توجد مشاريع."}
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+                        {projects.map((project) => (
+                            <div
+                                key={project.id}
+                                className="group relative overflow-hidden rounded-xl sm:rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 via-solar/10 to-white/5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-solar/60 hover:shadow-[0_0_28px_rgba(34,197,94,0.32)]"
+                            >
+                                <div className="relative aspect-[4/3] overflow-hidden">
+                                    <Image
+                                        src={project.imageRelativePath ? `${BACKEND_URL}${project.imageRelativePath}` : "/placeholder-image.jpg"}
+                                        alt={project.title}
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-solar/10 to-transparent opacity-90"></div>
+                                </div>
 
-                            <div className="p-4 sm:p-5 md:p-6">
-                                <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 sm:mb-2">{project.title}</h3>
-                                <div className="flex flex-col gap-1 text-xs sm:text-sm text-muted-foreground">
-                                    <p className="flex items-center gap-1.5 sm:gap-2">
-                                        <span className="text-solar">⚡</span> {project.capacity}
-                                    </p>
+                                <div className="p-4 sm:p-5 md:p-6">
+                                    <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 sm:mb-2">{project.title}</h3>
+                                    <div className="flex flex-col gap-1 text-xs sm:text-sm text-muted-foreground">
+                                        <p className="flex items-center gap-1.5 sm:gap-2">
+                                            <span className="text-solar">📍</span> {project.location}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Emerald Glow on Hover */}
+                                <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <div className="absolute -inset-px rounded-xl sm:rounded-2xl border border-solar/50 shadow-[0_0_15px_rgba(16,185,129,0.2)]"></div>
                                 </div>
                             </div>
-
-                            {/* Emerald Glow on Hover */}
-                            <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <div className="absolute -inset-px rounded-xl sm:rounded-2xl border border-solar/50 shadow-[0_0_15px_rgba(16,185,129,0.2)]"></div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     )

@@ -33,6 +33,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import { useI18n } from "@/lib/i18n-context"
 import { useAuth } from "@/lib/auth-context"
 import {
@@ -159,7 +166,7 @@ export default function AdminsPage() {
         try {
             await updateAdminRole({
                 id: roleFormData.id,
-                role: roleFormData.role,
+                role: roleFormData.role as any,
             }, token)
 
             await fetchAdmins()
@@ -332,14 +339,19 @@ export default function AdminsPage() {
                         <div className="space-y-4 py-4">
                             <div className="space-y-2">
                                 <Label htmlFor="role">{t("dashboard.role")}</Label>
-                                <Input
-                                    id="role"
+                                <Select
                                     value={roleFormData.role}
-                                    onChange={(e) => setRoleFormData({ ...roleFormData, role: e.target.value })}
-                                    placeholder={language === "en" ? "e.g., SuperAdmin, Admin, Editor" : "مثال: مسؤول أعلى، مسؤول، محرر"}
-                                    required
-                                    maxLength={50}
-                                />
+                                    onValueChange={(value) => setRoleFormData({ ...roleFormData, role: value })}
+                                >
+                                    <SelectTrigger id="role" className="w-full">
+                                        <SelectValue placeholder={language === "en" ? "Select a role" : "اختر دوراً"} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="MasterAdmin">MasterAdmin</SelectItem>
+                                        <SelectItem value="CreateDeleteAdmin">CreateDeleteAdmin</SelectItem>
+                                        <SelectItem value="ViewAdmin">ViewAdmin</SelectItem>
+                                    </SelectContent>
+                                </Select>
                             </div>
                         </div>
                         <DialogFooter>
