@@ -200,9 +200,6 @@
     scrollbar-width: none;
   }
 
-  /* Smooth transitions for all interactive elements */
-  @apply transition-all duration-300;
-
   /* Enhanced focus states for accessibility */
   .focus-solar {
     @apply focus:outline-none focus:ring-2 focus:ring-solar/50 focus:ring-offset-2 focus:ring-offset-background;
