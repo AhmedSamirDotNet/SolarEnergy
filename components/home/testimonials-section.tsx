@@ -9,7 +9,7 @@ export function TestimonialsSection() {
   const { language, dir } = useI18n()
 
   return (
-    <section className="bg-gradient-to-b from-background via-emerald-950/10 to-background backdrop-blur-lg py-12 sm:py-16 md:py-20 lg:py-24 border-y border-white/10" dir={dir}>      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-gradient-to-b from-emerald-900/25 via-emerald-800/20 to-emerald-900/25 backdrop-blur-lg py-12 sm:py-16 md:py-20 lg:py-24 border-y border-white/10" dir={dir}>      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mb-8 sm:mb-10 md:mb-12 text-center">
         <h2 className="text-2xl sm:text-3xl font-bold text-foreground md:text-4xl text-balance">
           {language === "en" ? "What Our Customers Say" : "ماذا يقول عملاؤنا"}

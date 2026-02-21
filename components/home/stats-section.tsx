@@ -7,7 +7,7 @@ export function StatsSection() {
   const { language, dir } = useI18n()
 
   return (
-    <section className="bg-gradient-to-r from-background via-solar/5 to-background backdrop-blur-md py-10 sm:py-12 md:py-16 border-y border-white/5 relative overflow-hidden" dir={dir}>
+    <section className="bg-gradient-to-r from-emerald-900/25 via-solar/15 to-emerald-900/25 backdrop-blur-md py-10 sm:py-12 md:py-16 border-y border-white/10 relative overflow-hidden" dir={dir}>
       {/* Decorative elements */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-solar/10 rounded-full blur-3xl -z-10" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl -z-10" />

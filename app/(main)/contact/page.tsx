@@ -109,15 +109,18 @@ export default function ContactPage() {
             backgroundImage: "url('/images/Contact-us.webp')",
           }}
         />
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/60" />
+        {/* Green-tinted overlay for readability and theme consistency */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1a16]/80 via-[#0b1a16]/58 to-[#04120d]/92" />
+
+        {/* Fog transition to smooth hero -> contact section */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 sm:h-44 md:h-56 bg-gradient-to-b from-transparent via-emerald-900/25 to-emerald-900/45 backdrop-blur-[2px]" />
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-extrabold text-foreground md:text-5xl lg:text-6xl text-balance tracking-tight">
               {t("contact.title")}
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
+            <p className="mt-4 text-lg text-slate-100/90 text-pretty max-w-2xl mx-auto">
               {t("contact.subtitle")}
             </p>
           </div>
@@ -125,7 +128,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="bg-gradient-to-b from-background via-solar/5 to-background py-20">
+      <section className="bg-gradient-to-b from-emerald-900/25 via-emerald-800/20 to-emerald-900/25 py-20">
         <div className="container mx-auto px-4">
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Contact Info Cards */}

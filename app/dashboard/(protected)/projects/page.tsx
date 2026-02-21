@@ -59,10 +59,9 @@ export default function ProjectsPage() {
     const [formData, setFormData] = useState({
         titleEn: "",
         titleAr: "",
-        locationEn: "",
-        locationAr: "",
         file: null as File | null,
     })
+
 
     const fetchProjects = async () => {
         setLoading(true)
@@ -85,10 +84,9 @@ export default function ProjectsPage() {
         setFormData({
             titleEn: "",
             titleAr: "",
-            locationEn: "",
-            locationAr: "",
             file: null,
         })
+
         setIsDialogOpen(true)
     }
 
@@ -104,10 +102,9 @@ export default function ProjectsPage() {
                 setFormData({
                     titleEn: enTrans?.title || "",
                     titleAr: arTrans?.title || "",
-                    locationEn: enTrans?.location || "",
-                    locationAr: arTrans?.location || "",
                     file: null,
                 })
+
             }
             setIsDialogOpen(true)
         } catch (error) {
@@ -148,9 +145,10 @@ export default function ProjectsPage() {
             }
 
             const translations = [
-                { languageCode: "en", title: formData.titleEn, location: formData.locationEn },
-                { languageCode: "ar", title: formData.titleAr, location: formData.locationAr },
+                { languageCode: "en", title: formData.titleEn, location: "Egypt" },
+                { languageCode: "ar", title: formData.titleAr, location: "Egypt" },
             ]
+
 
             fd.append("TranslationsJson", JSON.stringify(translations))
             if (formData.file) {
@@ -210,8 +208,8 @@ export default function ProjectsPage() {
                                     <TableRow>
                                         <TableHead className="w-[100px]">{t("dashboard.images")}</TableHead>
                                         <TableHead>{t("dashboard.name")}</TableHead>
-                                        <TableHead>{t("dashboard.location")}</TableHead>
                                         <TableHead className="text-right rtl:text-left">{t("dashboard.actions")}</TableHead>
+
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -230,7 +228,7 @@ export default function ProjectsPage() {
                                                 </div>
                                             </TableCell>
                                             <TableCell className="font-medium text-foreground">{project.title}</TableCell>
-                                            <TableCell className="text-muted-foreground">{project.location}</TableCell>
+
                                             <TableCell className="text-right rtl:text-left">
                                                 <div className="flex items-center justify-end gap-2 rtl:justify-start">
                                                     <Button
@@ -295,28 +293,8 @@ export default function ProjectsPage() {
                                     className="bg-background border-border"
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="locationEn" className="text-card-foreground">{t("dashboard.locationEn")}</Label>
-                                <Input
-                                    id="locationEn"
-                                    value={formData.locationEn}
-                                    onChange={(e) => setFormData({ ...formData, locationEn: e.target.value })}
-                                    required
-                                    className="bg-background border-border"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="locationAr" className="text-card-foreground">{t("dashboard.locationAr")}</Label>
-                                <Input
-                                    id="locationAr"
-                                    value={formData.locationAr}
-                                    onChange={(e) => setFormData({ ...formData, locationAr: e.target.value })}
-                                    required
-                                    dir="rtl"
-                                    className="bg-background border-border"
-                                />
-                            </div>
                         </div>
+
                         <div className="space-y-2">
                             <Label htmlFor="file" className="text-card-foreground">{t("dashboard.images")}</Label>
                             <Input
@@ -339,7 +317,7 @@ export default function ProjectsPage() {
                         </DialogFooter>
                     </form>
                 </DialogContent>
-            </Dialog>
+            </Dialog >
 
             <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
                 <AlertDialogContent className="bg-card border-border" dir={dir}>
@@ -364,6 +342,6 @@ export default function ProjectsPage() {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-        </div>
+        </div >
     )
 }

@@ -105,6 +105,8 @@ const translations: Record<Language, Record<string, string>> = {
     "dashboard.locationAr": "Location (Arabic)",
     "dashboard.locationEn": "Location (English)",
     "dashboard.location": "Location",
+    "projects.title": "Our Projects",
+
 
     // Login
     "login.title": "Admin Login",
@@ -204,6 +206,8 @@ const translations: Record<Language, Record<string, string>> = {
     "dashboard.locationAr": "الموقع (عربي)",
     "dashboard.locationEn": "الموقع (إنجليزي)",
     "dashboard.location": "الموقع",
+    "projects.title": "مشاريعنا",
+
 
     // Login
     "login.title": "تسجيل دخول المسؤول",

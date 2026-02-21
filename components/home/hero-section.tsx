@@ -33,8 +33,11 @@ export function HeroSection() {
             ? "متصفحك لا يدعم تشغيل الفيديو. يرجى تحديث المتصفح."
             : "Your browser does not support the video tag. Please upgrade your browser."}
         </video>
-        {/* Dark gradient overlay for text readability and theme consistency */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/70 via-[#020617]/50 to-[#020617]" />
+        {/* Slightly lighter gradient overlay for better brightness balance */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1a16]/58 via-[#0b1a16]/42 to-[#04120d]/85" />
+
+        {/* Soft fog layer to smooth transition into next section */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 sm:h-44 md:h-56 bg-gradient-to-b from-transparent via-emerald-900/25 to-emerald-900/45 backdrop-blur-[2px]" />
       </div>
 
       {/* Background decorative elements */}
@@ -55,7 +58,7 @@ export function HeroSection() {
               {t("hero.title")}
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl leading-relaxed text-muted-foreground text-pretty max-w-xl">
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed text-slate-100/90 text-pretty max-w-xl">
               {t("hero.subtitle")}
             </p>
 

@@ -61,7 +61,7 @@ export default function AboutPage() {
           }}
         />
         {/* Soft layered overlays for readability and depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1a16]/80 via-[#0b1a16]/58 to-[#04120d]/92" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(34,197,94,0.16),transparent_45%),radial-gradient(circle_at_82%_22%,rgba(255,255,255,0.12),transparent_38%)]" />
         <div className="absolute -left-16 top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl sm:h-56 sm:w-56" />
         <div className="absolute -right-20 bottom-8 h-48 w-48 rounded-full bg-solar/10 blur-3xl sm:h-64 sm:w-64" />
@@ -75,6 +75,9 @@ export default function AboutPage() {
           }}
         />
 
+        {/* Fog transition to make hero-to-next-section smoother */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 sm:h-44 md:h-56 bg-gradient-to-b from-transparent via-emerald-900/25 to-emerald-900/45 backdrop-blur-[2px]" />
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-bold text-foreground md:text-5xl text-balance">
@@ -83,7 +86,7 @@ export default function AboutPage() {
             <p className="mt-4 text-xl text-solar font-medium">
               {t("about.subtitle")}
             </p>
-            <p className="mt-6 text-lg leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-6 text-lg leading-relaxed text-slate-100/90 text-pretty">
               {t("about.description")}
             </p>
           </div>
@@ -91,7 +94,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission, Vision, Values */}
-      <section className="bg-gradient-to-b from-background via-solar/5 to-background py-20">
+      <section className="bg-gradient-to-b from-emerald-900/25 via-emerald-800/20 to-emerald-900/25 py-20">
         <div className="container mx-auto px-4">
           <div className="grid gap-8 md:grid-cols-3">
             {values.map((item, index) => (
@@ -112,7 +115,7 @@ export default function AboutPage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="bg-gradient-to-b from-background via-solar/5 to-background py-20 border-t border-white/10">
+      <section className="bg-gradient-to-b from-emerald-900/25 via-emerald-800/20 to-emerald-900/25 py-20 border-t border-white/10">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold text-foreground md:text-4xl text-balance">
@@ -134,7 +137,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-background via-solar/10 to-background py-16 border-t border-white/10">
+      <section className="bg-gradient-to-r from-emerald-900/25 via-solar/15 to-emerald-900/25 py-16 border-t border-white/10">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-foreground md:text-4xl text-balance">
             {language === "en" ? "Ready to Go Solar?" : "هل أنت مستعد للتحول إلى الطاقة الشمسية؟"}

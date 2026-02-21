@@ -11,10 +11,10 @@ export default function HomePage() {
   const { dir } = useI18n()
 
   return (
-    <div dir={dir} className="relative min-h-screen bg-transparent overflow-x-hidden">
+    <div dir={dir} className="relative min-h-screen bg-gradient-to-b from-emerald-900/20 via-slate-900/20 to-emerald-900/20 overflow-x-hidden">
       {/* Background Image Layer */}
       <div
-        className="fixed inset-0 z-0 opacity-20 pointer-events-none"
+        className="fixed inset-0 z-0 opacity-35 pointer-events-none"
         style={{
           backgroundImage: "url('/images/home-bg.png')",
           backgroundSize: "cover",

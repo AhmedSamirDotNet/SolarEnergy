@@ -18,7 +18,7 @@ export function ServicesSection() {
   const { language, dir } = useI18n()
 
   return (
-    <section className="bg-gradient-to-b from-background via-emerald-950/10 to-background backdrop-blur-md py-12 sm:py-16 md:py-20 border-t border-white/5" dir={dir}>
+    <section className="bg-gradient-to-b from-emerald-900/25 via-emerald-800/20 to-emerald-900/25 backdrop-blur-md py-12 sm:py-16 md:py-20 border-t border-white/10" dir={dir}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 sm:mb-10 md:mb-12 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground md:text-4xl text-balance">
