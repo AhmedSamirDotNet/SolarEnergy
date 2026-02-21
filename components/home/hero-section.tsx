@@ -9,15 +9,15 @@ export function HeroSection() {
   const { t, dir } = useI18n()
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-background via-white to-solar/3 border-b border-solar/15" dir={dir}>
+    <section className="relative overflow-hidden bg-gradient-to-br from-background via-white to-solar/3 border-b border-solar/15" dir={dir}>
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-10 w-72 h-72 bg-solar/8 rounded-full blur-3xl opacity-50" />
         <div className="absolute bottom-20 left-10 w-96 h-96 bg-accent/6 rounded-full blur-3xl opacity-40" />
       </div>
 
-      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center py-16 sm:py-20">
-        <div className="grid items-center gap-8 sm:gap-12 lg:gap-16 lg:grid-cols-2 w-full">
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-32">
+        <div className="grid items-start gap-8 sm:gap-12 lg:gap-16 lg:grid-cols-2 w-full lg:items-center">
           <div className="space-y-6 sm:space-y-8 lg:space-y-10 z-10">
             <div className="inline-flex items-center gap-2 rounded-full bg-solar/10 px-4 py-2 text-sm font-medium text-solar border border-solar/30">
               <Sun className="h-4 w-4" />

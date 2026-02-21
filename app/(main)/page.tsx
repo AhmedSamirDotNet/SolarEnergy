@@ -11,15 +11,12 @@ export default function HomePage() {
   const { dir } = useI18n()
 
   return (
-    <div dir={dir} className="relative min-h-screen bg-background overflow-x-hidden">
-      {/* Content Sections */}
-      <div className="relative z-10">
-        <HeroSection />
-        <ServicesSection />
-        <StatsSection />
-        <TestimonialsSection />
-        <FeaturedProjects />
-      </div>
-    </div>
+    <main dir={dir} className="bg-background w-full overflow-x-hidden">
+      <HeroSection />
+      <ServicesSection />
+      <StatsSection />
+      <TestimonialsSection />
+      <FeaturedProjects />
+    </main>
   )
 }
