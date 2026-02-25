@@ -222,16 +222,16 @@ export default function AdminsPage() {
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead className="w-16">ID</TableHead>
+                                        <TableHead className="w-16">#</TableHead>
                                         <TableHead>{t("dashboard.username")}</TableHead>
                                         <TableHead>{t("dashboard.role")}</TableHead>
                                         <TableHead className="text-right rtl:text-left">{t("dashboard.actions")}</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {admins.map((admin) => (
+                                    {admins.map((admin, index) => (
                                         <TableRow key={admin.id}>
-                                            <TableCell className="font-medium">{admin.id}</TableCell>
+                                            <TableCell className="font-medium">{index + 1}</TableCell>
                                             <TableCell>{admin.username}</TableCell>
                                             <TableCell>
                                                 <span className="inline-flex items-center rounded-full bg-solar/10 px-2 py-1 text-xs font-medium text-solar">

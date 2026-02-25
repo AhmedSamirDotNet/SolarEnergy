@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Sun, LayoutDashboard, Layers, Package, LogOut, Globe, Menu, X, UserCog } from "lucide-react"
+import { Sun, LayoutDashboard, Layers, Package, LogOut, Globe, Menu, X, UserCog, Users, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/lib/auth-context"
 import { useI18n } from "@/lib/i18n-context"
@@ -19,6 +19,8 @@ export function DashboardSidebar() {
     { href: "/dashboard/sections", icon: Layers, label: t("dashboard.sections") },
     { href: "/dashboard/products", icon: Package, label: t("dashboard.products") },
     { href: "/dashboard/projects", icon: Sun, label: t("dashboard.projects") },
+    { href: "/dashboard/customers", icon: Users, label: t("dashboard.customers") },
+    { href: "/dashboard/customer-feedback", icon: MessageSquare, label: t("dashboard.customerFeedback") },
     { href: "/dashboard/admins", icon: UserCog, label: t("dashboard.admins") },
   ]
 

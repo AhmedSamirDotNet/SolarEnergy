@@ -313,7 +313,7 @@ export default function ProductsPage() {
               <Table>
                 <TableHeader className="bg-muted/50">
                   <TableRow>
-                    <TableHead className="w-[80px]">ID</TableHead>
+                    <TableHead className="w-[80px]">#</TableHead>
                     <TableHead className="w-[100px]">{t("dashboard.images")}</TableHead>
                     <TableHead className="min-w-[200px]">{t("dashboard.name")}</TableHead>
                     <TableHead>{t("dashboard.section")}</TableHead>
@@ -322,9 +322,9 @@ export default function ProductsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {products.map((product) => (
+                  {products.map((product, index) => (
                     <TableRow key={product.id} className="hover:bg-muted/30 transition-colors">
-                      <TableCell className="font-mono text-xs">{product.id}</TableCell>
+                      <TableCell className="font-mono text-xs">{index + 1}</TableCell>
                       <TableCell>
                         <div className="h-12 w-12 rounded-lg border bg-muted overflow-hidden relative">
                           {product.images?.[0] ? (

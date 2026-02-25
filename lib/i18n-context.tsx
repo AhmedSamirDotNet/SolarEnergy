@@ -107,6 +107,22 @@ const translations: Record<Language, Record<string, string>> = {
     "dashboard.location": "Location",
     "projects.title": "Our Projects",
 
+    // Customer Management
+    "dashboard.customers": "Customers",
+    "dashboard.customerName": "Customer Name",
+    "dashboard.customerNameEn": "Customer Name (English)",
+    "dashboard.customerNameAr": "Customer Name (Arabic)",
+    "dashboard.customerJob": "Job",
+    "dashboard.customerJobEn": "Job (English)",
+    "dashboard.customerJobAr": "Job (Arabic)",
+    "dashboard.feedback": "Feedback",
+    "dashboard.feedbackEn": "Feedback (English)",
+    "dashboard.feedbackAr": "Feedback (Arabic)",
+    "dashboard.customer": "Customer",
+    "dashboard.selectCustomer": "Select Customer",
+    "dashboard.customerFeedback": "Customer Feedback",
+    "testimonials.title": "What Our Customers Say",
+    "testimonials.subtitle": "Trusted by hundreds of satisfied customers",
 
     // Login
     "login.title": "Admin Login",
@@ -208,6 +224,22 @@ const translations: Record<Language, Record<string, string>> = {
     "dashboard.location": "الموقع",
     "projects.title": "مشاريعنا",
 
+    // Customer Management
+    "dashboard.customers": "العملاء",
+    "dashboard.customerName": "اسم العميل",
+    "dashboard.customerNameEn": "اسم العميل (إنجليزي)",
+    "dashboard.customerNameAr": "اسم العميل (عربي)",
+    "dashboard.customerJob": "الوظيفة",
+    "dashboard.customerJobEn": "الوظيفة (إنجليزي)",
+    "dashboard.customerJobAr": "الوظيفة (عربي)",
+    "dashboard.feedback": "تقييم",
+    "dashboard.feedbackEn": "التقييم (إنجليزي)",
+    "dashboard.feedbackAr": "التقييم (عربي)",
+    "dashboard.customer": "العميل",
+    "dashboard.selectCustomer": "اختر عميلاً",
+    "dashboard.customerFeedback": "تقييمات العملاء",
+    "testimonials.title": "ماذا يقول عملاؤنا",
+    "testimonials.subtitle": "موثوق به من قبل مئات العملاء الراضين",
 
     // Login
     "login.title": "تسجيل دخول المسؤول",

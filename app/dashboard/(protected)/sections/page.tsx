@@ -220,16 +220,16 @@ export default function SectionsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-16">ID</TableHead>
+                    <TableHead className="w-16">#</TableHead>
                     <TableHead>{t("dashboard.nameEn")}</TableHead>
                     <TableHead>{t("dashboard.nameAr")}</TableHead>
                     <TableHead className="text-right rtl:text-left">{t("dashboard.actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {sections.map((section: Section & { nameEn?: string; nameAr?: string }) => (
+                  {sections.map((section: Section & { nameEn?: string; nameAr?: string }, index) => (
                     <TableRow key={section.id}>
-                      <TableCell className="font-medium">{section.id}</TableCell>
+                      <TableCell className="font-medium">{index + 1}</TableCell>
                       <TableCell>{section.nameEn || section.name}</TableCell>
                       <TableCell>{section.nameAr || "-"}</TableCell>
                       <TableCell className="text-right rtl:text-left">

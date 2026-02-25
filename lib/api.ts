@@ -362,6 +362,78 @@ export async function getProjectCardFull(id: number, token?: string) {
   });
 }
 
+// Customers
+export async function getCustomers(lang: string = "en") {
+  const data = await apiRequest<any[]>(`/api/Customer?lang=${lang}`);
+  return (data || []).map(normalizeCustomer);
+}
+
+export async function getCustomerById(id: number, lang: string = "en") {
+  const data = await apiRequest<any>(`/api/Customer/${id}?lang=${lang}`);
+  return normalizeCustomer(data);
+}
+
+export async function createCustomer(data: CreateCustomerDto, token: string) {
+  const created = await apiRequest<any>("/api/Customer", {
+    method: "POST",
+    body: data,
+    token,
+  });
+  return normalizeCustomer(created);
+}
+
+export async function updateCustomer(data: UpdateCustomerDto, token: string) {
+  const updated = await apiRequest<any>("/api/Customer", {
+    method: "PUT",
+    body: data,
+    token,
+  });
+  return normalizeCustomer(updated);
+}
+
+export async function deleteCustomer(id: number, token: string) {
+  return apiRequest<void>(`/api/Customer/${id}`, {
+    method: "DELETE",
+    token,
+  });
+}
+
+// Customer Feedback
+export async function getCustomerFeedbacks(lang: string = "en") {
+  const data = await apiRequest<any[]>(`/api/CustomerFeedback?lang=${lang}`);
+  return (data || []).map(normalizeCustomerFeedback);
+}
+
+export async function getCustomerFeedbackById(id: number, lang: string = "en") {
+  const data = await apiRequest<any>(`/api/CustomerFeedback/${id}?lang=${lang}`);
+  return normalizeCustomerFeedback(data);
+}
+
+export async function createCustomerFeedback(data: CreateCustomerFeedbackDto, token: string) {
+  const created = await apiRequest<any>("/api/CustomerFeedback", {
+    method: "POST",
+    body: data,
+    token,
+  });
+  return normalizeCustomerFeedback(created);
+}
+
+export async function updateCustomerFeedback(data: UpdateCustomerFeedbackDto, token: string) {
+  const updated = await apiRequest<any>("/api/CustomerFeedback", {
+    method: "PUT",
+    body: data,
+    token,
+  });
+  return normalizeCustomerFeedback(updated);
+}
+
+export async function deleteCustomerFeedback(id: number, token: string) {
+  return apiRequest<void>(`/api/CustomerFeedback/${id}`, {
+    method: "DELETE",
+    token,
+  });
+}
+
 // Types
 export interface Section {
   id: number;
@@ -450,8 +522,8 @@ export interface UpdateAdminRoleDto {
 export interface ProjectCard {
   id: number;
   imageRelativePath: string;
-  title: string; // The translated title
-  location: string; // The translated location
+  title: string;
+  location: string;
 }
 
 export interface ProjectCardFull {
@@ -473,4 +545,126 @@ export interface ProductTranslationDto {
   mainDesc?: string;
   subDesc?: string;
   productId?: number;
+}
+
+function pickString(...values: unknown[]): string {
+  for (const value of values) {
+    if (typeof value === "string") {
+      return value;
+    }
+  }
+  return "";
+}
+
+function pickNumber(...values: unknown[]): number {
+  for (const value of values) {
+    if (typeof value === "number" && !Number.isNaN(value)) {
+      return value;
+    }
+  }
+  return 0;
+}
+
+function normalizeCustomer(raw: any): Customer {
+  return {
+    id: pickNumber(raw?.id, raw?.Id, raw?.customerId, raw?.CustomerId),
+    customerName: pickString(
+      raw?.customerName,
+      raw?.CustomerName,
+      raw?.name,
+      raw?.Name,
+      raw?.nameEn,
+      raw?.NameEn,
+      raw?.nameAr,
+      raw?.NameAr,
+    ),
+    customerJob: pickString(
+      raw?.customerJob,
+      raw?.CustomerJob,
+      raw?.job,
+      raw?.Job,
+      raw?.jobEn,
+      raw?.JobEn,
+      raw?.jobAr,
+      raw?.JobAr,
+    ) || undefined,
+  };
+}
+
+function normalizeCustomerFeedback(raw: any): CustomerFeedback {
+  const customerId = pickNumber(
+    raw?.customerId,
+    raw?.CustomerId,
+    raw?.customer?.id,
+    raw?.Customer?.Id,
+  );
+
+  return {
+    id: pickNumber(raw?.id, raw?.Id),
+    customerId,
+    feedBack: pickString(
+      raw?.feedBack,
+      raw?.FeedBack,
+      raw?.feedback,
+      raw?.Feedback,
+    ),
+    customerName: pickString(
+      raw?.customerName,
+      raw?.CustomerName,
+      raw?.customer?.customerName,
+      raw?.customer?.name,
+      raw?.customer?.Name,
+    ) || undefined,
+    customerJob: pickString(
+      raw?.customerJob,
+      raw?.CustomerJob,
+      raw?.customer?.customerJob,
+      raw?.customer?.job,
+      raw?.customer?.Job,
+    ) || undefined,
+  };
+}
+
+// Customer Types
+export interface Customer {
+  id: number;
+  customerName: string;
+  customerJob?: string;
+}
+
+export interface CreateCustomerDto {
+  nameEn: string;
+  jobEn?: string;
+  nameAr: string;
+  jobAr?: string;
+}
+
+export interface UpdateCustomerDto {
+  id: number;
+  nameEn: string;
+  jobEn?: string;
+  nameAr: string;
+  jobAr?: string;
+}
+
+// Customer Feedback Types
+export interface CustomerFeedback {
+  id: number;
+  feedBack: string;
+  customerId: number;
+  customerName?: string;
+  customerJob?: string;
+}
+
+export interface CreateCustomerFeedbackDto {
+  customerId: number;
+  feedbackEn: string;
+  feedbackAr: string;
+}
+
+export interface UpdateCustomerFeedbackDto {
+  id: number;
+  customerId: number;
+  feedbackEn: string;
+  feedbackAr: string;
 }

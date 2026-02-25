@@ -74,9 +74,7 @@ export function FeaturedProjects() {
                                 <div className="p-4 sm:p-5 md:p-6">
                                     <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 sm:mb-2">{project.title}</h3>
                                     <div className="flex flex-col gap-1 text-xs sm:text-sm text-muted-foreground">
-                                        <p className="flex items-center gap-1.5 sm:gap-2">
-                                            <span className="text-solar">📍</span> {project.location}
-                                        </p>
+
                                     </div>
                                 </div>
 
