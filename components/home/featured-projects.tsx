@@ -5,12 +5,13 @@ import { useEffect, useState } from "react"
 import { useI18n } from "@/lib/i18n-context"
 import { getProjectCards, type ProjectCard } from "@/lib/api"
 import { BACKEND_URL } from "@/lib/constants"
-import { Loader2 } from "lucide-react"
+import { ArrowUpRight, Loader2, MapPin } from "lucide-react"
 
 export function FeaturedProjects() {
     const { t, language } = useI18n()
     const [projects, setProjects] = useState<ProjectCard[]>([])
     const [loading, setLoading] = useState(true)
+    const isRtl = language === "ar"
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -55,35 +56,62 @@ export function FeaturedProjects() {
                         {language === "en" ? "No projects found." : "لا توجد مشاريع."}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-                        {projects.map((project) => (
-                            <div
-                                key={project.id}
-                                className="group relative overflow-hidden rounded-xl sm:rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 via-solar/10 to-white/5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-solar/60 hover:shadow-[0_0_28px_rgba(34,197,94,0.32)]"
-                            >
-                                <div className="relative aspect-[4/3] overflow-hidden">
-                                    <Image
-                                        src={project.imageRelativePath ? `${BACKEND_URL}${project.imageRelativePath}` : "/placeholder-image.jpg"}
-                                        alt={project.title}
-                                        fill
-                                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-solar/10 to-transparent opacity-90"></div>
-                                </div>
+                    <div className="space-y-8 sm:space-y-10 md:space-y-12">
+                        {projects.map((project, index) => {
+                            const isOdd = index % 2 === 1
+                            const shouldFlipDesktop = isRtl ? !isOdd : isOdd
 
-                                <div className="p-4 sm:p-5 md:p-6">
-                                    <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 sm:mb-2">{project.title}</h3>
-                                    <div className="flex flex-col gap-1 text-xs sm:text-sm text-muted-foreground">
+                            return (
+                                <article
+                                    key={project.id}
+                                    className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/15 bg-gradient-to-r from-white/5 via-white/[0.03] to-white/5"
+                                >
+                                    <div className="grid grid-cols-1 md:grid-cols-12">
+                                        <div
+                                            className={`relative min-h-[250px] sm:min-h-[300px] md:min-h-[340px] md:col-span-7 ${shouldFlipDesktop ? "md:order-2" : "md:order-1"}`}
+                                        >
+                                            <Image
+                                                src={project.imageRelativePath ? `${BACKEND_URL}${project.imageRelativePath}` : "/placeholder-image.jpg"}
+                                                alt={project.title}
+                                                fill
+                                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent md:bg-gradient-to-r md:from-black/45 md:via-transparent md:to-transparent" />
 
+                                            <div className="absolute top-4 sm:top-5 ltr:left-4 ltr:sm:left-5 rtl:right-4 rtl:sm:right-5 inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/35 px-3 py-1.5 text-xs font-medium text-white/95 backdrop-blur-md">
+                                                <span className="h-2 w-2 rounded-full bg-solar shadow-[0_0_8px_rgba(34,197,94,0.9)]" />
+                                                {language === "en" ? "Completed Project" : "مشروع مُنجز"}
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            className={`relative md:col-span-5 flex flex-col justify-center p-5 sm:p-7 md:p-8 lg:p-10 ${shouldFlipDesktop ? "md:order-1" : "md:order-2"}`}
+                                        >
+                                            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,rgba(34,197,94,0.12),transparent_38%)]" />
+
+                                            <div className="relative">
+                                                <span className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs text-muted-foreground mb-4">
+                                                    {language === "en" ? `Project ${index + 1}` : `المشروع ${index + 1}`}
+                                                </span>
+
+                                                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground leading-tight mb-4 text-balance">
+                                                    {project.title}
+                                                </h3>
+
+                                                {project.location && (
+                                                    <div className="inline-flex items-center gap-2 text-sm sm:text-base text-muted-foreground mb-6">
+                                                        <MapPin className="h-4 w-4 text-solar" />
+                                                        <span>{project.location}</span>
+                                                    </div>
+                                                )}
+
+
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-
-                                {/* Emerald Glow on Hover */}
-                                <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <div className="absolute -inset-px rounded-xl sm:rounded-2xl border border-solar/50 shadow-[0_0_15px_rgba(16,185,129,0.2)]"></div>
-                                </div>
-                            </div>
-                        ))}
+                                </article>
+                            )
+                        })}
                     </div>
                 )}
             </div>
