@@ -15,7 +15,7 @@ const nextConfig = {
     return [
       {
         source: '/api-backend/:path*',
-        destination: 'http://afkar.runasp.net/:path*',
+        destination: 'https://afkar-co.com/lar/:path*',
       },
     ]
   },

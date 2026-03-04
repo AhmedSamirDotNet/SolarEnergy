@@ -9,6 +9,36 @@ interface ApiOptions {
   isFormData?: boolean;
 }
 
+type ApiWrapper = {
+  success?: boolean;
+  message?: string;
+  data?: unknown;
+  errors?: unknown;
+};
+
+function unwrapApiResponse<T>(payload: unknown): T {
+  if (payload && typeof payload === "object") {
+    const wrapper = payload as ApiWrapper;
+    const hasWrapperShape =
+      "success" in wrapper || "message" in wrapper || "data" in wrapper || "errors" in wrapper;
+
+    if (hasWrapperShape) {
+      if (wrapper.success === false) {
+        throw new Error(
+          wrapper.message ||
+          (wrapper.errors ? JSON.stringify(wrapper.errors) : "API returned an unsuccessful response"),
+        );
+      }
+
+      if (wrapper.data !== undefined) {
+        return wrapper.data as T;
+      }
+    }
+  }
+
+  return payload as T;
+}
+
 async function apiRequest<T>(
   endpoint: string,
   options: ApiOptions = {},
@@ -72,13 +102,13 @@ async function apiRequest<T>(
   if (contentType.includes("application/json") || text.trim().startsWith("{") || text.trim().startsWith("[")) {
     if (!text) return {} as T;
     try {
-      return JSON.parse(text) as T;
+      return unwrapApiResponse<T>(JSON.parse(text));
     } catch (e) {
       return text as unknown as T;
     }
   } else {
     try {
-      return JSON.parse(text) as T;
+      return unwrapApiResponse<T>(JSON.parse(text));
     } catch {
       return text as unknown as T;
     }
@@ -164,13 +194,21 @@ export async function deleteSection(id: number, token: string) {
 
 // Helper to normalize product images
 function normalizeProduct(product: any): Product {
+  const rawImages = product?.images ?? product?.Images ?? []
+
   return {
-    ...product,
-    images: product.images?.map((img: any) => ({
-      id: img.id,
-      url: img.url ?? img.relativePath ?? "", // Map relativePath to url if missing
-      productId: img.productId
-    })) || []
+    id: product?.id ?? product?.Id ?? 0,
+    name: product?.name ?? product?.Name ?? "",
+    mainDesc: product?.mainDesc ?? product?.MainDesc ?? "",
+    subDesc: product?.subDesc ?? product?.SubDesc ?? "",
+    price: product?.price ?? product?.Price ?? 0,
+    sectionId: product?.sectionId ?? product?.SectionId ?? 0,
+    sectionName: product?.sectionName ?? product?.SectionName ?? undefined,
+    images: rawImages.map((img: any) => ({
+      id: img?.id ?? img?.Id ?? 0,
+      url: img?.url ?? img?.relativePath ?? img?.RelativePath ?? "",
+      productId: img?.productId ?? img?.ProductId ?? 0,
+    })),
   };
 }
 
@@ -182,6 +220,7 @@ export async function getProducts(
     pageSize?: number;
     lang?: string;
   } = {},
+  token?: string,
 ) {
   const searchParams = new URLSearchParams();
   if (params.sectionId)
@@ -192,16 +231,37 @@ export async function getProducts(
     searchParams.append("pageSize", params.pageSize.toString());
   searchParams.append("lang", params.lang || "en");
 
-  const response = await apiRequest<ProductListResponse>(
+  const response = await apiRequest<any>(
     `/api/Product?${searchParams.toString()}`,
+    {
+      token,
+    },
   );
 
-  // Normalize images in the response
-  if (response && response.items) {
-    response.items = response.items.map(normalizeProduct);
+  if (Array.isArray(response)) {
+    const items = response.map(normalizeProduct)
+    return {
+      items,
+      totalCount: items.length,
+      pageNumber: params.pageNumber || 1,
+      pageSize: params.pageSize || items.length,
+      totalPages: items.length > 0 ? 1 : 0,
+    } as ProductListResponse
   }
 
-  return response;
+  const rawItems = response?.items ?? response?.Items ?? []
+  const items = Array.isArray(rawItems) ? rawItems.map(normalizeProduct) : []
+
+  return {
+    items,
+    totalCount: response?.totalCount ?? response?.TotalCount ?? items.length,
+    pageNumber: response?.pageNumber ?? response?.PageNumber ?? (params.pageNumber || 1),
+    pageSize: response?.pageSize ?? response?.PageSize ?? (params.pageSize || items.length),
+    totalPages:
+      response?.totalPages ??
+      response?.TotalPages ??
+      (items.length > 0 ? 1 : 0),
+  } as ProductListResponse
 }
 
 export async function getProductById(id: number, lang: string = "en") {
@@ -210,21 +270,28 @@ export async function getProductById(id: number, lang: string = "en") {
 }
 
 export async function getProductFull(id: number, token?: string) {
-  const product = await apiRequest<ProductFull>(`/api/Product/full/${id}`, {
+  const product = await apiRequest<any>(`/api/Product/full/${id}`, {
     token,
   });
-  if (product) {
-    // Normalize images for full product details
-    return {
-      ...product,
-      images: product.images?.map((img: any) => ({
-        id: img.id,
-        url: img.url ?? img.relativePath ?? "",
-        productId: img.productId
-      })) || []
-    };
-  }
-  return product;
+
+  return {
+    id: product?.id ?? product?.Id ?? 0,
+    price: product?.price ?? product?.Price ?? 0,
+    sectionId: product?.sectionId ?? product?.SectionId ?? 0,
+    translations: (product?.translations ?? product?.Translations ?? []).map((tr: any) => ({
+      id: tr?.id ?? tr?.Id ?? 0,
+      languageCode: tr?.languageCode ?? tr?.LanguageCode ?? "",
+      name: tr?.name ?? tr?.Name ?? "",
+      mainDesc: tr?.mainDesc ?? tr?.MainDesc ?? "",
+      subDesc: tr?.subDesc ?? tr?.SubDesc ?? "",
+      productId: tr?.productId ?? tr?.ProductId ?? 0,
+    })),
+    images: (product?.images ?? product?.Images ?? []).map((img: any) => ({
+      id: img?.id ?? img?.Id ?? 0,
+      url: img?.url ?? img?.relativePath ?? img?.RelativePath ?? "",
+      productId: img?.productId ?? img?.ProductId ?? 0,
+    })),
+  } as ProductFull
 }
 
 export async function createProduct(formData: FormData, token: string) {
@@ -269,7 +336,10 @@ export async function addProductTranslation(
     `/api/Product/${productId}/translation`,
     {
       method: "POST",
-      body: data,
+      body: {
+        ...data,
+        productId,
+      },
       token,
     },
   );

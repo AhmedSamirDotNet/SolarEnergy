@@ -1,24 +1,37 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { BACKEND_URL } from './constants'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
 export const getImageUrl = (path?: string | null) => {
-  if (!path) return "/placeholder.svg";
+  if (!path) return '/placeholder.png'
+  if (path.startsWith('data:')) {
+    return path
+  }
 
-  // Return path as-is if it's already a full URL or data URI
-  if (path.startsWith("http") || path.startsWith("data:")) return path;
+  const base = (process.env.NEXT_PUBLIC_API_URL || '/api-backend').replace(/\/$/, '')
+  let cleanedPath = path.trim().replace(/\\/g, '/')
 
-  // Clean path to ensure no double slashes and fix backslashes
-  let cleanPath = path.replace(/\\/g, "/"); // Replace backslashes with forward slashes
-  cleanPath = cleanPath.startsWith("/") ? cleanPath : `/${cleanPath}`;
+  // If backend sends absolute URL, strip domain and keep only storage/path part
+  if (/^https?:\/\//i.test(cleanedPath)) {
+    try {
+      const parsed = new URL(cleanedPath)
+      const pathname = parsed.pathname || ''
+      const storageIndex = pathname.indexOf('/storage/')
+      cleanedPath = storageIndex >= 0 ? pathname.slice(storageIndex) : pathname
+    } catch {
+      // keep original cleanedPath fallback
+    }
+  }
 
-  // Log for debugging (optional, can be removed in prod)
-  // console.log("Processing image path:", { original: path, cleaned: cleanPath });
+  cleanedPath = cleanedPath.replace(/^\/+/, '')
 
-  // Use BACKEND_URL for relative paths
-  return `${BACKEND_URL}${cleanPath}`;
+  // Ensure path is under storage for Laravel public disk images
+  if (!cleanedPath.startsWith('storage/')) {
+    cleanedPath = `storage/${cleanedPath}`
+  }
+
+  return `${base}/${cleanedPath}`
 };
