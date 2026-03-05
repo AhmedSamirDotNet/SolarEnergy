@@ -16,6 +16,33 @@ type ApiWrapper = {
   errors?: unknown;
 };
 
+function getRoleFromJwt(token: string): string {
+  try {
+    const parts = token.split(".");
+    if (parts.length < 2) return "";
+
+    const base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+    const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), "=");
+
+    let decoded = "";
+    if (typeof window !== "undefined" && typeof window.atob === "function") {
+      decoded = window.atob(padded);
+    } else {
+      decoded = Buffer.from(padded, "base64").toString("utf-8");
+    }
+
+    const payload = JSON.parse(decoded) as Record<string, unknown>;
+    const role =
+      (payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] as string) ||
+      (payload["role"] as string) ||
+      "";
+
+    return typeof role === "string" ? role : "";
+  } catch {
+    return "";
+  }
+}
+
 function resolveAuthToken(explicitToken?: string): string {
   const candidate = (explicitToken || "").trim();
   if (candidate && candidate !== "undefined" && candidate !== "null") {
@@ -91,6 +118,18 @@ async function apiRequest<T>(
 
   if (!response.ok) {
     let errorMessage = `API Error: ${response.status}`;
+    const tokenRole = authToken ? getRoleFromJwt(authToken) : "";
+
+    if (response.status === 401) {
+      errorMessage = "Unauthorized: your session is invalid or expired. Please login again.";
+    }
+
+    if (response.status === 403) {
+      errorMessage = tokenRole
+        ? `Forbidden: your role (${tokenRole}) is not allowed to perform this action.`
+        : "Forbidden: you do not have permission to perform this action.";
+    }
+
     try {
       const errorText = await response.text();
       // Debug logs for 403
@@ -385,7 +424,8 @@ export async function registerAdmin(data: CreateAdminDto, token: string) {
     method: "POST",
     body: {
       username: data.username,
-      password: data.password
+      password: data.password,
+      role: 1,
     },
     token,
   });
@@ -599,6 +639,7 @@ export interface Admin {
 export interface CreateAdminDto {
   username: string;
   password: string;
+  role?: number;
 }
 
 export interface UpdateAdminRoleDto {
