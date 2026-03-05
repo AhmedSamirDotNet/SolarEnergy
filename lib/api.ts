@@ -16,6 +16,22 @@ type ApiWrapper = {
   errors?: unknown;
 };
 
+function resolveAuthToken(explicitToken?: string): string {
+  const candidate = (explicitToken || "").trim();
+  if (candidate && candidate !== "undefined" && candidate !== "null") {
+    return candidate.replace(/^Bearer\s+/i, "").trim();
+  }
+
+  if (typeof window !== "undefined") {
+    const stored = (window.localStorage.getItem("auth_token") || "").trim();
+    if (stored && stored !== "undefined" && stored !== "null") {
+      return stored.replace(/^Bearer\s+/i, "").trim();
+    }
+  }
+
+  return "";
+}
+
 function unwrapApiResponse<T>(payload: unknown): T {
   if (payload && typeof payload === "object") {
     const wrapper = payload as ApiWrapper;
@@ -44,14 +60,15 @@ async function apiRequest<T>(
   options: ApiOptions = {},
 ): Promise<T> {
   const { method = "GET", body, token, isFormData = false } = options;
+  const authToken = resolveAuthToken(token);
 
   const headers: Record<string, string> = {
     "Accept": "application/json",
     "ngrok-skip-browser-warning": "true",
   };
 
-  if (token && token !== "undefined" && token !== "null") {
-    headers["Authorization"] = `Bearer ${token}`;
+  if (authToken) {
+    headers["Authorization"] = `Bearer ${authToken}`;
   } else if (endpoint.includes("/api/Admin") || method !== "GET") {
     console.warn(`[v0] No token provided for protected endpoint: ${endpoint}`);
   }
@@ -79,7 +96,7 @@ async function apiRequest<T>(
       // Debug logs for 403
       if (response.status === 403) {
         console.error(`[API Debug] 403 Forbidden: ${method} ${PROXY_URL}${endpoint}`);
-        console.error(`[API Debug] Token used: ${token ? `${token.substring(0, 10)}...` : "NONE"}`);
+        console.error(`[API Debug] Token used: ${authToken ? `${authToken.substring(0, 10)}...` : "NONE"}`);
         console.error(`[API Debug] Raw error body: ${errorText}`);
       }
 

@@ -1,8 +1,33 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { PUBLIC_IMAGE_BASE_URL } from './constants'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+function extractImageFileName(path: string): string {
+  let cleanedPath = path.trim().replace(/\\/g, '/')
+
+  if (/^https?:\/\//i.test(cleanedPath)) {
+    try {
+      const parsed = new URL(cleanedPath)
+      cleanedPath = parsed.pathname || cleanedPath
+    } catch {
+      // keep original value
+    }
+  }
+
+  cleanedPath = cleanedPath.split('?')[0].split('#')[0]
+
+  const marker = '/storage/images/'
+  const markerIndex = cleanedPath.indexOf(marker)
+  if (markerIndex >= 0) {
+    const afterMarker = cleanedPath.slice(markerIndex + marker.length)
+    return afterMarker.replace(/^\/+/, '')
+  }
+
+  return cleanedPath.split('/').filter(Boolean).pop() || ''
 }
 
 export const getImageUrl = (path?: string | null) => {
@@ -11,27 +36,9 @@ export const getImageUrl = (path?: string | null) => {
     return path
   }
 
-  const base = (process.env.NEXT_PUBLIC_API_URL || '/api-backend').replace(/\/$/, '')
-  let cleanedPath = path.trim().replace(/\\/g, '/')
+  const fileName = extractImageFileName(path)
+  if (!fileName) return '/placeholder.png'
 
-  // If backend sends absolute URL, strip domain and keep only storage/path part
-  if (/^https?:\/\//i.test(cleanedPath)) {
-    try {
-      const parsed = new URL(cleanedPath)
-      const pathname = parsed.pathname || ''
-      const storageIndex = pathname.indexOf('/storage/')
-      cleanedPath = storageIndex >= 0 ? pathname.slice(storageIndex) : pathname
-    } catch {
-      // keep original cleanedPath fallback
-    }
-  }
-
-  cleanedPath = cleanedPath.replace(/^\/+/, '')
-
-  // Ensure path is under storage for Laravel public disk images
-  if (!cleanedPath.startsWith('storage/')) {
-    cleanedPath = `storage/${cleanedPath}`
-  }
-
-  return `${base}/${cleanedPath}`
+  const base = PUBLIC_IMAGE_BASE_URL.replace(/\/$/, '')
+  return `${base}/${fileName}`
 };
