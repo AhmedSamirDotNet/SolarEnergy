@@ -419,13 +419,13 @@ export async function getAdmins(token: string) {
   });
 }
 
-export async function registerAdmin(data: CreateAdminDto, token: string) {
+export async function registerAdmin(data: CreateAdminDto, token?: string) {
   return apiRequest<Admin>("/api/Admin/Register", {
     method: "POST",
     body: {
       username: data.username,
       password: data.password,
-      role: 1,
+      role: data.role,
     },
     token,
   });
@@ -633,18 +633,18 @@ export interface ProductListResponse {
 export interface Admin {
   id: number;
   username: string;
-  role?: string;
+  role?: string | number;
 }
 
 export interface CreateAdminDto {
   username: string;
   password: string;
-  role?: number;
+  role?: 1 | 2 | 3;
 }
 
 export interface UpdateAdminRoleDto {
   id: number;
-  role: "MasterAdmin" | "CreateDeleteAdmin" | "ViewAdmin";
+  role: 1 | 2 | 3 | "MasterAdmin" | "CreateDeleteAdmin" | "ViewAdmin";
 }
 
 export interface ProjectCard {

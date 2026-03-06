@@ -53,11 +53,26 @@ import {
 interface AdminFormData {
     username: string
     password: string
+    role: 1 | 2 | 3
 }
 
 interface RoleFormData {
     id: number
-    role: string
+    role: 1 | 2 | 3
+}
+
+function roleToNumber(role: string | number | undefined): 1 | 2 | 3 {
+    if (role === 1 || role === "1" || role === "MasterAdmin") return 1
+    if (role === 2 || role === "2" || role === "CreateDeleteAdmin") return 2
+    if (role === 3 || role === "3" || role === "ViewAdmin") return 3
+    return 3
+}
+
+function roleLabel(role: string | number | undefined): string {
+    const numeric = roleToNumber(role)
+    if (numeric === 1) return "MasterAdmin"
+    if (numeric === 2) return "CreateDeleteAdmin"
+    return "ViewAdmin"
 }
 
 export default function AdminsPage() {
@@ -74,10 +89,11 @@ export default function AdminsPage() {
     const [formData, setFormData] = useState<AdminFormData>({
         username: "",
         password: "",
+        role: 3,
     })
     const [roleFormData, setRoleFormData] = useState<RoleFormData>({
         id: 0,
-        role: "",
+        role: 3,
     })
 
     const fetchAdmins = async () => {
@@ -89,6 +105,7 @@ export default function AdminsPage() {
             setAdmins(data || [])
         } catch (error: any) {
             console.error("[v0] Error fetching admins:", error.message || error);
+            alert(language === "en" ? `Cannot load admins: ${error.message}` : `لا يمكن تحميل المسؤولين: ${error.message}`)
             setAdmins([])
         } finally {
             setLoading(false)
@@ -102,7 +119,7 @@ export default function AdminsPage() {
     }, [token])
 
     const handleAdd = () => {
-        setFormData({ username: "", password: "" })
+        setFormData({ username: "", password: "", role: 3 })
         setIsAddDialogOpen(true)
     }
 
@@ -110,7 +127,7 @@ export default function AdminsPage() {
         setEditingAdmin(admin)
         setRoleFormData({
             id: admin.id,
-            role: admin.role || "",
+            role: roleToNumber(admin.role),
         })
         setIsRoleDialogOpen(true)
     }
@@ -139,20 +156,21 @@ export default function AdminsPage() {
 
     const handleAddSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (!token) return
 
         setSaving(true)
         try {
             await registerAdmin({
                 username: formData.username,
                 password: formData.password,
+                role: formData.role,
             }, token)
 
             await fetchAdmins()
             setIsAddDialogOpen(false)
-            setFormData({ username: "", password: "" })
-        } catch (error) {
+            setFormData({ username: "", password: "", role: 3 })
+        } catch (error: any) {
             console.log("[v0] Error registering admin:", error)
+            alert(language === "en" ? `Failed to register admin: ${error.message}` : `فشل إضافة المسؤول: ${error.message}`)
         } finally {
             setSaving(false)
         }
@@ -166,15 +184,16 @@ export default function AdminsPage() {
         try {
             await updateAdminRole({
                 id: roleFormData.id,
-                role: roleFormData.role as any,
+                role: roleFormData.role,
             }, token)
 
             await fetchAdmins()
             setIsRoleDialogOpen(false)
             setEditingAdmin(null)
-            setRoleFormData({ id: 0, role: "" })
-        } catch (error) {
+            setRoleFormData({ id: 0, role: 3 })
+        } catch (error: any) {
             console.log("[v0] Error updating admin role:", error)
+            alert(language === "en" ? `Failed to update role: ${error.message}` : `فشل تحديث الدور: ${error.message}`)
         } finally {
             setSaving(false)
         }
@@ -235,7 +254,7 @@ export default function AdminsPage() {
                                             <TableCell>{admin.username}</TableCell>
                                             <TableCell>
                                                 <span className="inline-flex items-center rounded-full bg-solar/10 px-2 py-1 text-xs font-medium text-solar">
-                                                    {admin.role || "-"}
+                                                    {roleLabel(admin.role)}
                                                 </span>
                                             </TableCell>
                                             <TableCell className="text-right rtl:text-left">
@@ -308,6 +327,22 @@ export default function AdminsPage() {
                                     maxLength={100}
                                 />
                             </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="addRole">{t("dashboard.role")}</Label>
+                                <Select
+                                    value={formData.role.toString()}
+                                    onValueChange={(value) => setFormData({ ...formData, role: Number(value) as 1 | 2 | 3 })}
+                                >
+                                    <SelectTrigger id="addRole" className="w-full">
+                                        <SelectValue placeholder={language === "en" ? "Select a role" : "اختر دوراً"} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="1">MasterAdmin (1)</SelectItem>
+                                        <SelectItem value="2">CreateDeleteAdmin (2)</SelectItem>
+                                        <SelectItem value="3">ViewAdmin (3)</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
                         <DialogFooter>
                             <Button type="button" variant="outline" onClick={() => setIsAddDialogOpen(false)}>
@@ -340,16 +375,16 @@ export default function AdminsPage() {
                             <div className="space-y-2">
                                 <Label htmlFor="role">{t("dashboard.role")}</Label>
                                 <Select
-                                    value={roleFormData.role}
-                                    onValueChange={(value) => setRoleFormData({ ...roleFormData, role: value })}
+                                    value={roleFormData.role.toString()}
+                                    onValueChange={(value) => setRoleFormData({ ...roleFormData, role: Number(value) as 1 | 2 | 3 })}
                                 >
                                     <SelectTrigger id="role" className="w-full">
                                         <SelectValue placeholder={language === "en" ? "Select a role" : "اختر دوراً"} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="MasterAdmin">MasterAdmin</SelectItem>
-                                        <SelectItem value="CreateDeleteAdmin">CreateDeleteAdmin</SelectItem>
-                                        <SelectItem value="ViewAdmin">ViewAdmin</SelectItem>
+                                        <SelectItem value="1">MasterAdmin (1)</SelectItem>
+                                        <SelectItem value="2">CreateDeleteAdmin (2)</SelectItem>
+                                        <SelectItem value="3">ViewAdmin (3)</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
