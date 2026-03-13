@@ -11,23 +11,16 @@ export async function GET(
   const endpoint = "/" + path.join("/");
   const searchParams = request.nextUrl.searchParams.toString();
   const url = `${BASE_URL}${endpoint}${searchParams ? `?${searchParams}` : ""}`;
-  const authHeader = request.headers.get("Authorization");
 
   console.log("[v0] Proxy GET:", url);
 
   try {
-    const headers: Record<string, string> = {
-      "ngrok-skip-browser-warning": "true",
-      Accept: "application/json",
-    };
-
-    if (authHeader) {
-      headers["Authorization"] = authHeader;
-    }
-
     const response = await fetch(url, {
       method: "GET",
-      headers,
+      headers: {
+        "ngrok-skip-browser-warning": "true",
+        Accept: "application/json",
+      },
     });
 
     console.log("[v0] Proxy response status:", response.status);

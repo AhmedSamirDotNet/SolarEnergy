@@ -43,7 +43,7 @@ import {
     type ProjectCard,
 } from "@/lib/api"
 import Image from "next/image"
-import { getImageUrl } from "@/lib/utils"
+import { BACKEND_URL } from "@/lib/constants"
 
 export default function ProjectsPage() {
     const { t, language, dir } = useI18n()
@@ -218,7 +218,9 @@ export default function ProjectsPage() {
                                             <TableCell>
                                                 <div className="relative h-12 w-20 overflow-hidden rounded-md border border-border">
                                                     <Image
-                                                        src={getImageUrl(project.imageRelativePath)}
+                                                        src={project.imageRelativePath
+                                                            ? `${BACKEND_URL}${project.imageRelativePath}`
+                                                            : "/placeholder-image.jpg"}
                                                         alt={project.title}
                                                         fill
                                                         className="object-cover"

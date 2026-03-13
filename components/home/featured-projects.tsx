@@ -4,7 +4,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useI18n } from "@/lib/i18n-context"
 import { getProjectCards, type ProjectCard } from "@/lib/api"
-import { getImageUrl } from "@/lib/utils"
+import { BACKEND_URL } from "@/lib/constants"
 import { ArrowUpRight, Loader2, MapPin } from "lucide-react"
 
 export function FeaturedProjects() {
@@ -71,7 +71,7 @@ export function FeaturedProjects() {
                                             className={`relative min-h-[250px] sm:min-h-[300px] md:min-h-[340px] md:col-span-7 ${shouldFlipDesktop ? "md:order-2" : "md:order-1"}`}
                                         >
                                             <Image
-                                                src={getImageUrl(project.imageRelativePath)}
+                                                src={project.imageRelativePath ? `${BACKEND_URL}${project.imageRelativePath}` : "/placeholder-image.jpg"}
                                                 alt={project.title}
                                                 fill
                                                 className="object-cover transition-transform duration-700 group-hover:scale-105"

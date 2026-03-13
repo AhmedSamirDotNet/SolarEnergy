@@ -113,7 +113,7 @@ export default function ProductsPage() {
     setLoading(true)
     try {
       const [productsData, sectionsData] = await Promise.all([
-        getProducts({ lang: language, pageSize: 100 }, token || undefined),
+        getProducts({ lang: language, pageSize: 100 }),
         getSections(language)
       ])
       setProducts(productsData?.items || [])
@@ -129,7 +129,7 @@ export default function ProductsPage() {
 
   useEffect(() => {
     fetchData()
-  }, [language, token])
+  }, [language])
 
   const handleAdd = () => {
     setEditingId(null)
@@ -226,52 +226,38 @@ export default function ProductsPage() {
     e.preventDefault()
     if (!token) return
 
-    // Keep UX safe in case backend still enforces at least one file on create
-    if (!editingId && formData.newImages.length === 0) {
-      alert(language === "en" ? "Please upload at least one image" : "يرجى رفع صورة واحدة على الأقل")
-      return
-    }
-
     setSaving(true)
     try {
       const translations = JSON.stringify([
         {
-          id: editingProduct?.translations?.find(t => t.languageCode === "en")?.id || 0,
-          languageCode: "en",
-          name: formData.nameEn,
-          mainDesc: formData.mainDescEn,
-          subDesc: formData.subDescEn,
+          Id: editingProduct?.translations?.find(t => t.languageCode === "en")?.id || 0,
+          LanguageCode: "en",
+          Name: formData.nameEn,
+          MainDesc: formData.mainDescEn,
+          SubDesc: formData.subDescEn,
         },
         {
-          id: editingProduct?.translations?.find(t => t.languageCode === "ar")?.id || 0,
-          languageCode: "ar",
-          name: formData.nameAr,
-          mainDesc: formData.mainDescAr,
-          subDesc: formData.subDescAr,
+          Id: editingProduct?.translations?.find(t => t.languageCode === "ar")?.id || 0,
+          LanguageCode: "ar",
+          Name: formData.nameAr,
+          MainDesc: formData.mainDescAr,
+          SubDesc: formData.subDescAr,
         },
       ])
 
       const dto = new FormData()
 
-      // Laravel contract: prefer camelCase keys
-      dto.append("translationsJson", translations)
-      dto.append("price", formData.price.toString())
-      dto.append("sectionId", formData.sectionId.toString())
-
-      // Backward compatibility with legacy PascalCase binders
+      // Match backend parameter names exactly
       dto.append("TranslationsJson", translations)
       dto.append("Price", formData.price.toString())
       dto.append("SectionId", formData.sectionId.toString())
 
       if (editingId) {
-        dto.append("id", editingId.toString())
         dto.append("Id", editingId.toString())
       }
 
-      // Laravel array file field: send files[] to guarantee array binding
+      // Backend expects 'files' list
       formData.newImages.forEach(file => {
-        dto.append("files[]", file)
-        // keep legacy compatibility
         dto.append("files", file)
       })
 

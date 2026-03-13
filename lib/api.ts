@@ -9,93 +9,19 @@ interface ApiOptions {
   isFormData?: boolean;
 }
 
-type ApiWrapper = {
-  success?: boolean;
-  message?: string;
-  data?: unknown;
-  errors?: unknown;
-};
-
-function getRoleFromJwt(token: string): string {
-  try {
-    const parts = token.split(".");
-    if (parts.length < 2) return "";
-
-    const base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
-    const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), "=");
-
-    let decoded = "";
-    if (typeof window !== "undefined" && typeof window.atob === "function") {
-      decoded = window.atob(padded);
-    } else {
-      decoded = Buffer.from(padded, "base64").toString("utf-8");
-    }
-
-    const payload = JSON.parse(decoded) as Record<string, unknown>;
-    const role =
-      (payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] as string) ||
-      (payload["role"] as string) ||
-      "";
-
-    return typeof role === "string" ? role : "";
-  } catch {
-    return "";
-  }
-}
-
-function resolveAuthToken(explicitToken?: string): string {
-  const candidate = (explicitToken || "").trim();
-  if (candidate && candidate !== "undefined" && candidate !== "null") {
-    return candidate.replace(/^Bearer\s+/i, "").trim();
-  }
-
-  if (typeof window !== "undefined") {
-    const stored = (window.localStorage.getItem("auth_token") || "").trim();
-    if (stored && stored !== "undefined" && stored !== "null") {
-      return stored.replace(/^Bearer\s+/i, "").trim();
-    }
-  }
-
-  return "";
-}
-
-function unwrapApiResponse<T>(payload: unknown): T {
-  if (payload && typeof payload === "object") {
-    const wrapper = payload as ApiWrapper;
-    const hasWrapperShape =
-      "success" in wrapper || "message" in wrapper || "data" in wrapper || "errors" in wrapper;
-
-    if (hasWrapperShape) {
-      if (wrapper.success === false) {
-        throw new Error(
-          wrapper.message ||
-          (wrapper.errors ? JSON.stringify(wrapper.errors) : "API returned an unsuccessful response"),
-        );
-      }
-
-      if (wrapper.data !== undefined) {
-        return wrapper.data as T;
-      }
-    }
-  }
-
-  return payload as T;
-}
-
 async function apiRequest<T>(
   endpoint: string,
   options: ApiOptions = {},
 ): Promise<T> {
   const { method = "GET", body, token, isFormData = false } = options;
-  const authToken = resolveAuthToken(token);
 
   const headers: Record<string, string> = {
     "Accept": "application/json",
     "ngrok-skip-browser-warning": "true",
   };
 
-  if (authToken) {
-    headers["Authorization"] = `Bearer ${authToken}`;
+  if (token && token !== "undefined" && token !== "null") {
+    headers["Authorization"] = `Bearer ${token}`;
   } else if (endpoint.includes("/api/Admin") || method !== "GET") {
     console.warn(`[v0] No token provided for protected endpoint: ${endpoint}`);
   }
@@ -118,24 +44,12 @@ async function apiRequest<T>(
 
   if (!response.ok) {
     let errorMessage = `API Error: ${response.status}`;
-    const tokenRole = authToken ? getRoleFromJwt(authToken) : "";
-
-    if (response.status === 401) {
-      errorMessage = "Unauthorized: your session is invalid or expired. Please login again.";
-    }
-
-    if (response.status === 403) {
-      errorMessage = tokenRole
-        ? `Forbidden: your role (${tokenRole}) is not allowed to perform this action.`
-        : "Forbidden: you do not have permission to perform this action.";
-    }
-
     try {
       const errorText = await response.text();
       // Debug logs for 403
       if (response.status === 403) {
         console.error(`[API Debug] 403 Forbidden: ${method} ${PROXY_URL}${endpoint}`);
-        console.error(`[API Debug] Token used: ${authToken ? `${authToken.substring(0, 10)}...` : "NONE"}`);
+        console.error(`[API Debug] Token used: ${token ? `${token.substring(0, 10)}...` : "NONE"}`);
         console.error(`[API Debug] Raw error body: ${errorText}`);
       }
 
@@ -158,13 +72,13 @@ async function apiRequest<T>(
   if (contentType.includes("application/json") || text.trim().startsWith("{") || text.trim().startsWith("[")) {
     if (!text) return {} as T;
     try {
-      return unwrapApiResponse<T>(JSON.parse(text));
+      return JSON.parse(text) as T;
     } catch (e) {
       return text as unknown as T;
     }
   } else {
     try {
-      return unwrapApiResponse<T>(JSON.parse(text));
+      return JSON.parse(text) as T;
     } catch {
       return text as unknown as T;
     }
@@ -250,21 +164,13 @@ export async function deleteSection(id: number, token: string) {
 
 // Helper to normalize product images
 function normalizeProduct(product: any): Product {
-  const rawImages = product?.images ?? product?.Images ?? []
-
   return {
-    id: product?.id ?? product?.Id ?? 0,
-    name: product?.name ?? product?.Name ?? "",
-    mainDesc: product?.mainDesc ?? product?.MainDesc ?? "",
-    subDesc: product?.subDesc ?? product?.SubDesc ?? "",
-    price: product?.price ?? product?.Price ?? 0,
-    sectionId: product?.sectionId ?? product?.SectionId ?? 0,
-    sectionName: product?.sectionName ?? product?.SectionName ?? undefined,
-    images: rawImages.map((img: any) => ({
-      id: img?.id ?? img?.Id ?? 0,
-      url: img?.url ?? img?.relativePath ?? img?.RelativePath ?? "",
-      productId: img?.productId ?? img?.ProductId ?? 0,
-    })),
+    ...product,
+    images: product.images?.map((img: any) => ({
+      id: img.id,
+      url: img.url ?? img.relativePath ?? "", // Map relativePath to url if missing
+      productId: img.productId
+    })) || []
   };
 }
 
@@ -276,7 +182,6 @@ export async function getProducts(
     pageSize?: number;
     lang?: string;
   } = {},
-  token?: string,
 ) {
   const searchParams = new URLSearchParams();
   if (params.sectionId)
@@ -287,37 +192,16 @@ export async function getProducts(
     searchParams.append("pageSize", params.pageSize.toString());
   searchParams.append("lang", params.lang || "en");
 
-  const response = await apiRequest<any>(
+  const response = await apiRequest<ProductListResponse>(
     `/api/Product?${searchParams.toString()}`,
-    {
-      token,
-    },
   );
 
-  if (Array.isArray(response)) {
-    const items = response.map(normalizeProduct)
-    return {
-      items,
-      totalCount: items.length,
-      pageNumber: params.pageNumber || 1,
-      pageSize: params.pageSize || items.length,
-      totalPages: items.length > 0 ? 1 : 0,
-    } as ProductListResponse
+  // Normalize images in the response
+  if (response && response.items) {
+    response.items = response.items.map(normalizeProduct);
   }
 
-  const rawItems = response?.items ?? response?.Items ?? []
-  const items = Array.isArray(rawItems) ? rawItems.map(normalizeProduct) : []
-
-  return {
-    items,
-    totalCount: response?.totalCount ?? response?.TotalCount ?? items.length,
-    pageNumber: response?.pageNumber ?? response?.PageNumber ?? (params.pageNumber || 1),
-    pageSize: response?.pageSize ?? response?.PageSize ?? (params.pageSize || items.length),
-    totalPages:
-      response?.totalPages ??
-      response?.TotalPages ??
-      (items.length > 0 ? 1 : 0),
-  } as ProductListResponse
+  return response;
 }
 
 export async function getProductById(id: number, lang: string = "en") {
@@ -326,28 +210,21 @@ export async function getProductById(id: number, lang: string = "en") {
 }
 
 export async function getProductFull(id: number, token?: string) {
-  const product = await apiRequest<any>(`/api/Product/full/${id}`, {
+  const product = await apiRequest<ProductFull>(`/api/Product/full/${id}`, {
     token,
   });
-
-  return {
-    id: product?.id ?? product?.Id ?? 0,
-    price: product?.price ?? product?.Price ?? 0,
-    sectionId: product?.sectionId ?? product?.SectionId ?? 0,
-    translations: (product?.translations ?? product?.Translations ?? []).map((tr: any) => ({
-      id: tr?.id ?? tr?.Id ?? 0,
-      languageCode: tr?.languageCode ?? tr?.LanguageCode ?? "",
-      name: tr?.name ?? tr?.Name ?? "",
-      mainDesc: tr?.mainDesc ?? tr?.MainDesc ?? "",
-      subDesc: tr?.subDesc ?? tr?.SubDesc ?? "",
-      productId: tr?.productId ?? tr?.ProductId ?? 0,
-    })),
-    images: (product?.images ?? product?.Images ?? []).map((img: any) => ({
-      id: img?.id ?? img?.Id ?? 0,
-      url: img?.url ?? img?.relativePath ?? img?.RelativePath ?? "",
-      productId: img?.productId ?? img?.ProductId ?? 0,
-    })),
-  } as ProductFull
+  if (product) {
+    // Normalize images for full product details
+    return {
+      ...product,
+      images: product.images?.map((img: any) => ({
+        id: img.id,
+        url: img.url ?? img.relativePath ?? "",
+        productId: img.productId
+      })) || []
+    };
+  }
+  return product;
 }
 
 export async function createProduct(formData: FormData, token: string) {
@@ -392,10 +269,7 @@ export async function addProductTranslation(
     `/api/Product/${productId}/translation`,
     {
       method: "POST",
-      body: {
-        ...data,
-        productId,
-      },
+      body: data,
       token,
     },
   );
@@ -419,13 +293,12 @@ export async function getAdmins(token: string) {
   });
 }
 
-export async function registerAdmin(data: CreateAdminDto, token?: string) {
+export async function registerAdmin(data: CreateAdminDto, token: string) {
   return apiRequest<Admin>("/api/Admin/Register", {
     method: "POST",
     body: {
       username: data.username,
-      password: data.password,
-      role: data.role,
+      password: data.password
     },
     token,
   });
@@ -633,18 +506,17 @@ export interface ProductListResponse {
 export interface Admin {
   id: number;
   username: string;
-  role?: string | number;
+  role?: string;
 }
 
 export interface CreateAdminDto {
   username: string;
   password: string;
-  role?: 1 | 2 | 3;
 }
 
 export interface UpdateAdminRoleDto {
   id: number;
-  role: 1 | 2 | 3 | "MasterAdmin" | "CreateDeleteAdmin" | "ViewAdmin";
+  role: "MasterAdmin" | "CreateDeleteAdmin" | "ViewAdmin";
 }
 
 export interface ProjectCard {
