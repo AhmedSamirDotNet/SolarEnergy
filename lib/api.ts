@@ -341,43 +341,48 @@ export async function deleteAdmin(id: number, token: string) {
   });
 }
 
-// التعريفات (Interfaces) عشان الـ Typescript ميزعلش
-export interface ProjectCard {
-  id: number;
-  imageRelativePath: string;
-  title: string;
-  locationText: string;
-  translations?: ProjectCardTranslation[]; // للبيانات الكاملة
-}
-
+// 1. التعريفات (Interfaces) - متوافقة مع الـ JSON المعقد بتاعنا
 export interface ProjectCardTranslation {
-  id?: number;
+  id: number;
+  projectCardId: number;
   languageCode: string;
   title: string;
   locationText: string;
+  projectCard?: any; // حطيناها any عشان نتجنب الـ Recursion في التايب سكريبت
 }
 
-// 1. جلب كل الكروت (بناءً على اللغة المبعوثة)
+export interface ProjectCardResponse {
+  id: number;
+  imageUrl: string; // الرابط الكامل اللي راجع من IWebHostEnvironment
+  translation: ProjectCardTranslation; // الترجمة المختارة (en مثلاً)
+  allTranslations?: ProjectCardTranslation[]; // لو حابب تعرض كل اللغات في لوحة التحكم
+}
+
+// 2. جلب كل الكروت
+// الباك اند حالياً بيرجع الـ Default كلغة إنجليزية، لو ضفت Query String للغة ممكن تفلتر هناك
 export async function getProjectCards(lang: string = "en") {
-  return apiRequest<ProjectCard[]>(`/api/ProjectCards?lang=${lang}`);
+  // لاحظ إن الباك اند حالياً بيرجع لستة من الأوبجكت اللي فيها imageUrl و translation
+  return apiRequest<ProjectCardResponse[]>(`/api/ProjectCards?lang=${lang}`);
 }
 
-// 2. جلب كارد واحد (للـ Frontend)
-export async function getProjectCardById(id: number, lang: string = "en") {
-  return apiRequest<ProjectCard>(`/api/ProjectCards/${id}?lang=${lang}`);
+// 3. جلب كارد واحد بالتفصيل
+export async function getProjectCardById(id: number) {
+  return apiRequest<ProjectCardResponse>(`/api/ProjectCards/${id}`);
 }
 
-// 3. إنشاء كارد جديد (استخدام FormData عشان الصورة والـ JSON)
+// 4. إنشاء كارد جديد (FormData)
+// هنا الـ FormData لازم تحتوي على: ImageFile, TitleEn, LocationEn, TitleAr, LocationAr
 export async function createProjectCard(formData: FormData, token: string) {
-  return apiRequest<{ message: string; cardId: number }>("/api/ProjectCards", {
+  return apiRequest<ProjectCardResponse>("/api/ProjectCards", {
     method: "POST",
     body: formData,
     token,
-    isFormData: true,
+    isFormData: true, // مهم جداً عشان الـ Boundary بتاع الصور
   });
 }
 
-// 4. تحديث كارد موجود (الـ ID مبعوث في الـ URL والبيانات في الـ Body)
+// 5. تحديث كارد موجود
+// ملاحظة: لو الكنترولر بتاعك لسه مفيهوش Put بيقبل FormData، هتحتاج تعدله في الباك اند
 export async function updateProjectCard(
   id: number,
   formData: FormData,
@@ -391,20 +396,10 @@ export async function updateProjectCard(
   });
 }
 
-// 5. حذف كارد
+// 6. حذف كارد
 export async function deleteProjectCard(id: number, token: string) {
   return apiRequest<{ message: string }>(`/api/ProjectCards/${id}`, {
     method: "DELETE",
-    token,
-  });
-}
-
-// 6. جلب بيانات الكارد كاملة (للمدير - عشان يشوف كل الترجمات ويعدلها)
-// ملاحظة: في الكنترولر البسيط، الـ Get العادية بترجع الترجمات لو عملنا لها Include
-export async function getProjectCardFull(id: number, token?: string) {
-  // هنا بننادي على الـ Get العادية بس من غير تحديد لغة عشان الباك اند يرجع أول ترجمة أو كل الترجمات
-  // أو لو عملت Endpoint خاصة في الكنترولر اسمها full/{id}
-  return apiRequest<ProjectCard>(`/api/ProjectCards/${id}`, {
     token,
   });
 }
