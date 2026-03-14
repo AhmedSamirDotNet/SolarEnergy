@@ -16,7 +16,7 @@ async function apiRequest<T>(
   const { method = "GET", body, token, isFormData = false } = options;
 
   const headers: Record<string, string> = {
-    "Accept": "application/json",
+    Accept: "application/json",
     "ngrok-skip-browser-warning": "true",
   };
 
@@ -48,14 +48,21 @@ async function apiRequest<T>(
       const errorText = await response.text();
       // Debug logs for 403
       if (response.status === 403) {
-        console.error(`[API Debug] 403 Forbidden: ${method} ${PROXY_URL}${endpoint}`);
-        console.error(`[API Debug] Token used: ${token ? `${token.substring(0, 10)}...` : "NONE"}`);
+        console.error(
+          `[API Debug] 403 Forbidden: ${method} ${PROXY_URL}${endpoint}`,
+        );
+        console.error(
+          `[API Debug] Token used: ${token ? `${token.substring(0, 10)}...` : "NONE"}`,
+        );
         console.error(`[API Debug] Raw error body: ${errorText}`);
       }
 
       try {
         const errorData = JSON.parse(errorText);
-        errorMessage = errorData.error || errorData.message || (errorData.errors ? JSON.stringify(errorData.errors) : errorMessage);
+        errorMessage =
+          errorData.error ||
+          errorData.message ||
+          (errorData.errors ? JSON.stringify(errorData.errors) : errorMessage);
       } catch {
         errorMessage = errorText || errorMessage;
       }
@@ -69,7 +76,11 @@ async function apiRequest<T>(
   const contentType = response.headers.get("Content-Type") || "";
   const text = await response.text();
 
-  if (contentType.includes("application/json") || text.trim().startsWith("{") || text.trim().startsWith("[")) {
+  if (
+    contentType.includes("application/json") ||
+    text.trim().startsWith("{") ||
+    text.trim().startsWith("[")
+  ) {
     if (!text) return {} as T;
     try {
       return JSON.parse(text) as T;
@@ -99,7 +110,8 @@ export async function login(username: string, password: string) {
     token = data;
   } else if (data) {
     // Check all possible common token property names, including wrapped 'data' property
-    token = data.token ||
+    token =
+      data.token ||
       data.Token ||
       data.accessToken ||
       data.AccessToken ||
@@ -116,9 +128,14 @@ export async function login(username: string, password: string) {
   }
 
   if (token && token !== "undefined" && token !== "null") {
-    console.log(`[API] Login successful. Captured token length: ${token.length}`);
+    console.log(
+      `[API] Login successful. Captured token length: ${token.length}`,
+    );
   } else {
-    console.warn(`[API] Login response parsed but no token found in keys. Content keys:`, Object.keys(data || {}));
+    console.warn(
+      `[API] Login response parsed but no token found in keys. Content keys:`,
+      Object.keys(data || {}),
+    );
     token = "";
   }
 
@@ -136,7 +153,7 @@ export async function getSectionById(id: number, lang: string = "en") {
 
 export async function createSection(data: CreateSectionPayload, token: string) {
   // Backend expects "Translations" (capitalized) in some configurations, or sticking to interface.
-  // Let's ensure the payload key matches backend expectation. 
+  // Let's ensure the payload key matches backend expectation.
   // If the backend uses default binding, it might be case-insensitive, but let's be sure.
   return apiRequest<Section>("/api/Section", {
     method: "POST",
@@ -166,11 +183,12 @@ export async function deleteSection(id: number, token: string) {
 function normalizeProduct(product: any): Product {
   return {
     ...product,
-    images: product.images?.map((img: any) => ({
-      id: img.id,
-      url: img.url ?? img.relativePath ?? "", // Map relativePath to url if missing
-      productId: img.productId
-    })) || []
+    images:
+      product.images?.map((img: any) => ({
+        id: img.id,
+        url: img.url ?? img.relativePath ?? "", // Map relativePath to url if missing
+        productId: img.productId,
+      })) || [],
   };
 }
 
@@ -217,11 +235,12 @@ export async function getProductFull(id: number, token?: string) {
     // Normalize images for full product details
     return {
       ...product,
-      images: product.images?.map((img: any) => ({
-        id: img.id,
-        url: img.url ?? img.relativePath ?? "",
-        productId: img.productId
-      })) || []
+      images:
+        product.images?.map((img: any) => ({
+          id: img.id,
+          url: img.url ?? img.relativePath ?? "",
+          productId: img.productId,
+        })) || [],
     };
   }
   return product;
@@ -298,7 +317,7 @@ export async function registerAdmin(data: CreateAdminDto, token: string) {
     method: "POST",
     body: {
       username: data.username,
-      password: data.password
+      password: data.password,
     },
     token,
   });
@@ -309,7 +328,7 @@ export async function updateAdminRole(data: UpdateAdminRoleDto, token: string) {
     method: "PUT",
     body: {
       id: data.id,
-      role: data.role
+      role: data.role,
     },
     token,
   });
@@ -322,7 +341,7 @@ export async function deleteAdmin(id: number, token: string) {
   });
 }
 
-// ProjectCards
+// ProjectCards - نسخة معدلة بالكامل
 export async function getProjectCards(lang: string = "en") {
   return apiRequest<ProjectCard[]>(`/api/ProjectCards?lang=${lang}`);
 }
@@ -340,8 +359,50 @@ export async function createProjectCard(formData: FormData, token: string) {
   });
 }
 
-export async function updateProjectCard(formData: FormData, token: string) {
-  return apiRequest<ProjectCard>("/api/ProjectCards", {
+// ✅ التعديل المهم هنا
+export async function updateProjectCard(
+  id: number,
+  formData: FormData,
+  token: string,
+) {
+  // إضافة الـ ID للـ URL
+  return apiRequest<ProjectCard>(`/api/ProjectCards/${id}`, {
+    method: "PUT",
+    body: formData,
+    token,
+    isFormData: true,
+  });
+}
+
+// ✅ أو هذا إذا كنت تفضل إرسال ID في الـ FormData
+export async function updateProjectCardWithIdInForm(
+  formData: FormData,
+  token: string,
+) {
+  // محاولة الحصول على ID من مصادر مختلفة
+  let id = formData.get("id") || formData.get("Id") || formData.get("ID");
+
+  if (!id) {
+    // محاولة قراءة ID من الـ FormData.keys
+    for (const key of formData.keys()) {
+      if (
+        key.toLowerCase() === "id" ||
+        key.toLowerCase() === "projectid" ||
+        key.toLowerCase() === "cardid"
+      ) {
+        id = formData.get(key);
+        break;
+      }
+    }
+  }
+
+  if (!id) {
+    throw new Error("ID is required for update operation");
+  }
+
+  console.log(`[API] Updating project card with ID: ${id}`);
+
+  return apiRequest<ProjectCard>(`/api/ProjectCards/${id}`, {
     method: "PUT",
     body: formData,
     token,
@@ -405,11 +466,16 @@ export async function getCustomerFeedbacks(lang: string = "en") {
 }
 
 export async function getCustomerFeedbackById(id: number, lang: string = "en") {
-  const data = await apiRequest<any>(`/api/CustomerFeedback/${id}?lang=${lang}`);
+  const data = await apiRequest<any>(
+    `/api/CustomerFeedback/${id}?lang=${lang}`,
+  );
   return normalizeCustomerFeedback(data);
 }
 
-export async function createCustomerFeedback(data: CreateCustomerFeedbackDto, token: string) {
+export async function createCustomerFeedback(
+  data: CreateCustomerFeedbackDto,
+  token: string,
+) {
   const created = await apiRequest<any>("/api/CustomerFeedback", {
     method: "POST",
     body: data,
@@ -418,7 +484,10 @@ export async function createCustomerFeedback(data: CreateCustomerFeedbackDto, to
   return normalizeCustomerFeedback(created);
 }
 
-export async function updateCustomerFeedback(data: UpdateCustomerFeedbackDto, token: string) {
+export async function updateCustomerFeedback(
+  data: UpdateCustomerFeedbackDto,
+  token: string,
+) {
   const updated = await apiRequest<any>("/api/CustomerFeedback", {
     method: "PUT",
     body: data,
@@ -447,7 +516,6 @@ export interface SectionTranslation {
   name: string;
   sectionId: number;
 }
-
 
 export interface CreateSectionPayload {
   nameEn: string;
@@ -578,16 +646,17 @@ function normalizeCustomer(raw: any): Customer {
       raw?.nameAr,
       raw?.NameAr,
     ),
-    customerJob: pickString(
-      raw?.customerJob,
-      raw?.CustomerJob,
-      raw?.job,
-      raw?.Job,
-      raw?.jobEn,
-      raw?.JobEn,
-      raw?.jobAr,
-      raw?.JobAr,
-    ) || undefined,
+    customerJob:
+      pickString(
+        raw?.customerJob,
+        raw?.CustomerJob,
+        raw?.job,
+        raw?.Job,
+        raw?.jobEn,
+        raw?.JobEn,
+        raw?.jobAr,
+        raw?.JobAr,
+      ) || undefined,
   };
 }
 
@@ -608,20 +677,22 @@ function normalizeCustomerFeedback(raw: any): CustomerFeedback {
       raw?.feedback,
       raw?.Feedback,
     ),
-    customerName: pickString(
-      raw?.customerName,
-      raw?.CustomerName,
-      raw?.customer?.customerName,
-      raw?.customer?.name,
-      raw?.customer?.Name,
-    ) || undefined,
-    customerJob: pickString(
-      raw?.customerJob,
-      raw?.CustomerJob,
-      raw?.customer?.customerJob,
-      raw?.customer?.job,
-      raw?.customer?.Job,
-    ) || undefined,
+    customerName:
+      pickString(
+        raw?.customerName,
+        raw?.CustomerName,
+        raw?.customer?.customerName,
+        raw?.customer?.name,
+        raw?.customer?.Name,
+      ) || undefined,
+    customerJob:
+      pickString(
+        raw?.customerJob,
+        raw?.CustomerJob,
+        raw?.customer?.customerJob,
+        raw?.customer?.job,
+        raw?.customer?.Job,
+      ) || undefined,
   };
 }
 
