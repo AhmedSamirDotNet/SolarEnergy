@@ -9,16 +9,16 @@ const nextConfig = {
   devIndicators: {
     appIsrStatus: false,
     buildActivity: false,
-    buildActivityPosition: 'bottom-right',
+    buildActivityPosition: "bottom-right",
   },
   async rewrites() {
     return [
       {
-        source: '/api-backend/:path*',
-        destination: 'http://afkar.runasp.net/:path*',
+        source: "/api-backend/:path*",
+        destination: "https://analytics.afkarhost.cloud/:path*",
       },
-    ]
+    ];
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;
