@@ -341,17 +341,35 @@ export async function deleteAdmin(id: number, token: string) {
   });
 }
 
-// ProjectCards - نسخة معدلة بالكامل
+// التعريفات (Interfaces) عشان الـ Typescript ميزعلش
+export interface ProjectCard {
+  id: number;
+  imageRelativePath: string;
+  title: string;
+  locationText: string;
+  translations?: ProjectCardTranslation[]; // للبيانات الكاملة
+}
+
+export interface ProjectCardTranslation {
+  id?: number;
+  languageCode: string;
+  title: string;
+  locationText: string;
+}
+
+// 1. جلب كل الكروت (بناءً على اللغة المبعوثة)
 export async function getProjectCards(lang: string = "en") {
   return apiRequest<ProjectCard[]>(`/api/ProjectCards?lang=${lang}`);
 }
 
+// 2. جلب كارد واحد (للـ Frontend)
 export async function getProjectCardById(id: number, lang: string = "en") {
   return apiRequest<ProjectCard>(`/api/ProjectCards/${id}?lang=${lang}`);
 }
 
+// 3. إنشاء كارد جديد (استخدام FormData عشان الصورة والـ JSON)
 export async function createProjectCard(formData: FormData, token: string) {
-  return apiRequest<ProjectCard>("/api/ProjectCards", {
+  return apiRequest<{ message: string; cardId: number }>("/api/ProjectCards", {
     method: "POST",
     body: formData,
     token,
@@ -359,14 +377,13 @@ export async function createProjectCard(formData: FormData, token: string) {
   });
 }
 
-// ✅ التعديل المهم هنا
+// 4. تحديث كارد موجود (الـ ID مبعوث في الـ URL والبيانات في الـ Body)
 export async function updateProjectCard(
   id: number,
   formData: FormData,
   token: string,
 ) {
-  // إضافة الـ ID للـ URL
-  return apiRequest<ProjectCard>(`/api/ProjectCards/${id}`, {
+  return apiRequest<{ message: string }>(`/api/ProjectCards/${id}`, {
     method: "PUT",
     body: formData,
     token,
@@ -374,55 +391,23 @@ export async function updateProjectCard(
   });
 }
 
-// ✅ أو هذا إذا كنت تفضل إرسال ID في الـ FormData
-export async function updateProjectCardWithIdInForm(
-  formData: FormData,
-  token: string,
-) {
-  // محاولة الحصول على ID من مصادر مختلفة
-  let id = formData.get("id") || formData.get("Id") || formData.get("ID");
-
-  if (!id) {
-    // محاولة قراءة ID من الـ FormData.keys
-    for (const key of formData.keys()) {
-      if (
-        key.toLowerCase() === "id" ||
-        key.toLowerCase() === "projectid" ||
-        key.toLowerCase() === "cardid"
-      ) {
-        id = formData.get(key);
-        break;
-      }
-    }
-  }
-
-  if (!id) {
-    throw new Error("ID is required for update operation");
-  }
-
-  console.log(`[API] Updating project card with ID: ${id}`);
-
-  return apiRequest<ProjectCard>(`/api/ProjectCards/${id}`, {
-    method: "PUT",
-    body: formData,
-    token,
-    isFormData: true,
-  });
-}
-
+// 5. حذف كارد
 export async function deleteProjectCard(id: number, token: string) {
-  return apiRequest<void>(`/api/ProjectCards/${id}`, {
+  return apiRequest<{ message: string }>(`/api/ProjectCards/${id}`, {
     method: "DELETE",
     token,
   });
 }
 
+// 6. جلب بيانات الكارد كاملة (للمدير - عشان يشوف كل الترجمات ويعدلها)
+// ملاحظة: في الكنترولر البسيط، الـ Get العادية بترجع الترجمات لو عملنا لها Include
 export async function getProjectCardFull(id: number, token?: string) {
-  return apiRequest<ProjectCardFull>(`/api/ProjectCards/full/${id}`, {
+  // هنا بننادي على الـ Get العادية بس من غير تحديد لغة عشان الباك اند يرجع أول ترجمة أو كل الترجمات
+  // أو لو عملت Endpoint خاصة في الكنترولر اسمها full/{id}
+  return apiRequest<ProjectCard>(`/api/ProjectCards/${id}`, {
     token,
   });
 }
-
 // Customers
 export async function getCustomers(lang: string = "en") {
   const data = await apiRequest<any[]>(`/api/Customer?lang=${lang}`);

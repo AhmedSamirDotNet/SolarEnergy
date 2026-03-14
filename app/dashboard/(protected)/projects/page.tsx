@@ -8,7 +8,7 @@ import {
   Loader2,
   Image as ImageIcon,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -103,27 +103,28 @@ export default function ProjectsPage() {
   };
 
   const handleEdit = async (project: ProjectCard) => {
-    setEditingProject(project);
     setLoading(true);
     try {
+      // جلب البيانات كاملة (بما فيها الترجمات لكل اللغات)
       const fullData = await getProjectCardFull(project.id, token || undefined);
       if (fullData) {
+        setEditingProject(project);
         const enTrans = fullData.translations.find(
-          (t) => t.languageCode === "en",
+          (t: any) => t.languageCode === "en",
         );
         const arTrans = fullData.translations.find(
-          (t) => t.languageCode === "ar",
+          (t: any) => t.languageCode === "ar",
         );
 
         setFormData({
           titleEn: enTrans?.title || "",
           titleAr: arTrans?.title || "",
-          locationEn: enTrans?.location || "Egypt",
-          locationAr: arTrans?.location || "مصر",
+          locationEn: enTrans?.locationText || "Egypt", // التأكد من مسمى الحقل في الباك اند
+          locationAr: arTrans?.locationText || "مصر",
           file: null,
         });
+        setIsDialogOpen(true);
       }
-      setIsDialogOpen(true);
     } catch (error) {
       console.error("Error fetching full project data:", error);
     } finally {
@@ -159,12 +160,7 @@ export default function ProjectsPage() {
     try {
       const fd = new FormData();
 
-      // إضافة ID للـ FormData لو في تعديل
-      if (editingProject) {
-        fd.append("Id", editingProject.id.toString());
-      }
-
-      // الترجمات مع location
+      // تجهيز مصفوفة الترجمات لتتوافق مع موديل ProjectCardTranslation في C#
       const translations = [
         {
           languageCode: "en",
@@ -178,14 +174,14 @@ export default function ProjectsPage() {
         },
       ];
 
+      // إرسال الترجمات كـ string JSON كما يتوقع الكنترولر الجديد
       fd.append("TranslationsJson", JSON.stringify(translations));
 
-      // إضافة الصورة لو موجودة
+      // إرسال الصورة كملف
       if (formData.file) {
         fd.append("file", formData.file);
       }
 
-      // ✅ التعديل المهم: استخدام ID في الـ URL للتحديث
       if (editingProject) {
         await updateProjectCard(editingProject.id, fd, token);
       } else {
@@ -194,15 +190,6 @@ export default function ProjectsPage() {
 
       await fetchProjects();
       setIsDialogOpen(false);
-
-      // Reset form
-      setFormData({
-        titleEn: "",
-        titleAr: "",
-        locationEn: "Egypt",
-        locationAr: "مصر",
-        file: null,
-      });
       setEditingProject(null);
     } catch (error) {
       console.error("Error saving project:", error);
@@ -221,8 +208,8 @@ export default function ProjectsPage() {
           </h1>
           <p className="mt-1 text-muted-foreground">
             {language === "en"
-              ? "Manage your featured project cards"
-              : "إدارة بطاقات المشاريع المميزة"}
+              ? "Manage featured project cards"
+              : "إدارة بطاقات المشاريع"}
           </p>
         </div>
         <Button
@@ -246,13 +233,6 @@ export default function ProjectsPage() {
               <p className="mt-4 text-muted-foreground">
                 {t("dashboard.noData")}
               </p>
-              <Button
-                onClick={handleAdd}
-                className="mt-4 bg-solar text-solar-foreground hover:bg-solar/90"
-              >
-                <Plus className="h-4 w-4 ltr:mr-2 rtl:ml-2" />
-                {t("dashboard.add")}
-              </Button>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -278,29 +258,28 @@ export default function ProjectsPage() {
                         <div className="relative h-12 w-20 overflow-hidden rounded-md border border-border">
                           <Image
                             src={
-                              project.imageRelativePath
-                                ? `${BACKEND_URL}${project.imageRelativePath}`
-                                : "/placeholder-image.jpg"
+                              project.imageRelativePath ||
+                              "/placeholder-image.jpg"
                             }
-                            alt={project.title}
+                            alt={project.title || "Project"}
                             fill
                             className="object-cover"
+                            unoptimized // لأن الرابط أصبح Absolute من الباك اند
                           />
                         </div>
                       </TableCell>
-                      <TableCell className="font-medium text-foreground">
+                      <TableCell className="font-medium">
                         {project.title}
                       </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {project.location}
+                      <TableCell>
+                        {project.locationText || project.location}
                       </TableCell>
                       <TableCell className="text-right rtl:text-left">
-                        <div className="flex items-center justify-end gap-2 rtl:justify-start">
+                        <div className="flex items-center justify-end gap-2">
                           <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => handleEdit(project)}
-                            className="text-muted-foreground hover:text-foreground"
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
@@ -308,7 +287,7 @@ export default function ProjectsPage() {
                             variant="ghost"
                             size="icon"
                             onClick={() => handleDelete(project)}
-                            className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                            className="text-destructive"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -323,25 +302,23 @@ export default function ProjectsPage() {
         </CardContent>
       </Card>
 
-      {/* Dialog for Add/Edit */}
+      {/* Dialog Add/Edit */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-2xl bg-card border-border" dir={dir}>
           <DialogHeader>
-            <DialogTitle className="text-card-foreground">
+            <DialogTitle>
               {editingProject ? t("dashboard.edit") : t("dashboard.add")}
             </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
+            <DialogDescription>
               {language === "en"
-                ? "Fill in the details for the project card. Images will be optimized automatically."
-                : "املأ تفاصيل بطاقة المشروع. سيتم تحسين الصور تلقائياً."}
+                ? "Fill project details."
+                : "املأ تفاصيل المشروع."}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 py-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="titleEn" className="text-card-foreground">
-                  {t("dashboard.titleEn")}
-                </Label>
+                <Label htmlFor="titleEn">{t("dashboard.titleEn")}</Label>
                 <Input
                   id="titleEn"
                   value={formData.titleEn}
@@ -349,13 +326,10 @@ export default function ProjectsPage() {
                     setFormData({ ...formData, titleEn: e.target.value })
                   }
                   required
-                  className="bg-background border-border"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="titleAr" className="text-card-foreground">
-                  {t("dashboard.titleAr")}
-                </Label>
+                <Label htmlFor="titleAr">{t("dashboard.titleAr")}</Label>
                 <Input
                   id="titleAr"
                   value={formData.titleAr}
@@ -364,31 +338,23 @@ export default function ProjectsPage() {
                   }
                   required
                   dir="rtl"
-                  className="bg-background border-border"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="locationEn" className="text-card-foreground">
-                  {language === "en"
-                    ? "Location (English)"
-                    : "الموقع (إنجليزي)"}
-                </Label>
+                <Label htmlFor="locationEn">Location (EN)</Label>
                 <Input
                   id="locationEn"
                   value={formData.locationEn}
                   onChange={(e) =>
                     setFormData({ ...formData, locationEn: e.target.value })
                   }
-                  className="bg-background border-border"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="locationAr" className="text-card-foreground">
-                  {language === "en" ? "Location (Arabic)" : "الموقع (عربي)"}
-                </Label>
+                <Label htmlFor="locationAr">الموقع (عربي)</Label>
                 <Input
                   id="locationAr"
                   value={formData.locationAr}
@@ -396,15 +362,12 @@ export default function ProjectsPage() {
                     setFormData({ ...formData, locationAr: e.target.value })
                   }
                   dir="rtl"
-                  className="bg-background border-border"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="file" className="text-card-foreground">
-                {t("dashboard.images")}
-              </Label>
+              <Label htmlFor="file">{t("dashboard.images")}</Label>
               <Input
                 id="file"
                 type="file"
@@ -416,34 +379,19 @@ export default function ProjectsPage() {
                 }
                 accept="image/*"
                 required={!editingProject}
-                className="bg-background border-border cursor-pointer file:bg-solar file:text-solar-foreground file:border-0 file:rounded-md file:px-2 file:py-1 file:mr-2"
+                className="cursor-pointer"
               />
-              {editingProject && (
-                <p className="text-xs text-muted-foreground mt-1">
-                  {language === "en"
-                    ? "Leave empty to keep existing image"
-                    : "اتركه فارغاً للاحتفاظ بالصورة الحالية"}
-                </p>
-              )}
             </div>
 
-            <DialogFooter className="gap-2 sm:gap-0">
+            <DialogFooter>
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => {
-                  setIsDialogOpen(false);
-                  setEditingProject(null);
-                }}
-                className="border-border text-foreground hover:bg-muted"
+                onClick={() => setIsDialogOpen(false)}
               >
                 {t("dashboard.cancel")}
               </Button>
-              <Button
-                type="submit"
-                disabled={saving}
-                className="bg-solar text-solar-foreground hover:bg-solar/90"
-              >
+              <Button type="submit" disabled={saving}>
                 {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {t("dashboard.save")}
               </Button>
@@ -452,36 +400,29 @@ export default function ProjectsPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
+      {/* Delete Alert */}
       <AlertDialog
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
       >
-        <AlertDialogContent className="bg-card border-border" dir={dir}>
+        <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-card-foreground">
-              {t("dashboard.confirmDelete")}
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-muted-foreground">
-              {language === "en"
-                ? "This action cannot be undone. This will permanently delete the project card."
-                : "لا يمكن التراجع عن هذا الإجراء. سيؤدي هذا إلى حذف بطاقة المشروع نهائياً."}
-            </AlertDialogDescription>
+            <AlertDialogTitle>{t("dashboard.confirmDelete")}</AlertDialogTitle>
           </AlertDialogHeader>
-          <AlertDialogFooter className="gap-2 sm:gap-0">
-            <AlertDialogCancel
-              className="border-border text-foreground hover:bg-muted"
-              onClick={() => setDeletingProject(null)}
-            >
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setDeletingProject(null)}>
               {t("dashboard.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
+              className="bg-destructive text-white"
               disabled={saving}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {t("dashboard.delete")}
+              {saving ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                t("dashboard.delete")
+              )}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
