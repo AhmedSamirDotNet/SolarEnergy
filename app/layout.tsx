@@ -1,177 +1,156 @@
-import React from "react"
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono, Noto_Sans_Arabic } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import { StructuredData } from '@/components/seo/structured-data'
-import './globals.css'
+import React from "react";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono, Noto_Sans_Arabic } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { StructuredData } from "@/components/seo/structured-data";
+import "./globals.css";
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
-const _notoArabic = Noto_Sans_Arabic({ subsets: ["arabic"], weight: ["400", "500", "600", "700"] });
+const _notoArabic = Noto_Sans_Arabic({
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-noto-arabic",
+});
+
+// إعدادات الـ Viewport لوحدها في نسخة Next.js الحديثة
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
-  // Basic Metadata
-  title: 'AFKAR Solar | أفكار سولار - #1 Solar Energy Solutions in Saudi Arabia | حلول الطاقة الشمسية',
-  description: 'AFKAR Solar (أفكار سولار) - Leading provider of premium solar energy solutions in Saudi Arabia. High-efficiency solar panels, energy storage systems, and professional installation for homes and businesses. أفضل حلول الطاقة الشمسية في السعودية، ألواح شمسية عالية الكفاءة، أنظمة تخزين الطاقة',
+  // 1. العناوين والوصف (للسيرش)
+  title: "أفكار سولار | منتجات وحلول الطاقة الشمسية في السعودية - AFKAR Solar",
+  description:
+    "شركة أفكار سولار (AFKAR Solar) الرائدة في حلول الطاقة الشمسية بالسعودية. نوفر أفضل منتجات السولار، ألواح شمسية عالية الجودة، أنظمة تخزين الطاقة، وتركيب محطات طاقة للمنازل والمصانع. وفر فاتورة الكهرباء الآن!",
 
-  generator: 'AFKAR Solar',
-  applicationName: 'AFKAR Solar',
+  generator: "AFKAR Solar",
+  applicationName: "AFKAR Solar",
 
-  // Comprehensive Keywords - Arabic & English
+  // 2. الكلمات المفتاحية (Keywords) - ركزتلك على اللي الناس بتكتبه في جوجل
   keywords: [
-    // English Keywords - Solar Energy
-    'AFKAR Solar', 'solar energy Saudi Arabia', 'solar panels KSA', 'solar power Riyadh',
-    'solar installation Saudi Arabia', 'renewable energy solutions', 'solar energy systems',
-    'photovoltaic panels', 'solar panel installation', 'solar power systems',
-    'residential solar panels', 'commercial solar solutions', 'industrial solar power',
+    // كلمات بالعربي (الأكثر بحثاً)
+    "سولار",
+    "منتجات سولار",
+    "منتجات طاقة شمسية",
+    "طاقة شمسية السعودية",
+    "الواح شمسية",
+    "شركة طاقة شمسية بالرياض",
+    "تركيب طاقة شمسية للمنازل",
+    "اسعار الطاقة الشمسية السعودية",
+    "انظمة طاقة شمسية متكاملة",
+    "توفير فاتورة الكهرباء",
+    "بطاريات طاقة شمسية",
+    "انفرتر شمسي",
+    "طاقة متجددة السعودية",
+    "عروض طاقة شمسية",
+    "الواح طاقة شمسية للبيع",
+    "أفكار سولار",
 
-    // English Keywords - Services
-    'solar panel price Saudi Arabia', 'solar energy cost KSA', 'solar battery storage',
-    'energy storage solutions', 'solar inverters', 'solar mounting systems',
-    'solar panel maintenance', 'solar energy consultation', 'solar system design',
-    'net metering Saudi Arabia', 'solar financing options', 'solar energy savings',
-
-    // English Keywords - Location-based
-    'solar panels Riyadh', 'solar energy Jeddah', 'solar power Dammam',
-    'solar installation Mecca', 'solar panels Medina', 'solar energy Eastern Province',
-
-    // Arabic Keywords - الطاقة الشمسية
-    'أفكار سولار', 'طاقة شمسية السعودية', 'ألواح شمسية', 'الطاقة المتجددة',
-    'أنظمة الطاقة الشمسية', 'حلول الطاقة الشمسية', 'طاقة نظيفة',
-    'كهرباء شمسية', 'خلايا شمسية', 'لوح شمسي', 'الواح الطاقة الشمسية',
-
-    // Arabic Keywords - Services
-    'تركيب ألواح شمسية السعودية', 'اسعار الطاقة الشمسية', 'بطاريات شمسية',
-    'تخزين الطاقة الشمسية', 'انفرتر شمسي', 'صيانة الطاقة الشمسية',
-    'استشارات الطاقة الشمسية', 'تصميم نظام شمسي', 'توفير الطاقة',
-    'تمويل الطاقة الشمسية', 'العد الصافي', 'طاقة منزلية',
-
-    // Arabic Keywords - Location-based
-    'طاقة شمسية الرياض', 'ألواح شمسية جدة', 'طاقة شمسية الدمام',
-    'ألواح شمسية مكة', 'طاقة شمسية المدينة', 'طاقة شمسية المنطقة الشرقية',
-
-    // Arabic Keywords - Quality & Features
-    'ألواح شمسية عالية الكفاءة', 'ضمان الطاقة الشمسية', 'طاقة شمسية موثوقة',
-    'افضل شركة طاقة شمسية', 'حلول طاقة متجددة', 'طاقة نظيفة للمنازل',
+    // English Keywords
+    "AFKAR Solar",
+    "solar products Saudi Arabia",
+    "solar energy KSA",
+    "solar panels Riyadh",
+    "affordable solar systems",
+    "solar energy installation",
+    "renewable energy KSA",
   ],
 
-  // Authors & Creator
-  authors: [{ name: 'AFKAR Solar' }],
-  creator: 'AFKAR Solar',
-  publisher: 'AFKAR Solar',
+  authors: [{ name: "AFKAR Solar" }],
+  creator: "AFKAR Solar",
+  publisher: "AFKAR Solar",
 
-  // Viewport Configuration
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
-
-  // Icons & Favicons
+  // 3. الأيقونات (Favicon)
   icons: {
     icon: [
-      {
-        url: '/images/logo.png',
-        type: 'image/png',
-      }
+      { url: "/favicon.ico" }, // تأكد أن الملف موجود في public
+      { url: "/images/logo.png", type: "image/png" },
     ],
-    apple: '/images/logo.png',
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/images/logo.png", sizes: "180x180", type: "image/png" }],
   },
 
-  // Open Graph for Social Sharing
+  // 4. الروابط الأساسية (Canonical)
+  alternates: {
+    canonical: "https://afkar-co.com",
+    languages: {
+      "en-US": "https://afkar-co.com/en",
+      "ar-SA": "https://afkar-co.com/ar",
+    },
+  },
+
+  // 5. السوشيال ميديا (Open Graph) - عشان لما تبعت اللينك في واتساب
   openGraph: {
-    type: 'website',
-    locale: 'ar_SA',
-    alternateLocale: ['en_US', 'en_SA'],
-    url: 'https://afkarsolar.com',
-    siteName: 'AFKAR Solar | أفكار سولار',
-    title: 'AFKAR Solar | Premium Solar Energy Solutions in Saudi Arabia | أفكار سولار',
-    description: 'Leading renewable energy company in Saudi Arabia. Premium solar panels, energy storage, and professional installation. أفضل شركة طاقة شمسية في السعودية - ألواح شمسية وحلول طاقة متجددة',
+    type: "website",
+    locale: "ar_SA",
+    url: "https://afkar-co.com",
+    siteName: "AFKAR Solar | أفكار سولار",
+    title:
+      "أفكار سولار | منتجات طاقة شمسية وألواح شمسية عالية الكفاءة بالسعودية",
+    description:
+      "اكتشف أفضل حلول ومنتجات الطاقة الشمسية في السعودية مع أفكار سولار. جودة عالمية وضمان حقيقي.",
     images: [
       {
-        url: '/images/og-image.jpg',
+        url: "/images/og-image.jpg", // صورة عرض للموقع
         width: 1200,
         height: 630,
-        alt: 'AFKAR Solar - Solar Energy Solutions | أفكار سولار',
+        alt: "AFKAR Solar - منتجات الطاقة الشمسية",
       },
-      {
-        url: '/images/logo.png',
-        width: 800,
-        height: 600,
-        alt: 'AFKAR Solar Logo | شعار أفكار سولار',
-      }
     ],
   },
 
-  // Twitter Card
+  // 6. تويتر (X)
   twitter: {
-    card: 'summary_large_image',
-    title: 'AFKAR Solar | Premium Solar Energy Solutions | أفكار سولار',
-    description: 'Leading solar energy provider in Saudi Arabia. High-efficiency panels & professional installation. حلول الطاقة الشمسية المتميزة في السعودية',
-    images: ['/images/twitter-card.jpg'],
-    creator: '@AFKARSolar',
-    site: '@AFKARSolar',
+    card: "summary_large_image",
+    title: "AFKAR Solar | أفكار سولار السعودية",
+    images: ["/images/twitter-card.jpg"],
+    creator: "@AFKARSolar",
   },
 
-  // Robots & Crawling
+  // 7. الروبوتات (Robots)
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-image-preview": "large",
     },
   },
 
-  // Verification Codes (Add your actual verification codes)
+  // 8. كود التحقق (Google Search Console)
   verification: {
-    google: 'your-google-verification-code',
-    // yandex: 'your-yandex-verification-code',
-    // bing: 'your-bing-verification-code',
+    google: "حط_هنا_الكود_الخاص_بك", // استبدله بالكود الحقيقي من جوجل
   },
 
-  // Alternate Languages
-  alternates: {
-    canonical: 'https://afkarsolar.com',
-    languages: {
-      'en-US': '/en',
-      'ar-SA': '/ar',
-    },
-  },
-
-  // Geographic & Regional
+  // 9. بيانات جغرافية للسعودية
   other: {
-    'geo.region': 'SA',
-    'geo.placename': 'Saudi Arabia',
-    'geo.position': '24.7136;46.6753', // Riyadh coordinates
-    'ICBM': '24.7136, 46.6753',
-    'DC.title': 'AFKAR Solar - Solar Energy Solutions',
-    'rating': 'general',
-    'target': 'all',
-    'audience': 'all',
-    'coverage': 'Worldwide',
-    'distribution': 'Global',
-    'classification': 'Business, Energy, Solar Power, Renewable Energy',
+    "geo.region": "SA",
+    "geo.placename": "Saudi Arabia",
+    "geo.position": "24.7136;46.6753",
+    ICBM: "24.7136, 46.6753",
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl" className={`${_notoArabic.variable}`}>
       <head>
         <StructuredData />
+        {/* Favicon fallback */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className={`font-sans antialiased`}>
+      <body className="font-noto antialiased">
         {children}
         <Analytics />
       </body>
     </html>
-  )
+  );
 }
